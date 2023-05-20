@@ -1,0 +1,5 @@
+$hyoo_intern $mol_book2
+	pages /
+		<= Hello $mol_page
+			title \hello
+			body / \hello
