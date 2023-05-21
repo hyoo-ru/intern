@@ -1,5 +1,31 @@
-$hyoo_intern $mol_book2
-	pages /
-		<= Hello $mol_page
-			title \hello
-			body / \hello
+$hyoo_intern $mol_book2_catalog
+	plugins /
+		<= Theme $mol_theme_auto
+	menu_head /
+		<= Logo $mol_image
+			uri \/hyoo/intern/logo/logo.svg
+		<= Label $mol_list rows /
+			<= Title $mol_paragraph
+				title <= menu_title \Стажировка
+			<= Descr $mol_paragraph
+				title <= descr @ \Правительство Москвы
+	menu_foot /
+		<= Lights $mol_lights_toggle
+	role? \norole
+	role_spreads *
+		norole *
+			register_page <= Register_page $mol_page
+				title \Регистрация на стажировку
+				body /
+					<= Register $mol_button_major
+						title \Зарегистрироваться
+						click? <=> register? null
+		applicant *
+			profile <= Intern_profile $mol_page
+				title \Профиль
+			vacancies <= Vacancies $mol_page
+				title \Список вакансий
+			aplications <= Applications $mol_page
+				title \Мои заявки
+			invitations <= Invitations $mol_page
+				title \Приглашения
