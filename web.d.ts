@@ -2003,6 +2003,85 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $mol_labeler extends $mol_list {
+        rows(): readonly any[];
+        label(): readonly $mol_view_content[];
+        Label(): $mol_view;
+        content(): readonly any[];
+        Content(): $mol_view;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_form_field extends $mol_labeler {
+        bids(): readonly string[];
+        label(): readonly any[];
+        content(): readonly any[];
+        name(): string;
+        bid(): string;
+        Bid(): $mol_view;
+        control(): any;
+    }
+}
+
+declare namespace $.$$ {
+    class $mol_form_field extends $.$mol_form_field {
+        bid(): string;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_row extends $mol_view {
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_form extends $mol_list {
+        submit_allowed(): boolean;
+        submit_blocked(): boolean;
+        event(): Record<string, any>;
+        submit(event?: any): any;
+        rows(): readonly any[];
+        keydown(event?: any): any;
+        form_fields(): readonly $mol_form_field[];
+        body(): readonly $mol_form_field[];
+        Body(): $$.$mol_list;
+        buttons(): readonly $mol_view[];
+        foot(): readonly $mol_view[];
+        Foot(): $mol_row;
+    }
+}
+
+declare namespace $.$$ {
+    class $mol_form extends $.$mol_form {
+        form_fields(): readonly $mol_form_field[];
+        submit_allowed(): boolean;
+        submit_blocked(): boolean;
+        keydown(next: KeyboardEvent): void;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_form_group extends $mol_view {
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
     class $mol_button_major extends $mol_button_typed {
         attr(): Record<string, any>;
     }
@@ -2016,8 +2095,11 @@ declare namespace $ {
         plugins(): readonly any[];
         menu_head(): readonly any[];
         menu_foot(): readonly any[];
+        param(): string;
         role(next?: any): string;
+        default_spreads(): Record<string, any>;
         role_spreads(): Record<string, any>;
+        Placeholder(): any;
         Theme(): $$.$mol_theme_auto;
         Logo(): $$.$mol_image;
         menu_title(): string;
@@ -2026,8 +2108,27 @@ declare namespace $ {
         Descr(): $$.$mol_paragraph;
         Label(): $$.$mol_list;
         Lights(): $$.$mol_lights_toggle;
+        About_page(): $mol_page;
+        name_first_bid(): string;
+        name_first(next?: any): string;
+        Name_first_control(): $$.$mol_string;
+        Name_first_field(): $$.$mol_form_field;
+        name_second_bid(): string;
+        name_second(next?: any): string;
+        Name_second_control(): $$.$mol_string;
+        Name_second_field(): $$.$mol_form_field;
+        name_patronymic_bid(): string;
+        name_patronymic(next?: any): string;
+        Name_patronymic_control(): $$.$mol_string;
+        Name_patronymic_field(): $$.$mol_form_field;
+        Names(): $mol_form_group;
+        mail_bid(): string;
+        mail(next?: any): string;
+        Mail_control(): $$.$mol_string;
+        Mail_field(): $$.$mol_form_field;
         register(next?: any): any;
         Register(): $mol_button_major;
+        Register_form(): $$.$mol_form;
         Register_page(): $mol_page;
         Intern_profile(): $mol_page;
         Vacancies(): $mol_page;
@@ -2037,10 +2138,17 @@ declare namespace $ {
 }
 
 declare namespace $.$$ {
-    class $hyoo_intern extends $.$hyoo_intern {
+    type Role = 'norole' | 'applicant';
+    export class $hyoo_intern extends $.$hyoo_intern {
         register(): void;
         spreads(): any;
+        arg(spread: string): {
+            [x: string]: string | null;
+        };
+        role(next?: Role): Role;
+        pages(): any[];
     }
+    export {};
 }
 
 declare namespace $.$$ {

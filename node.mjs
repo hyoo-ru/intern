@@ -7450,6 +7450,263 @@ var $;
 "use strict";
 var $;
 (function ($) {
+    class $mol_labeler extends $mol_list {
+        rows() {
+            return [
+                this.Label(),
+                this.Content()
+            ];
+        }
+        label() {
+            return [
+                this.title()
+            ];
+        }
+        Label() {
+            const obj = new this.$.$mol_view();
+            obj.minimal_height = () => 32;
+            obj.sub = () => this.label();
+            return obj;
+        }
+        content() {
+            return [];
+        }
+        Content() {
+            const obj = new this.$.$mol_view();
+            obj.minimal_height = () => 24;
+            obj.sub = () => this.content();
+            return obj;
+        }
+    }
+    __decorate([
+        $mol_mem
+    ], $mol_labeler.prototype, "Label", null);
+    __decorate([
+        $mol_mem
+    ], $mol_labeler.prototype, "Content", null);
+    $.$mol_labeler = $mol_labeler;
+})($ || ($ = {}));
+//mol/labeler/-view.tree/labeler.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/labeler/labeler.view.css", "[mol_labeler] {\n\tdisplay: flex;\n\tflex-direction: column;\n\talign-items: stretch;\n\tcursor: inherit;\n}\n\n[mol_labeler_label] {\n\tmin-height: 2rem;\n\tcolor: var(--mol_theme_shade);\n\tpadding: .5rem .75rem 0;\n\tgap: 0 var(--mol_gap_block);\n\tflex-wrap: wrap;\n}\n\n[mol_labeler_content] {\n\tdisplay: flex;\n\tpadding: var(--mol_gap_text);\n}\n");
+})($ || ($ = {}));
+//mol/labeler/-css/labeler.view.css.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_form_field extends $mol_labeler {
+        bids() {
+            return [];
+        }
+        label() {
+            return [
+                this.name(),
+                this.Bid()
+            ];
+        }
+        content() {
+            return [
+                this.control()
+            ];
+        }
+        name() {
+            return "";
+        }
+        bid() {
+            return "";
+        }
+        Bid() {
+            const obj = new this.$.$mol_view();
+            obj.sub = () => [
+                this.bid()
+            ];
+            return obj;
+        }
+        control() {
+            return null;
+        }
+    }
+    __decorate([
+        $mol_mem
+    ], $mol_form_field.prototype, "Bid", null);
+    $.$mol_form_field = $mol_form_field;
+})($ || ($ = {}));
+//mol/form/field/-view.tree/field.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_form_field extends $.$mol_form_field {
+            bid() {
+                return this.bids().filter(Boolean)[0] ?? '';
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_form_field.prototype, "bid", null);
+        $$.$mol_form_field = $mol_form_field;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+//mol/form/field/field.view.ts
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/form/field/field.view.css", "[mol_form_field] {\n\talign-items: stretch;\n}\n\n[mol_form_field_bid] {\n\tcolor: var(--mol_theme_focus);\n\tdisplay: inline-block;\n\ttext-shadow: 0 0;\n}\n\n[mol_form_field_content] {\n\tborder-radius: var(--mol_gap_round);\n}\n");
+})($ || ($ = {}));
+//mol/form/field/-css/field.view.css.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_row extends $mol_view {
+    }
+    $.$mol_row = $mol_row;
+})($ || ($ = {}));
+//mol/row/-view.tree/row.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/row/row.view.css", "[mol_row] {\n\tdisplay: flex;\n\tflex-wrap: wrap;\n\talign-items: flex-start;\n\talign-content: flex-start;\n\tjustify-content: flex-start;\n\tpadding: var(--mol_gap_block);\n\tgap: var(--mol_gap_block);\n\tflex: 0 0 auto;\n\tbox-sizing: border-box;\n\tmax-width: 100%;\n}\n\n[mol_row] > * {\n\tmax-width: 100%;\n}\n");
+})($ || ($ = {}));
+//mol/row/-css/row.view.css.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_form extends $mol_list {
+        submit_allowed() {
+            return true;
+        }
+        submit_blocked() {
+            return false;
+        }
+        event() {
+            return {
+                ...super.event(),
+                keydown: (event) => this.keydown(event)
+            };
+        }
+        submit(event) {
+            if (event !== undefined)
+                return event;
+            return null;
+        }
+        rows() {
+            return [
+                this.Body(),
+                this.Foot()
+            ];
+        }
+        keydown(event) {
+            if (event !== undefined)
+                return event;
+            return null;
+        }
+        form_fields() {
+            return [];
+        }
+        body() {
+            return this.form_fields();
+        }
+        Body() {
+            const obj = new this.$.$mol_list();
+            obj.sub = () => this.body();
+            return obj;
+        }
+        buttons() {
+            return [];
+        }
+        foot() {
+            return this.buttons();
+        }
+        Foot() {
+            const obj = new this.$.$mol_row();
+            obj.sub = () => this.foot();
+            return obj;
+        }
+    }
+    __decorate([
+        $mol_mem
+    ], $mol_form.prototype, "submit", null);
+    __decorate([
+        $mol_mem
+    ], $mol_form.prototype, "keydown", null);
+    __decorate([
+        $mol_mem
+    ], $mol_form.prototype, "Body", null);
+    __decorate([
+        $mol_mem
+    ], $mol_form.prototype, "Foot", null);
+    $.$mol_form = $mol_form;
+})($ || ($ = {}));
+//mol/form/-view.tree/form.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    var $$;
+    (function ($$) {
+        class $mol_form extends $.$mol_form {
+            form_fields() {
+                return [...this.view_find(view => view instanceof $mol_form_field)]
+                    .map(path => path[path.length - 1]);
+            }
+            submit_allowed() {
+                return this.form_fields().every(field => !field.bid());
+            }
+            submit_blocked() {
+                return !this.submit_allowed();
+            }
+            keydown(next) {
+                if (next.ctrlKey && next.keyCode === $mol_keyboard_code.enter && !this.submit_blocked())
+                    this.submit(event);
+            }
+        }
+        __decorate([
+            $mol_mem
+        ], $mol_form.prototype, "form_fields", null);
+        __decorate([
+            $mol_mem
+        ], $mol_form.prototype, "submit_allowed", null);
+        $$.$mol_form = $mol_form;
+    })($$ = $.$$ || ($.$$ = {}));
+})($ || ($ = {}));
+//mol/form/form.view.ts
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/form/form.view.css", "[mol_form] {\r\n\tgap: var(--mol_gap_block);\r\n}\r\n\r\n[mol_form_body] {\r\n\tgap: var(--mol_gap_block);\r\n}");
+})($ || ($ = {}));
+//mol/form/-css/form.view.css.ts
+;
+"use strict";
+var $;
+(function ($) {
+    class $mol_form_group extends $mol_view {
+    }
+    $.$mol_form_group = $mol_form_group;
+})($ || ($ = {}));
+//mol/form/group/-view.tree/group.view.tree.ts
+;
+"use strict";
+var $;
+(function ($) {
+    $mol_style_attach("mol/form/group/group.view.css", "[mol_form_group] {\n\tflex-wrap: wrap;\n\tgap: var(--mol_gap_block);\n}\n\n[mol_form_group] > * {\n\tflex: 1 1 18rem;\n}\n");
+})($ || ($ = {}));
+//mol/form/group/-css/group.view.css.ts
+;
+"use strict";
+var $;
+(function ($) {
     class $mol_button_major extends $mol_button_typed {
         attr() {
             return {
@@ -7489,14 +7746,24 @@ var $;
                 this.Lights()
             ];
         }
+        param() {
+            return "section";
+        }
         role(next) {
             if (next !== undefined)
                 return next;
             return "norole";
         }
+        default_spreads() {
+            return {
+                norole: "about",
+                applicant: "profile"
+            };
+        }
         role_spreads() {
             return {
                 norole: {
+                    about: this.About_page(),
                     register_page: this.Register_page()
                 },
                 applicant: {
@@ -7506,6 +7773,9 @@ var $;
                     invitations: this.Invitations()
                 }
             };
+        }
+        Placeholder() {
+            return null;
         }
         Theme() {
             const obj = new this.$.$mol_theme_auto();
@@ -7544,6 +7814,104 @@ var $;
             const obj = new this.$.$mol_lights_toggle();
             return obj;
         }
+        About_page() {
+            const obj = new this.$.$mol_page();
+            obj.title = () => "О стажировке";
+            return obj;
+        }
+        name_first_bid() {
+            return "";
+        }
+        name_first(next) {
+            if (next !== undefined)
+                return next;
+            return "";
+        }
+        Name_first_control() {
+            const obj = new this.$.$mol_string();
+            obj.hint = () => "Иван";
+            obj.value = (next) => this.name_first(next);
+            return obj;
+        }
+        Name_first_field() {
+            const obj = new this.$.$mol_form_field();
+            obj.name = () => "Имя";
+            obj.bid = () => this.name_first_bid();
+            obj.Content = () => this.Name_first_control();
+            return obj;
+        }
+        name_second_bid() {
+            return "";
+        }
+        name_second(next) {
+            if (next !== undefined)
+                return next;
+            return "";
+        }
+        Name_second_control() {
+            const obj = new this.$.$mol_string();
+            obj.hint = () => "Иванов";
+            obj.value = (next) => this.name_second(next);
+            return obj;
+        }
+        Name_second_field() {
+            const obj = new this.$.$mol_form_field();
+            obj.name = () => "Фамилия";
+            obj.bid = () => this.name_second_bid();
+            obj.Content = () => this.Name_second_control();
+            return obj;
+        }
+        name_patronymic_bid() {
+            return "";
+        }
+        name_patronymic(next) {
+            if (next !== undefined)
+                return next;
+            return "";
+        }
+        Name_patronymic_control() {
+            const obj = new this.$.$mol_string();
+            obj.hint = () => "Иванович";
+            obj.value = (next) => this.name_patronymic(next);
+            return obj;
+        }
+        Name_patronymic_field() {
+            const obj = new this.$.$mol_form_field();
+            obj.name = () => "Отчество";
+            obj.bid = () => this.name_patronymic_bid();
+            obj.Content = () => this.Name_patronymic_control();
+            return obj;
+        }
+        Names() {
+            const obj = new this.$.$mol_form_group();
+            obj.sub = () => [
+                this.Name_first_field(),
+                this.Name_second_field(),
+                this.Name_patronymic_field()
+            ];
+            return obj;
+        }
+        mail_bid() {
+            return "";
+        }
+        mail(next) {
+            if (next !== undefined)
+                return next;
+            return "";
+        }
+        Mail_control() {
+            const obj = new this.$.$mol_string();
+            obj.hint = () => "name@domain.com";
+            obj.value = (next) => this.mail(next);
+            return obj;
+        }
+        Mail_field() {
+            const obj = new this.$.$mol_form_field();
+            obj.name = () => "E-mail";
+            obj.bid = () => this.mail_bid();
+            obj.Content = () => this.Mail_control();
+            return obj;
+        }
         register(next) {
             if (next !== undefined)
                 return next;
@@ -7555,11 +7923,22 @@ var $;
             obj.click = (next) => this.register(next);
             return obj;
         }
+        Register_form() {
+            const obj = new this.$.$mol_form();
+            obj.form_fields = () => [
+                this.Names(),
+                this.Mail_field()
+            ];
+            obj.buttons = () => [
+                this.Register()
+            ];
+            return obj;
+        }
         Register_page() {
             const obj = new this.$.$mol_page();
             obj.title = () => "Регистрация на стажировку";
             obj.body = () => [
-                this.Register()
+                this.Register_form()
             ];
             return obj;
         }
@@ -7607,10 +7986,55 @@ var $;
     ], $hyoo_intern.prototype, "Lights", null);
     __decorate([
         $mol_mem
+    ], $hyoo_intern.prototype, "About_page", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_intern.prototype, "name_first", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_intern.prototype, "Name_first_control", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_intern.prototype, "Name_first_field", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_intern.prototype, "name_second", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_intern.prototype, "Name_second_control", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_intern.prototype, "Name_second_field", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_intern.prototype, "name_patronymic", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_intern.prototype, "Name_patronymic_control", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_intern.prototype, "Name_patronymic_field", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_intern.prototype, "Names", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_intern.prototype, "mail", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_intern.prototype, "Mail_control", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_intern.prototype, "Mail_field", null);
+    __decorate([
+        $mol_mem
     ], $hyoo_intern.prototype, "register", null);
     __decorate([
         $mol_mem
     ], $hyoo_intern.prototype, "Register", null);
+    __decorate([
+        $mol_mem
+    ], $hyoo_intern.prototype, "Register_form", null);
     __decorate([
         $mol_mem
     ], $hyoo_intern.prototype, "Register_page", null);
@@ -7642,6 +8066,27 @@ var $;
             spreads() {
                 return this.role_spreads()[this.role()];
             }
+            arg(spread) {
+                const is_default = spread === this.default_spreads()[this.role()];
+                return { [this.param()]: is_default ? null : spread || null };
+            }
+            role(next) {
+                if (next !== undefined) {
+                    this.spread(null);
+                    return next;
+                }
+                return "norole";
+            }
+            pages() {
+                const pages = super.pages();
+                const default_spread = this.spreads()[this.default_spreads()[this.role()]];
+                return [
+                    this.Gap('left'),
+                    ...pages,
+                    ...(pages.length === 1 ? [default_spread] : []),
+                    this.Gap('right'),
+                ];
+            }
         }
         __decorate([
             $mol_mem
@@ -7649,6 +8094,12 @@ var $;
         __decorate([
             $mol_mem
         ], $hyoo_intern.prototype, "spreads", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_intern.prototype, "role", null);
+        __decorate([
+            $mol_mem
+        ], $hyoo_intern.prototype, "pages", null);
         $$.$hyoo_intern = $hyoo_intern;
     })($$ = $.$$ || ($.$$ = {}));
 })($ || ($ = {}));
@@ -7659,19 +8110,46 @@ var $;
 (function ($) {
     var $$;
     (function ($$) {
+        const page_default = {
+            flex: {
+                grow: 1,
+                basis: 'min(100%, 60rem)',
+            },
+        };
         $mol_style_define($hyoo_intern, {
+            justifyItems: 'center',
             Menu: {
                 flex: {
                     basis: '20rem',
                     shrink: 0,
                 },
                 Head: {
-                    justifyContent: 'flex-start',
+                    justifyContent: 'center',
+                    alignItems: 'center',
                     gap: $mol_gap.block,
                 },
                 Foot: {
                     padding: 0,
                 },
+            },
+            Label: {
+                padding: $mol_gap.block,
+            },
+            Register_page: page_default,
+            About_page: page_default,
+            Intern_profile: page_default,
+            Vacancies: page_default,
+            Applications: page_default,
+            Invitations: page_default,
+            Register: {
+                margin: {
+                    top: $mol_gap.block,
+                },
+            },
+            Register_form: {
+                Foot: {
+                    justifyContent: 'center',
+                }
             },
             Logo: {
                 width: '3rem',
