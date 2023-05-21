@@ -1,16 +1,19 @@
 namespace $.$$ {
 
 	const page_default = {
+		// width =
+		// 60rem is max if there is free space
+		// 40rem is min if 100% greater than 40rem
+		// 100% is min if 100% less than 40rem
+		maxWidth: 'min(100%, 60rem)' as any,
 		flex: { 
 			grow: 1,
-			basis: 'min(100%, 60rem)' as any,
+			basis: '40rem' as any,
 		},
 	}
 
 	$mol_style_define( $hyoo_intern, {
 
-		justifyItems: 'center',
-		
 		Menu: {
 			flex: {
 				basis: '20rem',

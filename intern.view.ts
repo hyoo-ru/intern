@@ -33,10 +33,8 @@ namespace $.$$ {
 			const pages = super.pages()
 			const default_spread = (this.spreads() as any)[ this.default_spreads()[ this.role() ] ]
 			return [
-				this.Gap( 'left' ),
 				...pages,
 				...( pages.length === 1? [ default_spread ] : [] ),
-				this.Gap( 'right' ),
 			]
 		}
 

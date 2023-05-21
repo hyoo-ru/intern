@@ -20,6 +20,9 @@ $hyoo_intern $mol_book2_catalog
 		norole *
 			about <= About_page $mol_page
 				title \О стажировке
+				body /
+					<= Description $mol_filler
+						min_symbols 500
 			register_page <= Register_page $mol_page
 				title \Регистрация на стажировку
 				body /
