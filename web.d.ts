@@ -2003,6 +2003,27 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+    class $mol_filler extends $mol_paragraph {
+        min_symbols(): number;
+        sub(): readonly string[];
+        filler_lines(): readonly string[];
+    }
+}
+
+declare namespace $ {
+    function $mol_array_lottery<Value>(list: readonly Value[]): Value;
+}
+
+declare namespace $.$$ {
+    class $mol_filler extends $.$mol_filler {
+        filler_lines(): string[];
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
     class $mol_labeler extends $mol_list {
         rows(): readonly any[];
         label(): readonly $mol_view_content[];
@@ -2108,6 +2129,7 @@ declare namespace $ {
         Descr(): $$.$mol_paragraph;
         Label(): $$.$mol_list;
         Lights(): $$.$mol_lights_toggle;
+        Description(): $$.$mol_filler;
         About_page(): $mol_page;
         name_first_bid(): string;
         name_first(next?: any): string;
@@ -2149,6 +2171,9 @@ declare namespace $.$$ {
         pages(): any[];
     }
     export {};
+}
+
+declare namespace $ {
 }
 
 declare namespace $.$$ {
