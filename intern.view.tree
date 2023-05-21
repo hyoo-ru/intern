@@ -11,15 +11,49 @@ $hyoo_intern $mol_book2_catalog
 				title <= descr @ \Правительство Москвы
 	menu_foot /
 		<= Lights $mol_lights_toggle
+	param \section
 	role? \norole
+	default_spreads *
+		norole \about
+		applicant \profile
 	role_spreads *
 		norole *
+			about <= About_page $mol_page
+				title \О стажировке
 			register_page <= Register_page $mol_page
 				title \Регистрация на стажировку
 				body /
-					<= Register $mol_button_major
-						title \Зарегистрироваться
-						click? <=> register? null
+					<= Register_form $mol_form
+						form_fields /
+							<= Names $mol_form_group sub /
+								<= Name_first_field $mol_form_field
+									name \Имя
+									bid <= name_first_bid \
+									Content <= Name_first_control $mol_string
+										hint \Иван
+										value? <=> name_first? \
+								<= Name_second_field $mol_form_field
+									name \Фамилия
+									bid <= name_second_bid \
+									Content <= Name_second_control $mol_string
+										hint \Иванов
+										value? <=> name_second? \
+								<= Name_patronymic_field $mol_form_field
+									name \Отчество
+									bid <= name_patronymic_bid \
+									Content <= Name_patronymic_control $mol_string
+										hint \Иванович
+										value? <=> name_patronymic? \
+							<= Mail_field $mol_form_field
+								name \E-mail
+								bid <= mail_bid \
+								Content <= Mail_control $mol_string
+									hint \name@domain.com
+									value? <=> mail? \
+						buttons /
+							<= Register $mol_button_major
+								title \Зарегистрироваться
+								click? <=> register? null
 		applicant *
 			profile <= Intern_profile $mol_page
 				title \Профиль
@@ -29,3 +63,4 @@ $hyoo_intern $mol_book2_catalog
 				title \Мои заявки
 			invitations <= Invitations $mol_page
 				title \Приглашения
+	Placeholder null
