@@ -10412,7 +10412,7 @@ var $;
         role(next) {
             if (next !== undefined)
                 return next;
-            return "intern_free";
+            return "norole";
         }
         default_spreads() {
             return {
@@ -10694,36 +10694,33 @@ var $;
             obj.Content = () => this.Degree_control();
             return obj;
         }
-        course(next) {
+        end_year(next) {
             if (next !== undefined)
                 return next;
             return 2024;
         }
-        Course_control() {
+        End_year_control() {
             const obj = new this.$.$mol_number();
-            obj.value = (next) => this.course(next);
+            obj.value = (next) => this.end_year(next);
             return obj;
         }
-        Course_field() {
+        End_year_field() {
             const obj = new this.$.$mol_form_field();
             obj.name = () => "В каком году ты заканчиваешь / закончил университет?";
-            obj.Content = () => this.Course_control();
+            obj.Content = () => this.End_year_control();
             return obj;
         }
         education_sub() {
             return [
                 this.Education_field(),
                 this.Degree_field(),
-                this.Course_field()
+                this.End_year_field()
             ];
         }
         Education() {
             const obj = new this.$.$mol_form_group();
             obj.sub = () => this.education_sub();
             return obj;
-        }
-        mail_bid() {
-            return "";
         }
         exp(next) {
             if (next !== undefined)
@@ -10738,9 +10735,11 @@ var $;
         Exp_field() {
             const obj = new this.$.$mol_form_field();
             obj.name = () => "Опыт работы и/или общественной/проектной деятельности/волонтерства";
-            obj.bid = () => this.mail_bid();
             obj.Content = () => this.Exp_control();
             return obj;
+        }
+        mail_bid() {
+            return "";
         }
         mail(next) {
             if (next !== undefined)
@@ -11075,13 +11074,13 @@ var $;
     ], $hyoo_intern.prototype, "Degree_field", null);
     __decorate([
         $mol_mem
-    ], $hyoo_intern.prototype, "course", null);
+    ], $hyoo_intern.prototype, "end_year", null);
     __decorate([
         $mol_mem
-    ], $hyoo_intern.prototype, "Course_control", null);
+    ], $hyoo_intern.prototype, "End_year_control", null);
     __decorate([
         $mol_mem
-    ], $hyoo_intern.prototype, "Course_field", null);
+    ], $hyoo_intern.prototype, "End_year_field", null);
     __decorate([
         $mol_mem
     ], $hyoo_intern.prototype, "Education", null);
