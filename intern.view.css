@@ -5,3 +5,13 @@
 [hyoo_intern] [mol_page]:last-child {
 	margin-right: auto;
 }
+
+[hyoo_intern] [mol_page]:not(:first-child) {
+	/* width =
+	60rem is max if there is free space
+	40rem is min if 100% greater than 40rem
+	100% is min if 100% less than 40rem */
+	max-width: min(100%, 60rem);
+	flex-grow: 1;
+	flex-basis: 40rem;
+}

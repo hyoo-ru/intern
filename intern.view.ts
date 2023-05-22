@@ -1,12 +1,17 @@
 namespace $.$$ {
 
-	type Role = 'norole' | 'applicant'
+	type Role = keyof ReturnType<$hyoo_intern["role_spreads"]>
 
 	export class $hyoo_intern extends $.$hyoo_intern {
 
 		@ $mol_mem
-		register() {
+		send_resume() {
 			this.role( 'applicant' )
+		}
+
+		@ $mol_mem
+		accept_invitation() {
+			this.role( 'intern' )
 		}
 		
 		@ $mol_mem
@@ -25,7 +30,7 @@ namespace $.$$ {
 				this.spread( null )
 				return next
 			}
-			return "norole"
+			return super.role() as Role
 		}
 
 		@ $mol_mem
