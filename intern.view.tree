@@ -13,7 +13,7 @@ $hyoo_intern $mol_book2_catalog
 	menu_foot /
 		<= Lights $mol_lights_toggle
 	param \section
-	role? \intern_free
+	role? \norole
 	default_spreads *
 		norole \about
 		applicant \profile
@@ -78,13 +78,12 @@ $hyoo_intern $mol_book2_catalog
 									name \По какому направлению ты обучался / обучаешься?
 									Content <= Degree_control $mol_string
 										value? <=> degree? \
-								<= Course_field $mol_form_field
+								<= End_year_field $mol_form_field
 									name \В каком году ты заканчиваешь / закончил университет?
-									Content <= Course_control $mol_number
-										value? <=> course? 2024
+									Content <= End_year_control $mol_number
+										value? <=> end_year? 2024
 							<= Exp_field $mol_form_field
 								name \Опыт работы и/или общественной/проектной деятельности/волонтерства
-								bid <= mail_bid \
 								Content <= Exp_control $mol_textarea
 									value? <=> exp? \
 							<= Mail_field $mol_form_field
