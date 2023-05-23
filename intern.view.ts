@@ -3,6 +3,15 @@ namespace $.$$ {
 	type Role = keyof ReturnType<$hyoo_intern["role_spreads"]>
 
 	export class $hyoo_intern extends $.$hyoo_intern {
+		@ $mol_mem
+		home() {
+			return this.yard().world().home()
+		}
+
+		@ $mol_mem
+		user() {
+			return this.home().chief.yoke( '$hyoo_intern' , $hyoo_intern_person )!
+		}
 
 		@ $mol_mem
 		send_resume() {
@@ -26,6 +35,8 @@ namespace $.$$ {
 
 		@ $mol_mem
 		role(next?: Role) {
+			if (this.user().registered() === false) return 'norole'
+
 			if ( next !== undefined ) {
 				this.spread( null )
 				return next
