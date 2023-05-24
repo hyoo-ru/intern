@@ -1,0 +1,4 @@
+$hyoo_intern_campaign_form $mol_page
+	title \Кампания стажировки
+	body /
+		<= Start_campaign $mol_button_minor

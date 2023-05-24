@@ -128,7 +128,7 @@ $hyoo_intern $mol_book2_catalog
 			- (тз, доп) Модуль «Рассылки» – должен позволять делать автоматические рассылки по почтам стажеров, наставникам и кадровым специалистам, а также внутри сайта направлять уведомления.
 		manager *
 			profile <= Manager_profile $mol_page
-			organization <= Organization $mol_page
+			company <= Company_edit $hyoo_intern_company_edit
 			mentor_list <= Mentor_list $mol_page
 				- - управление аккаунтами
 				title \Наставники
@@ -141,17 +141,17 @@ $hyoo_intern $mol_book2_catalog
 			- (тз, доп) Модуль «Рейтинг» – должен позволять видеть рейтинг всех наставников и рейтинг организаций, по оценкам отзывов стажеров, а также видеть рейтинг стажеров по итогам прохождения отбора и отзывам по итогам этапов прохождения стажировки.
 		mentor *
 			profile <= Mentor_profile $mol_page
-			organization <= Organization
+			company <= Company_view $hyoo_intern_company_view
 			- (тз) Модуль «Заявка» – должен видеть информацию о стажере, который к нему направлен: результаты заданий, статус приглашения, контакты стажера, резюме, результаты оценки
 			- (тз) Модуль «Обратная связь о работе стажера» – должен позволять по итогам 2-х месяцев стажировки ставить оценку работы стажера и оставить текстовый отзыв.
 			- (тз, доп) Модуль «Школа наставников» – должен позволять переходить на платформу с треком Школы наставников, видеть % прохождения программы и рейтинг.
 			- (тз, доп) Модуль «Расписание стажера» – должен позволять видеть расписание мероприятий в рамках программы развития, а также сроки распределения стажеров.
 		admin *
-			campaign <= Campaign $mol_page
-			organizations <= Organizations $mol_page
-			managers <= Managers $mol_page
+			campaign <= Campaign $hyoo_intern_campaign_form
+			companies <= Company $hyoo_intern_company_catalog
+			managers <= Managers $hyoo_intern_manager_catalog
 			mentors <= Mentors $mol_page
 			curators <= Curators $mol_page
 			interns <= Interns $mol_page
 			applicants <= Applicants $mol_page
-			invitations <= Invitations $mol_page
+			invitations <= Invitations $hyoo_intern_catalog_scroll_demo

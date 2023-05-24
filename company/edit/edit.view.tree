@@ -1,0 +1,14 @@
+$hyoo_intern_company_edit $mol_page
+	body /
+		<= Form $mol_form_draft
+			form_fields /
+				<= Name_field $mol_form_field
+					name \Наименование
+					Content <= Name $mol_string
+				<= Adress_field $mol_form_field
+					name \Адрес
+					Content <= Adress $mol_string
+				<= Scope_field $mol_form_field
+					name \Направление деятельности
+					Content <= Scope $mol_password
+		- ссылки на кадров, наставников
