@@ -35,7 +35,7 @@ $hyoo_intern $mol_book2_catalog
 						min_symbols 500
 			- resume_page <= Resume_page $hyoo_intern_resume_page
 				submit? <=> send_resume? null
-			sign_up <= Sign_up $hyoo_intern_sign_up
+			sign <= Sign_up $hyoo_intern_sign
 				person <= user
 		applicant *
 			profile <= Intern_profile $mol_page
