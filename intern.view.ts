@@ -3,6 +3,7 @@ namespace $.$$ {
 	type Role = keyof ReturnType<$hyoo_intern["role_spreads"]>
 
 	export class $hyoo_intern extends $.$hyoo_intern {
+
 		@ $mol_mem
 		home() {
 			return this.yard().world().home()
@@ -18,11 +19,15 @@ namespace $.$$ {
 			this.role( 'applicant' )
 		}
 
+
 		@ $mol_mem
-		accept_invitation() {
-			this.role( 'intern' )
+		campaign() {
+			const campaigns = this.user().campaigns()
+			const campaign = campaigns.length > 0 ? this.user().campaigns()[0] : this.user().campaign_add()
+			return campaign
 		}
-		
+
+
 		@ $mol_mem
 		spreads() {
 			return this.role_spreads()[ this.role() ]
@@ -35,7 +40,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		role(next?: Role) {
-			if (this.user().registered() === false) return 'norole'
+			if (this.user().registered() === false) return 'admin'
 
 			if ( next !== undefined ) {
 				this.spread( null )
