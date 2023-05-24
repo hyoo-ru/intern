@@ -1,12 +1,12 @@
-$hyoo_intern_company_catalog $mol_book2_catalog
+$hyoo_intern_company_catalog $hyoo_intern_catalog_scroll
 	campaign $hyoo_intern_campaign
 	access \get
 	menu_title \Организации
-	menu_foot /
+	Page_content* $mol_view
+		sub /
+			<= Company_edit* $hyoo_intern_company_form
+				company <= company* $hyoo_intern_company
+	menu_tools /
 		<= Add $mol_button_minor
 			click? <=> add? null
-	spreads *
 	Company_view* $hyoo_intern_company_view
-		company <= company* $hyoo_intern_company
-	Company_edit* $hyoo_intern_company_edit
-		company <= company* $hyoo_intern_company

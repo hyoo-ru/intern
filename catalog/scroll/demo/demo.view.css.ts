@@ -22,16 +22,6 @@ namespace $.$$ {
 		Id: {
 			padding: $mol_gap.text,
 		},
-
-		Page: {
-			margin: $mol_gap.block,
-			background: {
-				color: $mol_theme.card
-			},
-			flex: {
-				direction: 'column'
-			}
-		},
 		
 	} )
 

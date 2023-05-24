@@ -1,0 +1,24 @@
+$hyoo_intern_company_form $mol_list
+	company $hyoo_intern_company
+	rows /
+		<= Form $mol_form_draft
+			value_str*? => value_str*?
+			model <= company
+			form_fields /
+				<= Name_field $mol_form_field
+					name \Наименование
+					Content <= Name $mol_string
+						value? <=> value_str*name?
+				<= Scope_field $mol_form_field
+					name \Направление деятельности
+					Content <= Scope $mol_string
+						value? <=> value_str*scope?
+				<= Adress_field $mol_form_field
+					name \Адрес
+					Content <= Adress $mol_string
+						value? <=> value_str*adress?
+				<= Descr_field $mol_form_field
+					name \Описание
+					Content <= Descr $mol_filler
+						min_symbols 500
+	- ссылки на кадров, наставников
