@@ -1,5 +1,7 @@
 $hyoo_intern_company_catalog $mol_book2_catalog
+	companies /$hyoo_intern_company
+	access \get
 	menu_title \Организации
 	spreads *
-		org1 <= Company_view*0 $hyoo_intern_company_view
-		org2 <= Company_view*1
+	Company_view*0 $hyoo_intern_company_view
+	Company_edit*0 $hyoo_intern_company_edit

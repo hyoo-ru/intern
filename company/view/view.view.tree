@@ -1,6 +1,8 @@
 $hyoo_intern_company_view $mol_page
+	company $hyoo_intern_company_view
 	body /
 		<= Form $mol_form_draft
+			model <= company
 			form_fields /
 				<= Name_field $mol_form_field
 					name \Наименование
