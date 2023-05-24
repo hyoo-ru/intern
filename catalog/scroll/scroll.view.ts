@@ -3,7 +3,7 @@ namespace $.$$ {
 	export class $hyoo_intern_catalog_scroll extends $.$hyoo_intern_catalog_scroll {
 
 		@ $mol_mem
-		id_numered(){
+		id_numered() {
 			return Object.fromEntries(this.ids().map( (id, index) => [id, index+1] ))
 		}
 

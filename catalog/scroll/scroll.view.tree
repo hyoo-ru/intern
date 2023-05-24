@@ -11,7 +11,7 @@ $hyoo_intern_catalog_scroll $mol_book2
 					rows <= links /
 						<= Row_link*0 $mol_link
 							title <= row_title* \
-							arg * id <= id*
+							arg * id <= id* \
 							click*? <=> click*? null
 			foot <= menu_foot /$mol_view
 		<= Pages $mol_scroll
