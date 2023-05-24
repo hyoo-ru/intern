@@ -148,7 +148,9 @@ $hyoo_intern $mol_book2_catalog
 			- (тз, доп) Модуль «Расписание стажера» – должен позволять видеть расписание мероприятий в рамках программы развития, а также сроки распределения стажеров.
 		admin *
 			campaign <= Campaign $hyoo_intern_campaign_form
-			companies <= Company $hyoo_intern_company_catalog
+				campaign <= campaign $hyoo_intern_campaign
+			companies <= Company_catalog $hyoo_intern_company_catalog
+				campaign <= campaign $hyoo_intern_campaign
 			managers <= Managers $hyoo_intern_manager_catalog
 			mentors <= Mentors $mol_page
 			curators <= Curators $mol_page

@@ -9,6 +9,16 @@ namespace $.$$ {
 				[]
 		}
 
+		@ $mol_mem
+		companies() {
+			return this.campaign().companies()
+		}
+
+		@ $mol_action
+		add() {
+			return this.campaign().company_add()
+		}
+
 	}
 
 }
