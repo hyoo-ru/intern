@@ -33,7 +33,7 @@ $hyoo_intern $mol_book2_catalog
 				body /
 					<= Info $mol_filler
 						min_symbols 500
-			sign_up <= Sign_up $hyoo_intern_sign_up
+			sign <= Sign $hyoo_intern_sign
 				person <= user
 		applicant *
 			- resume_page <= Resume_page $hyoo_intern_resume_page

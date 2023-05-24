@@ -18,11 +18,6 @@ namespace $ {
 		}
 
 		@ $mol_mem
-		password( next?: string ) {
-			return this.sub( 'password', $hyoo_crowd_reg ).str( next ) ?? ''
-		}
-
-		@ $mol_mem
 		registered(next?: boolean) {
 			return this.sub( 'registered', $hyoo_crowd_reg ).bool( next ) ?? false
 		}
