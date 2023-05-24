@@ -19,11 +19,6 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem
-		accept_invitation() {
-			this.role( 'intern' )
-		}
-		
-		@ $mol_mem
 		spreads() {
 			return this.role_spreads()[ this.role() ]
 		}
