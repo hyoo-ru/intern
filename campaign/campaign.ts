@@ -21,11 +21,14 @@ namespace $ {
 
 		@ $mol_mem
 		companies() {
-			const ids = this.companies_node().list()
-			return ids
-				.map( id => $mol_int62_string_ensure( id ) )
-				.filter( $mol_guard_defined )
-				.map( id => this.world()?.Fund( $hyoo_intern_company ).Item( id! )! )
+			const ids = this.companies_node().list() as string[]
+			return ids.map( id => this.company(id) )
+		}
+
+		@ $mol_mem_key
+		company(id: string){
+			const company = this.world()?.Fund( $hyoo_intern_company ).Item( $mol_int62_string_ensure( id )! )
+			return company
 		}
 
 		@ $mol_action

@@ -4,7 +4,9 @@ $hyoo_intern_company_catalog $mol_book2_catalog
 	menu_title \Организации
 	menu_foot /
 		<= Add $mol_button_minor
-			click? <=> add?
+			click? <=> add? null
 	spreads *
-	Company_view*0 $hyoo_intern_company_view
-	Company_edit*0 $hyoo_intern_company_edit
+	Company_view* $hyoo_intern_company_view
+		company <= company* $hyoo_intern_company
+	Company_edit* $hyoo_intern_company_edit
+		company <= company* $hyoo_intern_company
