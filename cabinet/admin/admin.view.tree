@@ -1,24 +1,14 @@
 $hyoo_intern_cabinet_admin $hyoo_intern_cabinet
 	campaign $hyoo_intern_campaign
-		companies_ids => companies_ids
-		company* => company*
-		company_add => company_add
-		company_drop* => company_drop*
-		managers_ids => managers_ids
-		manager* => manager*
-		manager_add => manager_add
+		companies => companies
+		managers => managers
 	spreads *
 		campaign <= Campaign $hyoo_intern_campaign_card
 			campaign <= campaign
 		companies <= Companies $hyoo_intern_catalog_companies
-			ids <= companies_ids
-			company* <= company*
-			add <= company_add
-			drop* <= company_drop*
+			entity_links <= companies
 		managers <= Managers $hyoo_intern_catalog_managers
-			ids <= managers_ids
-			manager* <= manager*
-			add <= manager_add
+			entity_links <= managers
 		mentors <= Mentors $hyoo_intern_catalog_mentors
 		curators <= Curators $hyoo_intern_catalog_curators
 		interns <= Interns $hyoo_intern_catalog_interns

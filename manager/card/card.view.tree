@@ -12,6 +12,6 @@ $hyoo_intern_manager_card $mol_view
 						disabled <= disabled
 				<= Company_field $mol_form_field
 					name \Организация
-					Content <= Company $mol_string
-						value? <=> value_str*company?
+					Content <= Company $hyoo_intern_company_card
+						company <= company $hyoo_intern_company
 						disabled <= disabled

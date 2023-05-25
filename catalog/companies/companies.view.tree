@@ -1,31 +1,11 @@
-$hyoo_intern_catalog_companies $hyoo_intern_catalog_scroll
-	access \mod
+$hyoo_intern_catalog_companies $hyoo_intern_catalog_entities
 	menu_title \Организации
-	Page_content_read* $mol_list
-		sub /
-			<= Company_card_read* $hyoo_intern_company_card
-				disabled true
-				company <= company* $hyoo_intern_company
-	Page_content_mod* $mol_list
-		sub /
-			<= Company_card_mod* $hyoo_intern_company_card
-				company <= company*
-			<= Drop* $mol_button_minor
-				title \Удалить
-				click <= drop* null
-	menu_tools /
-		<= Filter $mol_check_icon
-			Icon <= Filter_icon $mol_icon_filter
-			checked? <=> filter_opened? false
-	menu_foot /
-		<= Add $mol_button_minor
-			sub / <= Add_icon $mol_icon_plus
-			click? <=> add? null
-	Filter_form $mol_form_draft
-		form_fields /
-			<= Scope_field $mol_form_field
-				name \Сфера деятельности
-				Content <= Scope $mol_string
-		buttons /
-			<= Apply_filter $mol_button_minor
-				title \Применить
+	Card_view* $hyoo_intern_company_card
+		disabled true
+		company <= item* $hyoo_intern_company
+	Card_edit* $hyoo_intern_company_card
+		company <= item*
+	filter_form_fields /
+		<= Scope_field $mol_form_field
+			name \Сфера деятельности
+			Content <= Scope $mol_string

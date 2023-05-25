@@ -17,9 +17,14 @@ namespace $ {
 				.filter( $mol_guard_defined )
 		}
 
+		@ $mol_mem_key
+		item( id: $mol_int62_string ) {
+			return this.fund().Item( id! )
+		}
+
 		@ $mol_mem
 		items() {
-			return this.ids().map( id => this.fund().Item( id! ) )
+			return this.ids().map( id => this.item( id! ) )
 		}
 
 		@ $mol_action

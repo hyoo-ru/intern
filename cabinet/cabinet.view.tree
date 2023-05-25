@@ -1,5 +1,6 @@
 $hyoo_intern_cabinet $mol_book2_catalog
 	user $hyoo_intern_person
+	campaign $hyoo_intern_campaign
 	yard $hyoo_sync_client
 	Placeholder null
 	menu_head /

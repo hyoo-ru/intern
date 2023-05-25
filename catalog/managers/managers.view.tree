@@ -1,10 +1,7 @@
-$hyoo_intern_catalog_managers $hyoo_intern_catalog_scroll
-	access \get
+$hyoo_intern_catalog_managers $hyoo_intern_catalog_entities
 	menu_title \Кадровые специалисты
-	Page_content* $mol_view
-		sub /
-			<= Manager_card* $hyoo_intern_manager_card
-				manager <= manager* $hyoo_intern_manager
-	menu_tools /
-		<= Add $mol_button_minor
-			click? <=> add? null
+	Card_view* $hyoo_intern_manager_card
+		disabled true
+		manager <= item* $hyoo_intern_manager
+	Card_edit* $hyoo_intern_manager_card
+		manager <= item*

@@ -2,36 +2,49 @@ $hyoo_intern $mol_book2
 	plugins /
 		<= Theme $mol_theme_auto
 	user $hyoo_intern_person
+	campaign $hyoo_intern_campaign
 	yard $hyoo_sync_client
 	role? \admin
 	pages /
 		<= Demo $mol_page
 			body /
-				<= Role $mol_switch
-					value? <=> role?
-					options *
-						norole \norole
-						admin \admin
-						intern \intern
-						curator \curator
-						manager \manager
-						mentor \mentor
+				<= Campaign_field $mol_form_field
+					name \Campaign_id
+					control <= Campaign_id $mol_string
+						value? <=> campaign_id? \
+				<= Role_field $mol_form_field
+					name \Role
+					control <= Role $mol_switch
+						value? <=> role?
+						options *
+							norole \norole
+							admin \admin
+							intern \intern
+							curator \curator
+							manager \manager
+							mentor \mentor
 	cabinets *
 		norole <= Sign_cabinet $hyoo_intern_cabinet
-			user <= user
 			yard <= yard
+			user <= user
+			campaign <= campaign
 		admin <= Admin_cabinet $hyoo_intern_cabinet_admin
-			user <= user
 			yard <= yard
+			user <= user
+			campaign <= campaign
 		intern <= Intern_cabinet $hyoo_intern_cabinet_intern
-			user <= user
 			yard <= yard
+			user <= user
+			campaign <= campaign
 		curator <= Curator_cabinet $hyoo_intern_cabinet_curator
-			user <= user
 			yard <= yard
+			user <= user
+			campaign <= campaign
 		manager <= Manager_cabinet $hyoo_intern_cabinet_manager
-			user <= user
 			yard <= yard
+			user <= user
+			campaign <= campaign
 		mentor <= Mentor_cabinet $hyoo_intern_cabinet_mentor
-			user <= user
 			yard <= yard
+			user <= user
+			campaign <= campaign

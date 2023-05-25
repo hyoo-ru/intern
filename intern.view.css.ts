@@ -7,6 +7,11 @@ namespace $.$$ {
 				direction: 'column',
 			},
 		},
+		Campaign_id: {
+			flex: {
+				grow: 0,
+			},
+		},
 		
 	} )
 

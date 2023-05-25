@@ -25,7 +25,7 @@ namespace $.$$ {
 
 		submit() {
 			super.submit()
-			this.person().registered(true)
+			this.person().signed(true)
 		}
 
 	}
