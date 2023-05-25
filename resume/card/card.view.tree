@@ -31,14 +31,14 @@ $hyoo_intern_resume_card $mol_view
 						name \Дата рождения
 						Content <= Birthdate_control $mol_date
 							value? <=> birthdate_value? \2000-01-01
-							disabled <= disabled
+							enabled <= enabled true
 					<= Citizenship_field $mol_form_field
 						name \Гражданство
 						Content <= Citizenship_control $mol_select
 							value? <=> citizenship? \russia
 							dictionary <= citizenship_dict *
 								russia \РФ
-							disabled <= disabled
+							enabled <= enabled
 					<= City_field $mol_form_field
 						name \Место проживания
 						Content <= City_control $mol_string
@@ -59,12 +59,12 @@ $hyoo_intern_resume_card $mol_view
 						name \Год окончания университета
 						Content <= End_year_control $mol_number
 							value? <=> end_year? 2024
-							disabled <= disabled
+							enabled <= enabled
 				<= Exp_field $mol_form_field
 					name \Опыт работы и/или общественной/проектной деятельности/волонтерства
 					Content <= Exp_control $mol_textarea
 						value? <=> exp? \
-						disabled <= disabled
+						enabled <= enabled
 				<= Mail_field $mol_form_field
 					name \E-mail
 					bid <= mail_bid \

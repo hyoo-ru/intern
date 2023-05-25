@@ -9,7 +9,6 @@ $hyoo_intern_cabinet_manager $hyoo_intern_cabinet
 			title \Моя организация
 			body /
 				<= Company $hyoo_intern_company_card
-					mod true
 		mentors <= Mentors $hyoo_intern_catalog_mentors
 			- - управление аккаунтами
 		vacancies <= Vacancies $hyoo_intern_catalog_vacancies
