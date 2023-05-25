@@ -1,5 +1,5 @@
 {
-	"$hyoo_intern_descr": "Правительство Москвы",
+	"$hyoo_intern_cabinet_descr": "Правительство Москвы",
 	"$hyoo_meta_safe_Export_link_title": "This link contains your encrypted prvate keys. Save it to a secure place on another physical device. Using this link you can restore your private keys by enterig same password.",
 	"$hyoo_meta_safe_Expot_bid_text": "Your private keys are stored in the browser. In order not to lose them, it is recommended to come up with a strong password for exporting them.",
 	"$hyoo_meta_safe_Iport_descr_text": "To import a private key, you must enter the password from it.\n**If the current key is not saved, it will be lost forever.**",
