@@ -18,31 +18,15 @@ namespace $ {
 		}
 
 		@ $mol_mem
-		registered(next?: boolean) {
-			return this.sub( 'registered', $hyoo_crowd_reg ).bool( next ) ?? false
-		}
-
-		@ $mol_mem
-		campaigns_node() {
-			return this.sub( 'campaigns', $hyoo_crowd_list ) 
+		signed(next?: boolean) {
+			return this.sub( 'signed', $hyoo_crowd_reg ).bool( next ) ?? false
 		}
 
 		@ $mol_mem
 		campaigns() {
-			return this.campaigns_node().nodes( $hyoo_intern_campaign )
-		}
-
-		@ $mol_action
-		campaign_add() {
-			this.sub( 'campaigns', $hyoo_crowd_list ).insert([ {} ])
-			const obj = this.campaigns().slice( -1 )[0]
-			return obj
-		}
-		
-		@ $mol_action
-		campaign_drop( obj: $hyoo_intern_campaign ) {
-			const index = this.campaigns().indexOf( obj )
-			this.sub( 'campaigns', $hyoo_crowd_list ).cut( index )
+			const node = this.sub('campaigns', $hyoo_intern_entity_links<typeof $hyoo_intern_campaign>)
+			node.Item = $hyoo_intern_campaign
+			return node
 		}
 
 	}
