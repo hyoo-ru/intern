@@ -1,0 +1,10 @@
+$hyoo_intern_curator_card $mol_view
+	disabled false
+	sub /
+		<= Form $mol_form_draft
+			value_str*? => value_str*?
+			form_fields /
+				<= Person_field $mol_form_field
+					Content <= Person $hyoo_intern_person_card
+						person <= person $hyoo_intern_person
+						disabled <= disabled

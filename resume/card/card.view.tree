@@ -1,0 +1,80 @@
+$hyoo_intern_resume_card $mol_view
+	disabled false
+	submit? null
+	sub /
+		<= Resume_form $mol_form
+			form_fields <= profile_fields /
+				<= Names $mol_form_group sub /
+					<= Name_second_field $mol_form_field
+						name \Фамилия
+						bid <= name_second_bid \
+						Content <= Name_second_control $mol_string
+							hint \Иванов
+							value? <=> name_second? \
+							disabled <= disabled
+					<= Name_first_field $mol_form_field
+						name \Имя
+						bid <= name_first_bid \
+						Content <= Name_first_control $mol_string
+							hint \Иван
+							value? <=> name_first? \
+							disabled <= disabled
+					<= Name_patronymic_field $mol_form_field
+						name \Отчество
+						bid <= name_patronymic_bid \
+						Content <= Name_patronymic_control $mol_string
+							hint \Иванович
+							value? <=> name_patronymic? \
+							disabled <= disabled
+				<= Bdate_citizenship_city $mol_form_group sub /
+					<= Birthdate_field $mol_form_field
+						name \Дата рождения
+						Content <= Birthdate_control $mol_date
+							value? <=> birthdate_value? \2000-01-01
+							disabled <= disabled
+					<= Citizenship_field $mol_form_field
+						name \Гражданство
+						Content <= Citizenship_control $mol_select
+							value? <=> citizenship? \russia
+							dictionary <= citizenship_dict *
+								russia \РФ
+							disabled <= disabled
+					<= City_field $mol_form_field
+						name \Место проживания
+						Content <= City_control $mol_string
+							value? <=> city? \Москва
+							disabled <= disabled
+				<= Education $mol_form_group sub <= education_sub /
+					<= Education_field $mol_form_field
+						name \ВУЗ
+						Content <= Education_control $mol_string
+							value? <=> education? \
+							disabled <= disabled
+					<= Degree_field $mol_form_field
+						name \Направление обучения
+						Content <= Degree_control $mol_string
+							value? <=> degree? \
+							disabled <= disabled
+					<= End_year_field $mol_form_field
+						name \Год окончания университета
+						Content <= End_year_control $mol_number
+							value? <=> end_year? 2024
+							disabled <= disabled
+				<= Exp_field $mol_form_field
+					name \Опыт работы и/или общественной/проектной деятельности/волонтерства
+					Content <= Exp_control $mol_textarea
+						value? <=> exp? \
+						disabled <= disabled
+				<= Mail_field $mol_form_field
+					name \E-mail
+					bid <= mail_bid \
+					Content <= Mail_control $mol_string
+						hint \name@domain.com
+						value? <=> mail? \
+						disabled <= disabled
+				- - канал привлечения (есть в тз, для статистики)
+			buttons /
+				<= Send_resume $mol_button_major
+					- (тз) Модуль «Подать заявку» – должен позволять отправлять заявку на участие в отборе на стажировку, видеть статус заявки на стажировку: отказ в прохождении на стажировку, прохождение на следующий этап отбора, прохождение на стажировку.
+					title \Отправить
+					click? <=> submit?

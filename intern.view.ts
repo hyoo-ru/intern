@@ -1,6 +1,6 @@
 namespace $.$$ {
 
-	type Role = keyof ReturnType<$hyoo_intern["role_spreads"]>
+	type Role = keyof ReturnType<$hyoo_intern["cabinets"]>
 
 	export class $hyoo_intern extends $.$hyoo_intern {
 
@@ -15,48 +15,17 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem
-		send_resume() {
-			this.role( 'applicant' )
-		}
-
-
-		@ $mol_mem
-		campaign() {
-			const campaigns = this.user().campaigns()
-			const campaign = campaigns.length > 0 ? this.user().campaigns()[0] : this.user().campaign_add()
-			return campaign
-		}
-
-
-		@ $mol_mem
-		spreads() {
-			return this.role_spreads()[ this.role() ]
-		}
-
-		arg( spread: string ) {
-			const is_default = spread === this.default_spreads()[ this.role() ]
-			return { [ this.param() ]: is_default? null : spread || null }
-		}
-
-		@ $mol_mem
 		role(next?: Role) {
-			if (this.user().registered() === false) return 'admin'
-
+			if (this.user().registered() === false) return 'norole'
 			if ( next !== undefined ) {
-				this.spread( null )
 				return next
 			}
 			return super.role() as Role
 		}
 
-		@ $mol_mem
-		pages() {
-			const pages = super.pages()
-			const default_spread = (this.spreads() as any)[ this.default_spreads()[ this.role() ] ]
-			return [
-				...pages,
-				...( pages.length === 1? [ default_spread ] : [] ),
-			]
+		sub() {
+			// return [ this.cabinets()[ this.role() ] ]
+			return [ this.Demo(), this.cabinets()[ this.role() ] ]
 		}
 
 	}

@@ -1,5 +1,0 @@
-$hyoo_intern_manager_catalog $mol_book2_catalog
-	menu_title \Кадровые специалисты
-	spreads *
-		ment1 <= Manager_view*0 $hyoo_intern_manager_edit
-		ment2 <= Manager_view*1

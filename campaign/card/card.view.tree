@@ -1,0 +1,12 @@
+$hyoo_intern_campaign_card $mol_page
+	campaign $hyoo_intern_campaign
+	title \Кампания стажировки
+	body /
+		<= Campaign_form $mol_form_draft
+			model <= campaign
+			value_str*? => value_str*?
+			form_fields /
+				<= Name_field $mol_form_field
+					name \Наименование
+					Content <= Name $mol_string
+						value? <=> value_str*name?

@@ -1,0 +1,20 @@
+$hyoo_intern_cabinet $mol_book2_catalog
+	user $hyoo_intern_person
+	yard $hyoo_sync_client
+	Placeholder null
+	menu_head /
+		<= Logo $mol_image
+			uri \/hyoo/intern/logo/logo.svg
+		<= Label $mol_list rows /
+			<= Title $mol_paragraph
+				title <= menu_title \Стажировка
+			<= Descr $mol_paragraph
+				title <= descr @ \Правительство Москвы
+	menu_foot /
+		<= Lights $mol_lights_toggle
+		<= Online $hyoo_sync_online
+			yard <= yard
+	param \section
+	norole_spreads *
+		sign <= Sign $hyoo_intern_sign
+			person <= user

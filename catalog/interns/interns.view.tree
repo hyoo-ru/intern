@@ -1,0 +1,9 @@
+$hyoo_intern_catalog_interns $hyoo_intern_catalog_scroll
+	access \get
+	menu_title \Стажеры
+	Page_content* $mol_view
+		sub /
+			<= Resume_card* $hyoo_intern_resume_card
+	menu_tools /
+		<= Add $mol_button_minor
+			click? <=> add? null

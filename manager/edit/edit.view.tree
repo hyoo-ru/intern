@@ -1,7 +1,0 @@
-$hyoo_intern_manager_edit $mol_page
-	body /
-		<= Person_form $mol_form_draft
-			form_fields /
-				<= Name_field $mol_form_field
-					name \Имя
-					Content <= Name $mol_string

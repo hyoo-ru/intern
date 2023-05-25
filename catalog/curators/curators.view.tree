@@ -1,0 +1,9 @@
+$hyoo_intern_catalog_curators $hyoo_intern_catalog_scroll
+	access \get
+	menu_title \Кураторы
+	Page_content* $mol_view
+		sub /
+			<= Curator_card* $hyoo_intern_curator_card
+	menu_tools /
+		<= Add $mol_button_minor
+			click? <=> add? null
