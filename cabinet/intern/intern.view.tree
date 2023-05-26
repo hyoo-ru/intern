@@ -70,10 +70,11 @@ $hyoo_intern_cabinet_intern $hyoo_intern_cabinet
 				- Даты Время Название Спикер
 				- 15 февраля 10:00 - 12:00 мастер-класс "Пиши как профи" Ермаков
 		5 *
+			profile <= Profile
 			internship <= Internship $mol_page
 				title \Моя стажировка
 				body /
 					<= Vacancy $hyoo_intern_vacancy_card
 				- - из тз: возможность смены места каждые 2 месяца.
-			- timesheet <= Timesheet $mol_page
+			timesheet <= Timesheet $mol_page
 				title \Табель рабочего времени
