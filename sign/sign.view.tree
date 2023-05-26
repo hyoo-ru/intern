@@ -1,6 +1,6 @@
 $hyoo_intern_sign $mol_page
 	person $hyoo_intern_person
-	title \Вход
+	title \Вход в личный кабинет
 	Safe $hyoo_meta_safe
 		body => safe
 	steps /

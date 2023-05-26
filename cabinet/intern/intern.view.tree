@@ -2,15 +2,27 @@ $hyoo_intern_cabinet_intern $hyoo_intern_cabinet
 	profile_title \Профиль стажера
 	profile_name_sub / <= Stage_title $mol_paragraph
 		title <= stage_title \1 этап стажировки
-	stage 3
+	stage? 3
+	profile_body /
+		<= Profile_card
+		<= Sign_out
+		<= Intern_stage_field $mol_form_field
+			name \Demo intern_stage
+			control <= Intern_stage_number $mol_number
+				value_min 1
+				value_max 5
+				value? <=> stage?
 	stage_spreads *
 		1 *
-			profile <= Profile $mol_page
-				title \Профиль
+			profile <= Profile
+			resume <= Resume $mol_page
+				title \Анкета
 				body /
 					<= Resume_card $hyoo_intern_resume_card
+						person <= user
 		2 *
 			profile <= Profile
+			resume <= Resume
 			career_school <= Career_school $mol_page
 				- (тз) Модуль «Карьерная школа» – должен позволять переводить на платформу с онлайн-треком Карьерной школы Правительства Москвы и telegram-канал.
 				- Этап 2. Релевантные кандидаты в течении недели просматривают вебинары для знакомства со структурой Правительства Москвы, а также проходят образовательный онлайн-трек с конспектами, тестированиями и видеоэкскурсиями.
@@ -24,6 +36,7 @@ $hyoo_intern_cabinet_intern $hyoo_intern_cabinet
 				- Посещений всех мастер-классов. 100%
 		3 *
 			profile <= Profile
+			resume <= Resume
 			career_school <= Career_school
 			tests <= Tests $mol_page
 				- (тз) Модуль «Тестирование» – должен позволять переводить на платформу для прохождения тестирования и сохранять результаты пройденного тестирования.
@@ -42,6 +55,7 @@ $hyoo_intern_cabinet_intern $hyoo_intern_cabinet
 							\[Прохождение трека PowerPoint](https://talent.mos.ru)
 		4 *
 			profile <= Profile
+			resume <= Resume
 			championship <= Championship $mol_page
 				- Этап 4. Кейс-чемпионат 400 участников, прошедших отбор по итогам тестирования, делятся на команды и решают кейсы – реальные задачи от организаций Правительства Москвы, презентуя решения перед членами жюри.
 				title \Кейс-чемпионат
@@ -71,6 +85,7 @@ $hyoo_intern_cabinet_intern $hyoo_intern_cabinet
 				- 15 февраля 10:00 - 12:00 мастер-класс "Пиши как профи" Ермаков
 		5 *
 			profile <= Profile
+			resume <= Resume
 			internship <= Internship $mol_page
 				title \Моя стажировка
 				body /

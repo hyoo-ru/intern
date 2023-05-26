@@ -82,26 +82,37 @@ $hyoo_intern_resume_card $mol_view
 										click? <=> institution_drop*? null
 				<= Work $mol_form
 					title @ \Work
-					Foot null
+					- Foot null
 					form_fields /
 						- \job_status skills languages position company industry functions date_start date_end
 						<= Job_status_field $mol_form_field
 							name @ \Job status
 							Content <= Job_status_control $mol_switch
-								value? <=> job_status?
+								value? <=> job_status? \
 								options *
 									student @ \Student
 									working_for_hire @ \Working for hire
 									self_employed @ \Self-employed
 									unemployed @ \Unemployed
 						<= Skills_field $mol_form_field
-							name @ \Skills
-							Content <= Skills_control $mol_select_list
-								value? <=> skills?
-								dictionary <= skills_dict *
-									programming @ \Programming
-									design @ \Design
-									managment @ \Managment
+							- Content null
+							label /
+								<= name <= Skills_field_name $mol_paragraph 
+									title @ \Skills
+								<= Skills_control $mol_select_list
+									value? <=> skills? /
+									dictionary <= skills_dict *
+										programming @ \Programming
+										design @ \Design
+										managment @ \Managment
+							-
+								name @ \Skills
+								Content <= Skills_control $mol_select_list
+									value? <=> skills?
+									dictionary <= skills_dict *
+										programming @ \Programming
+										design @ \Design
+										managment @ \Managment
 						<= Jobs_field $mol_form_field
 							label /
 								<= jobs_field_name @ \Experience
@@ -161,6 +172,6 @@ $hyoo_intern_resume_card $mol_view
 						name @ \Email
 						Content <= Email_control $mol_string
 							hint @ \my_email@mail.ru
-				<= Accept $mol_check_box
-					title \Я соглашаюсь на обработку моих персональных данных
+				<= Accept $mol_paragraph
+					title \Нажимая кнопку «Подать заявку», ты соглашаешься на обработку персональных данных, указанных тобой в анкете (включая контактную информацию и фотографии), в рамках проекта «Карьерный портал Правительства Москвы» в соответствии с текстом согласия.
 				- канал привлечения (есть в тз, для статистики)

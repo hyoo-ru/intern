@@ -4,8 +4,8 @@ $hyoo_intern $mol_book2
 	user $hyoo_intern_person
 	campaign $hyoo_intern_campaign
 	yard $hyoo_sync_client
-	role? \intern
-	pages /
+	role? \norole
+	- pages /
 		<= Demo $mol_page
 			body /
 				<= Peer_field $mol_form_field
@@ -37,10 +37,6 @@ $hyoo_intern $mol_book2
 							intern \intern
 							mentor \mentor
 							manager \manager
-				<= Intern_stage_field $mol_form_field
-					name \Intern_stage
-					control <= Intern_stage_number $mol_number
-						value? <=> intern_stage? 1
 	cabinets *
 		norole <= Sign_cabinet $hyoo_intern_cabinet_norole
 			yard <= yard
@@ -58,7 +54,6 @@ $hyoo_intern $mol_book2
 			yard <= yard
 			user <= user
 			campaign <= campaign
-			stage <= intern_stage
 		mentor <= Mentor_cabinet $hyoo_intern_cabinet_mentor
 			yard <= yard
 			user <= user

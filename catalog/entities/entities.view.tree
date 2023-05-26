@@ -1,6 +1,7 @@
 $hyoo_intern_catalog_entities $hyoo_intern_catalog_scroll
 	entity_links $hyoo_intern_entity_links
 	access \mod
+	item* null
 	Page_content_view* $mol_list
 		sub /
 			<= Card_view* $mol_view

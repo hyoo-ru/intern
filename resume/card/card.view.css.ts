@@ -28,6 +28,11 @@ namespace $.$$ {
 				alignItems: 'center',
 			},
 		},
+		Skills_field: {
+			Label: {
+				alignItems: 'center',
+			},
+		},
 
 		Institution_form: {
 			background: {
@@ -48,6 +53,10 @@ namespace $.$$ {
 			Label: {
 				alignItems: 'center',
 			},
+		},
+
+		Accept: {
+			padding: $mol_gap.block,
 		},
 
 	} )

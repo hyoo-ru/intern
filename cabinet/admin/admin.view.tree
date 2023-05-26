@@ -7,11 +7,7 @@ $hyoo_intern_cabinet_admin $hyoo_intern_cabinet
 		mentors => mentors
 		candidates_on_review => candidates_on_review
 	spreads *
-		profile <= Profile $mol_page
-			title \Профиль
-			body /
-				<= Person_card $hyoo_intern_person_card
-					person <= user
+		profile <= Profile
 		campaign <= Campaign $hyoo_intern_campaign_card
 			campaign <= campaign
 		curators <= Curators $hyoo_intern_catalog_curators

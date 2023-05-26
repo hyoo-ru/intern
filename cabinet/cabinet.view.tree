@@ -3,10 +3,19 @@ $hyoo_intern_cabinet $mol_book2_catalog
 	campaign $hyoo_intern_campaign
 	yard $hyoo_sync_client
 	Placeholder null
-	Profile_card $hyoo_intern_person_card_profile
+	role* null
+	Menu_profile_card $hyoo_intern_person_card_profile
 		title <= profile_title \Профиль
 		name_sub <= profile_name_sub /
 		person <= user
+	Profile $mol_page
+		title <= profile_title \Профиль
+		body <= profile_body /
+			<= Profile_card $hyoo_intern_person_card
+				person <= user
+			<= Sign_out $mol_button_minor
+				title \Выйти из личного кабинета
+				click? <=> sign_out? null
 	menu_head /
 		<= Logo $mol_image
 			uri \/hyoo/intern/logo/logo.svg

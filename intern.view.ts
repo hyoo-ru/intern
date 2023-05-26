@@ -59,17 +59,17 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem
-		role(next?: Role) {
-			if (this.user().signed() === false) return 'norole'
-			if ( next !== undefined ) {
-				return next
-			}
-			return super.role() as Role
+		role( next?: Role ) {
+			// if (this.user().signed() === false) return 'norole'
+			// if ( next !== undefined ) {
+			// 	return next
+			// }
+			return this.user().role( next ) as Role
 		}
 
 		sub() {
-			// return [ this.cabinets()[ this.role() ] ]
-			return [ this.Demo(), this.cabinets()[ this.role() ] ]
+			return [ this.cabinets()[ this.role() ] ]
+			// return [ this.Demo(), this.cabinets()[ this.role() ] ]
 		}
 
 	}

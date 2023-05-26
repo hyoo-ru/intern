@@ -2,6 +2,18 @@ namespace $.$$ {
 
 	export class $hyoo_intern_cabinet extends $.$hyoo_intern_cabinet {
 
+		@ $mol_action
+		sign_out() {
+			this.user().role( 'norole' )
+			this.$.$mol_state_arg.value( this.param(), 'sign' )
+		}
+
+		@ $mol_action
+		role( role: string ) {
+			this.$.$mol_state_arg.value( this.param(), null )
+			this.user().role( role )
+		}
+
 		default_spread_key() {
 			for (const key in this.spreads()) {
 				return key
@@ -11,7 +23,7 @@ namespace $.$$ {
 		
 		menu_link_content( spread_key: string ){
 			return spread_key === 'profile' ?
-				[ this.Profile_card( ) ] : 
+				[ this.Menu_profile_card( ) ] : 
 				super.menu_link_content( spread_key )
 		}
 
