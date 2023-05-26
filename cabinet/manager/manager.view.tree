@@ -1,4 +1,5 @@
 $hyoo_intern_cabinet_manager $hyoo_intern_cabinet
+	profile_title \Профиль специалиста ОК
 	spreads *
 		profile <= Profile $mol_page
 			title \Профиль
@@ -6,7 +7,7 @@ $hyoo_intern_cabinet_manager $hyoo_intern_cabinet
 				<= Person_card $hyoo_intern_person_card
 					person <= user
 		company <= Company_page $mol_page
-			title \Моя организация
+			title \Организация
 			body /
 				<= Company $hyoo_intern_company_card
 		mentors <= Mentors $hyoo_intern_catalog_mentors

@@ -1,0 +1,14 @@
+$hyoo_intern_cabinet_candidate $hyoo_intern_cabinet
+	spreads *
+		resume_page <= Resume_page $mol_page
+			title \Заполнить заявку
+			body /
+				<= Resume $hyoo_intern_resume_card
+					person <= user
+				<= Send_resume $mol_button_major
+					- (тз) Модуль «Подать заявку» – должен позволять отправлять заявку на участие в отборе на стажировку, видеть статус заявки на стажировку: отказ в прохождении на стажировку, прохождение на следующий этап отбора, прохождение на стажировку.
+					disabled true
+					title \Отправить заявку
+					click? <=> send_resume? null
+				- <= Send_notify $mol_paragraph
+					title \Заявка подана, ответное письмо будет отправлено на твою электронную почту

@@ -8,6 +8,12 @@ namespace $.$$ {
 			}
 			return ''
 		}
+		
+		menu_link_content( spread_key: string ){
+			return spread_key === 'profile' ?
+				[ this.Profile_card( ) ] : 
+				super.menu_link_content( spread_key )
+		}
 
 		arg( spread: string ) {
 			const is_default = spread === this.default_spread_key()

@@ -1,14 +1,16 @@
 $hyoo_intern_vacancy_card $mol_view
+	vacancy $hyoo_intern_vacancy
 	sub /
 		<= Form $mol_form_draft
+			model <= vacancy
 			value_str*? => value_str*?
 			form_fields /
 				<= Scope_field $mol_form_field
 					name \Сфера деятельности
 					Content <= Scope $mol_string
-				<= Adress_field $mol_form_field
+				<= Company_field $mol_form_field
 					name \Организация
-					Content <= Adress $mol_string
+					Content <= Company $mol_string
 				<= Tasks_field $mol_form_field
 					name \Обязанности и задачи
 					Content <= Tasks $mol_string

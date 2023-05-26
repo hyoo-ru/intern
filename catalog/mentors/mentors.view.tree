@@ -1,9 +1,7 @@
-$hyoo_intern_catalog_mentors $hyoo_intern_catalog_scroll
-	access \get
+$hyoo_intern_catalog_mentors $hyoo_intern_catalog_entities
 	menu_title \Наставники
-	Page_content* $mol_view
-		sub /
-			<= Mentor_card* $hyoo_intern_mentor_card
-	menu_tools /
-		<= Add $mol_button_minor
-			click? <=> add? null
+	Card_view* $hyoo_intern_person_card
+		disabled true
+		person <= item*
+	Card_edit* $hyoo_intern_person_card
+		person <= item*

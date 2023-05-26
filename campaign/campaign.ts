@@ -9,9 +9,30 @@ namespace $ {
 
 		@ $mol_mem
 		owner( next?: $hyoo_intern_person ) {
-			const str = this.sub( 'owner' , $hyoo_crowd_reg ).str( next && next.head )
+			const str = this.sub( 'owner' , $hyoo_crowd_reg ).str( next && next.land.id() )
 			const id = $mol_int62_string_ensure( str )
 			return id ? this.world()?.Fund( $hyoo_intern_person ).Item( id ) : null
+		}
+
+		@ $mol_mem
+		curators() {
+			const node = this.sub('curators', $hyoo_intern_entity_links<typeof $hyoo_intern_person>)
+			node.Item = $hyoo_intern_person
+			return node
+		}
+
+		@ $mol_mem
+		candidates_on_review(){
+			const node = this.sub('candidates_on_review', $hyoo_intern_entity_links<typeof $hyoo_intern_person>)
+			node.Item = $hyoo_intern_person
+			return node
+		}
+		
+		@ $mol_mem
+		mentors() {
+			const node = this.sub('mentors', $hyoo_intern_entity_links<typeof $hyoo_intern_person>)
+			node.Item = $hyoo_intern_person
+			return node
 		}
 
 		@ $mol_mem
@@ -26,6 +47,18 @@ namespace $ {
 			const node = this.sub('managers', $hyoo_intern_entity_links<typeof $hyoo_intern_manager>)
 			node.Item = $hyoo_intern_manager
 			return node
+		}
+		
+
+		@ $mol_action
+		curator_add( person_id: $mol_int62_string ){
+			const person = this.world()!.Fund( $hyoo_intern_person ).Item( person_id )
+			const curator = this.curators().item_push( person )
+			const peer_id = $mol_int62_string_ensure( curator.peer_id() )!
+			this.land.level( peer_id, $hyoo_crowd_peer_level.law )
+			this.curators().land.level( peer_id, $hyoo_crowd_peer_level.law )
+			this.companies().land.level( peer_id, $hyoo_crowd_peer_level.law )
+			return curator
 		}
 		
 	}

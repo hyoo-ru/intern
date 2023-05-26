@@ -3,6 +3,9 @@ $hyoo_intern_cabinet $mol_book2_catalog
 	campaign $hyoo_intern_campaign
 	yard $hyoo_sync_client
 	Placeholder null
+	Profile_card $hyoo_intern_person_card_profile
+		title <= profile_title \Профиль
+		person <= user
 	menu_head /
 		<= Logo $mol_image
 			uri \/hyoo/intern/logo/logo.svg

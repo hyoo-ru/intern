@@ -6,6 +6,16 @@ $hyoo_intern_person_card $mol_view
 			model <= person
 			value_str*? => value_str*?
 			form_fields /
+				<= Person_id_field $mol_form_field
+					name \person_id
+					Content <= Person_id $mol_string
+						value <= value_str*id
+						disabled true
+				<= Peer_field $mol_form_field
+					name \peer_id
+					Content <= Peer $mol_string
+						value? <=> value_str*peer_id?
+						disabled true
 				<= Name_field $mol_form_field
 					name \Имя
 					Content <= Name $mol_string

@@ -1,9 +1,7 @@
-$hyoo_intern_catalog_vacancies $hyoo_intern_catalog_scroll
-	access \get
+$hyoo_intern_catalog_vacancies $hyoo_intern_catalog_entities
 	menu_title \Вакансии (заявки на стажеров)
-	Page_content* $mol_view
-		sub /
-			<= Vacancy_card* $hyoo_intern_vacancy_card
-	menu_tools /
-		<= Add $mol_button_minor
-			click? <=> add? null
+	Card_view* $hyoo_intern_vacancy_card
+		disabled true
+		vacancy <= item* $hyoo_intern_vacancy
+	Card_edit* $hyoo_intern_vacancy_card
+		vacancy <= item*
