@@ -5124,7 +5124,7 @@ var $;
             return this.sub('peer', $hyoo_crowd_reg).str(next) ?? null;
         }
         role(next) {
-            return this.sub('role', $hyoo_crowd_reg).str(next) ?? 'norole';
+            return this.sub('role', $hyoo_crowd_reg).str(next) || 'norole';
         }
         name(next) {
             return this.sub('name', $hyoo_crowd_reg).str(next) ?? '';

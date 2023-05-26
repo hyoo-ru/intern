@@ -1287,7 +1287,7 @@ declare namespace $ {
 declare namespace $ {
     class $hyoo_intern_person extends $hyoo_crowd_struct {
         peer_id(next?: $mol_int62_string): string;
-        role(next?: string): string;
+        role(next?: string): string | number | typeof Symbol.iterator;
         name(next?: string): string;
         name_family(next?: string): string;
         email(next?: string): string;
