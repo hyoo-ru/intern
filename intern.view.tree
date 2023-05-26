@@ -4,7 +4,7 @@ $hyoo_intern $mol_book2
 	user $hyoo_intern_person
 	campaign $hyoo_intern_campaign
 	yard $hyoo_sync_client
-	role? \candidate
+	role? \intern
 	pages /
 		<= Demo $mol_page
 			body /
@@ -34,7 +34,6 @@ $hyoo_intern $mol_book2
 							norole \norole
 							admin \admin
 							curator \curator
-							candidate \candidate
 							intern \intern
 							mentor \mentor
 							manager \manager
@@ -48,10 +47,6 @@ $hyoo_intern $mol_book2
 			user <= user
 			campaign <= campaign
 		curator <= Curator_cabinet $hyoo_intern_cabinet_curator
-			yard <= yard
-			user <= user
-			campaign <= campaign
-		candidate <= Candidate_cabinet $hyoo_intern_cabinet_candidate
 			yard <= yard
 			user <= user
 			campaign <= campaign
