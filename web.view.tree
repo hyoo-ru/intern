@@ -18,94 +18,6 @@ $mol_book2 $mol_scroll
 $mol_theme_auto $mol_plugin
 	attr * mol_theme <= theme \
 
-$mol_speck $mol_view
-	attr *
-		^
-		mol_theme <= theme \$mol_theme_accent
-	style *
-		^
-		minHeight \1em
-	sub /
-		<= value null
-
-$mol_button $mol_view
-	enabled true
-	click?event null
-	event_click?event null
-	event *
-		^
-		click?event <=> event_activate?event null
-		dblclick?event <=> clicks?event null
-		keydown?event <=> event_key_press?event null 
-	attr *
-		^
-		disabled <= disabled false
-		role \button
-		tabindex <= tab_index 0
-		title <= hint_safe <= hint \
-	sub /$mol_view_content
-		<= title
-	Speck $mol_speck
-		value <= error \
-
-$mol_button_typed $mol_button
-	minimal_height 40
-	minimal_width 40
-
-$mol_button_minor $mol_button_typed
-
-$mol_check $mol_button_minor
-	attr *
-		^
-		mol_check_checked <= checked? false
-		aria-checked <= aria_checked \false
-		role <= aria_role \checkbox
-	sub /$mol_view_content
-		<= Icon null
-		<= label /
-			<= Title $mol_view
-				sub /
-					<= title \
-
-$mol_check_list $mol_view
-	Option* $mol_check
-		checked?val <=> option_checked*?val false
-		label <= option_label* /
-			<= option_title* \
-		enabled <= option_enabled* <= enabled true
-		hint <= option_hint* \
-		minimal_height 24
-	options *
-	keys /string
-	sub <= items /$mol_check
-
-$mol_switch $mol_check_list
-	value?val \
-
-$mol_page $mol_view
-	dom_name \article
-	field *
-		^
-		tabIndex <= tabindex -1
-	sub /
-		<= Head $mol_view
-			minimal_height 64
-			dom_name \header
-			sub <= head /
-				<= Title $mol_view
-					dom_name \h1
-					sub <= title_content /
-						<= Logo null
-						<= title
-				<= Tools $mol_view
-					sub <= tools /$mol_view_content
-		<= Body $mol_scroll
-			scroll_top?val => body_scroll_top?val
-			sub <= body /$mol_view_content
-		<= Foot $mol_view
-			dom_name \footer
-			sub <= foot /$mol_view
-
 $mol_link $mol_view
 	uri \
 	dom_name \a
@@ -146,6 +58,42 @@ $mol_pop_bubble $mol_view
 		^
 		mol_pop_align <= align \
 		tabindex 0
+
+$mol_speck $mol_view
+	attr *
+		^
+		mol_theme <= theme \$mol_theme_accent
+	style *
+		^
+		minHeight \1em
+	sub /
+		<= value null
+
+$mol_button $mol_view
+	enabled true
+	click?event null
+	event_click?event null
+	event *
+		^
+		click?event <=> event_activate?event null
+		dblclick?event <=> clicks?event null
+		keydown?event <=> event_key_press?event null 
+	attr *
+		^
+		disabled <= disabled false
+		role \button
+		tabindex <= tab_index 0
+		title <= hint_safe <= hint \
+	sub /$mol_view_content
+		<= title
+	Speck $mol_speck
+		value <= error \
+
+$mol_button_typed $mol_button
+	minimal_height 40
+	minimal_width 40
+
+$mol_button_minor $mol_button_typed
 
 $mol_hotkey $mol_plugin
 	event *
@@ -307,6 +255,30 @@ $mol_search $mol_pop
 				haystack <= suggest_label* \
 				needle <= query?val \
 
+$mol_page $mol_view
+	dom_name \article
+	field *
+		^
+		tabIndex <= tabindex -1
+	sub /
+		<= Head $mol_view
+			minimal_height 64
+			dom_name \header
+			sub <= head /
+				<= Title $mol_view
+					dom_name \h1
+					sub <= title_content /
+						<= Logo null
+						<= title
+				<= Tools $mol_view
+					sub <= tools /$mol_view_content
+		<= Body $mol_scroll
+			scroll_top?val => body_scroll_top?val
+			sub <= body /$mol_view_content
+		<= Foot $mol_view
+			dom_name \footer
+			sub <= foot /$mol_view
+
 $mol_book2_catalog $mol_book2
 	param \
 	spread?val \
@@ -338,6 +310,76 @@ $mol_book2_catalog $mol_book2
 		sub /
 			<= Spread_close_icon $mol_icon_cross
 
+$mol_labeler $mol_list
+	rows /
+		<= Label $mol_view
+			minimal_height 32
+			sub <= label /$mol_view_content
+				<= title
+		<= Content $mol_view
+			minimal_height 24
+			sub <= content /
+
+$mol_form_field $mol_labeler
+	bids /string
+	label /
+		<= name \
+		<= Bid $mol_view
+			sub / <= bid \
+	content / <= control null
+
+$mol_row $mol_view
+
+$mol_form $mol_list
+	submit_allowed true
+	submit_blocked false
+	event *
+		^
+		keydown?event <=> keydown?event null
+	submit?event null
+	rows /
+		<= Body $mol_list
+			sub <= body <= form_fields /$mol_form_field
+		<= Foot $mol_row
+			sub <= foot <= buttons /$mol_view
+
+$mol_form_draft $mol_form
+	model $mol_object2
+
+$hyoo_intern_person_card $mol_view
+	disabled false
+	person $hyoo_intern_person
+	sub /
+		<= Form $mol_form_draft
+			model <= person
+			value_str*? => value_str*?
+			form_fields /
+				<= Person_id_field $mol_form_field
+					name \person_id
+					Content <= Person_id $mol_string
+						value <= value_str*id
+						disabled true
+				<= Peer_field $mol_form_field
+					name \peer_id
+					Content <= Peer $mol_string
+						value? <=> value_str*peer_id?
+						disabled true
+				<= Name_field $mol_form_field
+					name \Имя
+					Content <= Name $mol_string
+						value? <=> value_str*name?
+						disabled <= disabled
+				<= Name_family_field $mol_form_field
+					name \Фамилия
+					Content <= Name_family $mol_string
+						value? <=> value_str*name_family?
+						disabled <= disabled
+				<= Email_field $mol_form_field
+					name \Почта
+					Content <= Email $mol_string
+						value? <=> value_str*email?
+						disabled <= disabled
+
 $mol_image $mol_view
 	dom_name \img
 	field *
@@ -355,6 +397,40 @@ $mol_image $mol_view
 		load? <=> load? null
 	minimal_width 16
 	minimal_height 16
+
+$hyoo_intern_person_avatar $mol_image
+	blob null
+	placeholder \https://robohash.org/${id}.png
+
+$hyoo_intern_person_card_profile $mol_view
+	person $hyoo_intern_person
+		id => id
+		name => name
+		avatar_node => avatar_node
+	sub /
+		<= Avatar $hyoo_intern_person_avatar
+			blob <= avatar_node
+		<= Info $mol_list
+			rows <= info /
+				<= Title $mol_paragraph
+					title <= title \
+				<= Name $mol_paragraph
+					title <= name
+				<= Name_sub $mol_paragraph
+					sub <= name_sub /
+
+$mol_check $mol_button_minor
+	attr *
+		^
+		mol_check_checked <= checked? false
+		aria-checked <= aria_checked \false
+		role <= aria_role \checkbox
+	sub /$mol_view_content
+		<= Icon null
+		<= label /
+			<= Title $mol_view
+				sub /
+					<= title \
 
 $mol_check_icon $mol_check
 
@@ -386,6 +462,40 @@ $hyoo_sync_online $mol_link
 	attr *
 		^
 		title <= message <= hint \$hyoo_sync
+
+$hyoo_intern_cabinet $mol_book2_catalog
+	user $hyoo_intern_person
+	campaign $hyoo_intern_campaign
+	yard $hyoo_sync_client
+	Placeholder null
+	role* null
+	Menu_profile_card $hyoo_intern_person_card_profile
+		title <= profile_title \Профиль
+		name_sub <= profile_name_sub /
+		person <= user
+	Profile $mol_page
+		title <= profile_title \Профиль
+		body <= profile_body /
+			<= Profile_card $hyoo_intern_person_card
+				person <= user
+			<= Sign_out $mol_button_minor
+				title \Выйти из личного кабинета
+				click? <=> sign_out? null
+	menu_head /
+		<= Logo $mol_image
+			uri \/hyoo/intern/logo/logo.svg
+		<= Label $mol_list rows /
+			<= Title $mol_paragraph
+				title <= menu_title \Стажировка
+			<= Descr $mol_paragraph
+				title <= descr @ \Правительство Москвы
+	menu_body /
+		<= Menu_links
+	menu_foot /
+		<= Lights $mol_lights_toggle
+		<= Online $hyoo_sync_online
+			yard <= yard
+	param \section
 
 $mol_stack $mol_view
 
@@ -695,375 +805,10 @@ $mol_text_span $mol_paragraph
 		^
 		mol_text_type <= type \
 
-$mol_icon_eye $mol_icon path \M12,9C10.34,9 9,10.34 9,12C9,13.66 10.34,15 12,15C13.66,15 15,13.66 15,12C15,10.34 13.66,9 12,9M12,17C9.24,17 7,14.76 7,12C7,9.24 9.24,7 12,7C14.76,7 17,9.24 17,12C17,14.76 14.76,17 12,17M12,4.5C7,4.5 2.73,7.61 1,12C2.73,16.39 7,19.5 12,19.5C17,19.5 21.27,16.39 23,12C21.27,7.61 17,4.5 12,4.5Z
-
-$mol_password $mol_view
-	type?val \password
-	sub <= content /
-		<= Pass $mol_string
-			type <= type
-			hint <= hint \
-			value?val <=> value?val \
-			submit?event <=> submit?event null
-			enabled <= enabled true
-		<= Show $mol_check_icon
-			checked?val <=> checked?val true
-			Icon <= Show_icon $mol_icon_eye
-
-$mol_labeler $mol_list
-	rows /
-		<= Label $mol_view
-			minimal_height 32
-			sub <= label /$mol_view_content
-				<= title
-		<= Content $mol_view
-			minimal_height 24
-			sub <= content /
-
-$mol_form_field $mol_labeler
-	bids /string
-	label /
-		<= name \
-		<= Bid $mol_view
-			sub / <= bid \
-	content / <= control null
-
-$mol_text_list $mol_text
-	auto_scroll null
-	attr *
-		^
-		mol_text_list_type <= type \
-	Paragraph* $mol_text_list_item
-		index <= item_index*
-		sub <= block_content*
-
-$mol_text_list_item $mol_paragraph
-	attr *
-		^
-		mol_text_list_item_index <= index 0
-
-$mol_row $mol_view
-
-$mol_form $mol_list
-	submit_allowed true
-	submit_blocked false
-	event *
-		^
-		keydown?event <=> keydown?event null
-	submit?event null
-	rows /
-		<= Body $mol_list
-			sub <= body <= form_fields /$mol_form_field
-		<= Foot $mol_row
-			sub <= foot <= buttons /$mol_view
-
-$hyoo_meta_safe $mol_page
-	title @ \Private keys
-	yard $hyoo_sync_yard
-	bid_pass_long @ \> 7 letters
-	key_size 133
-	attr *
-		^
-		mol_theme \$mol_theme_special
-	body /
-		<= Content $mol_list rows <= content /
-			<= Export_block $mol_list rows <= export_rows /
-				<= Expot_bid $mol_text text @ \Your private keys are stored in the browser. In order not to lose them, it is recommended to come up with a strong password for exporting them.
-				<= Export_pass $mol_list rows /
-					<= Password_field $mol_form_field
-						name @ \Password
-						bids / <= password_bid \
-						Content <= Password $mol_password
-							value? <=> password? \
-					<= Recall_field $mol_form_field
-						name @ \Hint for recall
-						Content <= Recall $mol_string
-							enabled <= recall_enabled true
-							value? <=> recall? \
-				<= Export_link $mol_link
-					uri <= export_link \
-					title @ \This link contains your encrypted prvate keys. Save it to a secure place on another physical device. Using this link you can restore your private keys by enterig same password.
-			<= Import_block $mol_list rows <= import_rows /
-				<= Iport_descr $mol_text text @ \
-					\To import a private key, you must enter the password from it.
-					\**If the current key is not saved, it will be lost forever.**
-				<= Import_pass $mol_list rows /
-					<= Recall_field
-					<= Password_field
-				<= Import_switch $mol_button_minor
-					click? <=> import_switch? null
-					sub /
-						<= Peer_new $mol_avatar id <= peer_new \
-						<= impot_switch_title @ \Switch
-
 $mol_button_major $mol_button_typed
 	attr *
 		^
 		mol_theme \$mol_theme_accent
-
-$mol_form_draft $mol_form
-	model $mol_object2
-
-$hyoo_intern_sign $mol_page
-	person $hyoo_intern_person
-	title \Вход
-	Safe $hyoo_meta_safe
-		body => safe
-	steps /
-		<= safe
-		<= personal /
-			<= Name_field $mol_form_field
-				name \Имя
-				Content <= Name $mol_string
-					value? <=> value_str*name?
-			<= Name_family_field $mol_form_field
-				name \Фамилия
-				Content <= Name_family $mol_string
-					value? <=> value_str*name_family?
-			<= Email_field $mol_form_field
-				name \Почта
-				Content <= Email $mol_string
-					value? <=> value_str*email?
-	step? 0
-	body /
-		<= Form $mol_form_draft
-			model <= person
-			submit? => submit?
-			value_str*? => value_str*?
-			form_fields <= step_current /
-			buttons <= buttons /
-				<= Back_button $mol_button_minor
-					title \Назад
-					click? <=> back? null
-					enabled <= back_enabled false
-				<= Next_button $mol_button_major
-					title \Далее
-					click? <=> next? null
-				<= Submit_button $mol_button_major
-					title \Готово
-					click? <=> submit?
-
-$hyoo_intern_cabinet $mol_book2_catalog
-	user $hyoo_intern_person
-	yard $hyoo_sync_client
-	Placeholder null
-	menu_head /
-		<= Logo $mol_image
-			uri \/hyoo/intern/logo/logo.svg
-		<= Label $mol_list rows /
-			<= Title $mol_paragraph
-				title <= menu_title \Стажировка
-			<= Descr $mol_paragraph
-				title <= descr @ \Правительство Москвы
-	menu_foot /
-		<= Lights $mol_lights_toggle
-		<= Online $hyoo_sync_online
-			yard <= yard
-	param \section
-	norole_spreads *
-		sign <= Sign $hyoo_intern_sign
-			person <= user
-
-$hyoo_intern_campaign_card $mol_page
-	campaign $hyoo_intern_campaign
-	title \Кампания стажировки
-	body /
-		<= Campaign_form $mol_form_draft
-			model <= campaign
-			value_str*? => value_str*?
-			form_fields /
-				<= Name_field $mol_form_field
-					name \Наименование
-					Content <= Name $mol_string
-						value? <=> value_str*name?
-
-$hyoo_intern_catalog_scroll $mol_book2
-	Placeholder null
-	ids /
-		\test
-	ids_numered /
-	pages /
-		<= Rows $mol_page
-			title <= menu_title \Rows
-			tools <= menu_tools /$mol_view
-			body <= menu_body /
-				<= Row_list $mol_list
-					rows <= links /
-						<= Row_link*0 $mol_link
-							title <= row_title* \
-							arg * id <= id* \
-							click*? <=> click*? null
-			foot <= menu_foot /$mol_view
-		<= Pages $mol_scroll
-			sub <= spreads /
-	Page* $mol_view
-		sub /
-			<= Page_link* $mol_link
-				minimal_height 40
-				title <= page_title* \
-				arg * id <= id*
-			<= Page_content* $mol_view
-				sub <= page_content* /$mol_view_content
-
-$hyoo_intern_company_card $mol_view
-	disabled false
-	company $hyoo_intern_company
-	sub /
-		<= Form $mol_form_draft
-			value_str*? => value_str*?
-			model <= company
-			form_fields /
-				<= Name_field $mol_form_field
-					name \Наименование
-					Content <= Name $mol_string
-						value? <=> value_str*name?
-						disabled <= disabled
-				<= Scope_field $mol_form_field
-					name \Сфера деятельности
-					Content <= Scope $mol_string
-						value? <=> value_str*scope?
-						disabled <= disabled
-				<= Adress_field $mol_form_field
-					name \Адрес
-					Content <= Adress $mol_string
-						value? <=> value_str*adress?
-						disabled <= disabled
-
-$mol_icon_filter $mol_icon path \M14,12V19.88C14.04,20.18 13.94,20.5 13.71,20.71C13.32,21.1 12.69,21.1 12.3,20.71L10.29,18.7C10.06,18.47 9.96,18.16 10,17.87V12H9.97L4.21,4.62C3.87,4.19 3.95,3.56 4.38,3.22C4.57,3.08 4.78,3 5,3V3H19V3C19.22,3 19.43,3.08 19.62,3.22C20.05,3.56 20.13,4.19 19.79,4.62L14.03,12H14Z
-
-$mol_icon_plus $mol_icon path \M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z
-
-$hyoo_intern_catalog_companies $hyoo_intern_catalog_scroll
-	access \mod
-	menu_title \Организации
-	Page_content_read* $mol_list
-		sub /
-			<= Company_card_read* $hyoo_intern_company_card
-				disabled true
-				company <= company* $hyoo_intern_company
-	Page_content_mod* $mol_list
-		sub /
-			<= Company_card_mod* $hyoo_intern_company_card
-				company <= company*
-			<= Drop* $mol_button_minor
-				title \Удалить
-				click <= drop* null
-	menu_tools /
-		<= Filter $mol_check_icon
-			Icon <= Filter_icon $mol_icon_filter
-			checked? <=> filter_opened? false
-	menu_foot /
-		<= Add $mol_button_minor
-			sub / <= Add_icon $mol_icon_plus
-			click? <=> add? null
-	Filter_form $mol_form_draft
-		form_fields /
-			<= Scope_field $mol_form_field
-				name \Сфера деятельности
-				Content <= Scope $mol_string
-		buttons /
-			<= Apply_filter $mol_button_minor
-				title \Применить
-
-$hyoo_intern_person_card $mol_view
-	disabled false
-	person $hyoo_intern_person
-	sub /
-		<= Form $mol_form_draft
-			model <= person
-			value_str*? => value_str*?
-			form_fields /
-				<= Name_field $mol_form_field
-					name \Имя
-					Content <= Name $mol_string
-						value? <=> value_str*name?
-						disabled <= disabled
-				<= Name_family_field $mol_form_field
-					name \Фамилия
-					Content <= Name_family $mol_string
-						value? <=> value_str*name_family?
-						disabled <= disabled
-				<= Email_field $mol_form_field
-					name \Почта
-					Content <= Email $mol_string
-						value? <=> value_str*email?
-						disabled <= disabled
-
-$hyoo_intern_manager_card $mol_view
-	disabled false
-	manager $hyoo_intern_manager
-	sub /
-		<= Form $mol_form_draft
-			model <= manager
-			value_str*? => value_str*?
-			form_fields /
-				<= Person_field $mol_form_field
-					Content <= Person $hyoo_intern_person_card
-						person <= person $hyoo_intern_person
-						disabled <= disabled
-				<= Company_field $mol_form_field
-					name \Организация
-					Content <= Company $mol_string
-						value? <=> value_str*company?
-						disabled <= disabled
-
-$hyoo_intern_catalog_managers $hyoo_intern_catalog_scroll
-	access \get
-	menu_title \Кадровые специалисты
-	Page_content* $mol_view
-		sub /
-			<= Manager_card* $hyoo_intern_manager_card
-				manager <= manager* $hyoo_intern_manager
-	menu_tools /
-		<= Add $mol_button_minor
-			click? <=> add? null
-
-$hyoo_intern_mentor_card $mol_view
-	disabled false
-	sub /
-		<= Form $mol_form_draft
-			value_str*? => value_str*?
-			form_fields /
-				<= Person_field $mol_form_field
-					Content <= Person $hyoo_intern_person_card
-						person <= person $hyoo_intern_person
-						disabled <= disabled
-				<= Company_field $mol_form_field
-					name \Организация
-					Content <= Company $mol_string
-						value? <=> value_str*company?
-						disabled <= disabled
-
-$hyoo_intern_catalog_mentors $hyoo_intern_catalog_scroll
-	access \get
-	menu_title \Наставники
-	Page_content* $mol_view
-		sub /
-			<= Mentor_card* $hyoo_intern_mentor_card
-	menu_tools /
-		<= Add $mol_button_minor
-			click? <=> add? null
-
-$hyoo_intern_curator_card $mol_view
-	disabled false
-	sub /
-		<= Form $mol_form_draft
-			value_str*? => value_str*?
-			form_fields /
-				<= Person_field $mol_form_field
-					Content <= Person $hyoo_intern_person_card
-						person <= person $hyoo_intern_person
-						disabled <= disabled
-
-$hyoo_intern_catalog_curators $hyoo_intern_catalog_scroll
-	access \get
-	menu_title \Кураторы
-	Page_content* $mol_view
-		sub /
-			<= Curator_card* $hyoo_intern_curator_card
-	menu_tools /
-		<= Add $mol_button_minor
-			click? <=> add? null
 
 $mol_form_group $mol_view
 
@@ -1221,32 +966,49 @@ $mol_select $mol_pick
 		enabled <= enabled true
 	Trigger_icon $mol_icon_dots_vertical
 
-$mol_icon_minus $mol_icon path \M19,13H5V11H19V13Z
+$mol_icon_plus $mol_icon path \M19,13H13V19H11V13H5V11H11V5H13V11H19V13Z
 
-$mol_number $mol_view
-	precision_view <= precision 1
-	precision_change <= precision 1
-	value_min -Infinity
-	value_max +Infinity
-	value? +NaN
-	enabled true
-	sub /
-		<= String $mol_string
-			- \ we don't want native number controls in mobile devices
-			- \ https://stackoverflow.com/questions/3790935/can-i-hide-the-html5-number-input-s-spin-box
-			type <= type \tel
-			value?val <=> value_string?val \
-			hint <= hint \ 
-			enabled <= string_enabled <= enabled
-			submit? <=> submit? null
-		<= Dec $mol_button_minor
-			event_click? <=> event_dec? null
-			enabled <= dec_enabled <= enabled
-			sub / <= dec_icon $mol_icon_minus
-		<= Inc $mol_button_minor
-			event_click? <=> event_inc? null
-			enabled <= inc_enabled <= enabled
-			sub / <= inc_icon $mol_icon_plus
+$mol_icon_delete $mol_icon path \M19,4H15.5L14.5,3H9.5L8.5,4H5V6H19M6,19C6,20.1 6.9,21 8,21H16C17.1,21 18,20.1 18,19V7H6V19Z
+
+$mol_check_list $mol_view
+	Option* $mol_check
+		checked?val <=> option_checked*?val false
+		label <= option_label* /
+			<= option_title* \
+		enabled <= option_enabled* <= enabled true
+		hint <= option_hint* \
+		minimal_height 24
+	options *
+	keys /string
+	sub <= items /$mol_check
+
+$mol_switch $mol_check_list
+	value?val \
+
+$mol_select_list $mol_view
+	value?val /string
+	dictionary *
+	badges_list <= Badges /$mol_view
+	Badge* $mol_button_minor
+		title <= badge_title* \badge
+		click?event <=> remove*?event null
+		hint <= badge_hint @ \Drop
+		enabled <= drop_enabled <= enabled true
+	sub /$mol_view
+		<= Pick $mol_select
+			align_hor <= align_hor \right
+			options <= options_pickable <= options /string
+			value?val <=> pick?val \
+			option_label* <= option_title* \
+			trigger_enabled <= pick_enabled <= enabled true
+			hint <= pick_hint @ \Add..
+			Trigger_icon <= Pick_icon $mol_icon_plus
+		^ badges_list
+
+$mol_icon_tick $mol_icon path \M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z
+
+$mol_check_box $mol_check
+	Icon $mol_icon_tick
 
 $mol_textarea $mol_stack
 	attr *
@@ -1319,8 +1081,13 @@ $mol_textarea_edit $mol_string
 		^
 		scrollTop 0
 
+$mol_phone $mol_format
+	mask* \+___ (___) ___-__-__
+	keyboard \tel
+
 $hyoo_intern_resume_card $mol_view
 	disabled false
+	person $hyoo_intern_person
 	submit? null
 	sub /
 		<= Resume_form $mol_form
@@ -1365,62 +1132,297 @@ $hyoo_intern_resume_card $mol_view
 						Content <= City_control $mol_string
 							value? <=> city? \Москва
 							disabled <= disabled
-				<= Education $mol_form_group sub <= education_sub /
-					<= Education_field $mol_form_field
-						name \ВУЗ
-						Content <= Education_control $mol_string
-							value? <=> education? \
-							disabled <= disabled
-					<= Degree_field $mol_form_field
-						name \Направление обучения
-						Content <= Degree_control $mol_string
-							value? <=> degree? \
-							disabled <= disabled
-					<= End_year_field $mol_form_field
-						name \Год окончания университета
-						Content <= End_year_control $mol_number
-							value? <=> end_year? 2024
-							enabled <= enabled
+				<= Institutions_field $mol_form_field
+					label /
+						<= institutions_field_name @ \Institutions
+						<= Institution_add $mol_button_minor
+							sub / <= Institution_add_icon $mol_icon_plus
+							click? <=> institution_add? null
+					Content <= Institution_content $mol_list
+						rows <= institution_rows /
+							<= Institution_form*0 $mol_list rows /
+								<= Student_group* $mol_form_group sub /
+									<= Specialty_field* $mol_form_field
+										name @ \Specialty
+										Content <= Specialty_control* $mol_string
+											value? <=> specialty*? \
+									<= Degree_field* $mol_form_field
+										name @ \Degree
+										Content <= Degree_control* $mol_string
+											value? <=> degree*? \
+								<= Date_finish* $mol_form_field
+									name @ \Graduation date
+									Content <= Date_finish_control* $mol_date
+										value_moment? <=> date_finish*? null
+								<= Institution_group* $mol_form_group sub /
+									<= Institution_field* $mol_form_field
+										name @ \Institution
+										Content <= Institution_control* $mol_string
+											value? <=> institution*? \
+									<= Department_field* $mol_form_field
+										name @ \Department
+										Content <= Department_control* $mol_string
+											value? <=> department*? \
+								<= Institution_drop_row* $mol_row sub /
+									<= Institution_drop* $mol_button_minor
+										sub / <= Institution_drop_icon* $mol_icon_delete
+										click? <=> institution_drop*? null
+				<= Work $mol_form
+					title @ \Work
+					- Foot null
+					form_fields /
+						- \job_status skills languages position company industry functions date_start date_end
+						<= Job_status_field $mol_form_field
+							name @ \Job status
+							Content <= Job_status_control $mol_switch
+								value? <=> job_status? \
+								options *
+									student @ \Student
+									working_for_hire @ \Working for hire
+									self_employed @ \Self-employed
+									unemployed @ \Unemployed
+						<= Skills_field $mol_form_field
+							- Content null
+							label /
+								<= name <= Skills_field_name $mol_paragraph 
+									title @ \Skills
+								<= Skills_control $mol_select_list
+									value? <=> skills? /
+									dictionary <= skills_dict *
+										programming @ \Programming
+										design @ \Design
+										managment @ \Managment
+							-
+								name @ \Skills
+								Content <= Skills_control $mol_select_list
+									value? <=> skills?
+									dictionary <= skills_dict *
+										programming @ \Programming
+										design @ \Design
+										managment @ \Managment
+						<= Jobs_field $mol_form_field
+							label /
+								<= jobs_field_name @ \Experience
+								<= Job_add $mol_button_minor
+									sub / <= Job_add_icon $mol_icon_plus
+									click? <=> job_add? null
+							Content <= Jobs_content $mol_list
+								rows <= job_rows /
+									<= Job_form*0 $mol_list
+										rows /
+											<= Employer_group* $mol_form_group sub /
+												<= Position_field* $mol_form_field
+													name @ \Position
+													Content <= Position_control* $mol_string
+														value? <=> position*? \
+											<= Date_group* $mol_form_group sub /
+												<= Date_start_field* $mol_form_field
+													name @ \Start date
+													Content <= Date_start_control* $mol_date
+														value_moment? <=> date_start*? null
+												<= Date_end_field* $mol_form_field
+													name @ \End date
+													Content <= Date_end_content* $mol_view sub /
+														<= Date_end_control* $mol_date
+															value_moment? <=> date_end*? null
+														<= Up_to_present_control* $mol_check_box
+															title @ \Up to present
+															checked? <=> present*? false
+											<= Company_group* $mol_form_group sub /
+												<= Company_field* $mol_form_field
+													name @ \Company
+													Content <= Company_control* $mol_string
+														value? <=> company*? \
+												<= Industry_field* $mol_form_field
+													name @ \Industry
+													Content <= Industry_contrl* $mol_string
+														value? <=> industry*? \
+											<= Functions_field* $mol_form_field
+												name @ \Functions
+												Content <= Functions_control* $mol_textarea
+													hint @ \Your job functions
+													value? <=> functions*? \
+											<= Job_drop_row* $mol_row sub /
+												<= Job_drop* $mol_button_minor
+													sub / <= Job_drop_icon* $mol_icon_delete
+													click? <=> job_drop*? null
 				<= Exp_field $mol_form_field
-					name \Опыт работы и/или общественной/проектной деятельности/волонтерства
+					name \Опыт общественной/проектной деятельности/волонтерства
 					Content <= Exp_control $mol_textarea
 						value? <=> exp? \
 						enabled <= enabled
-				<= Mail_field $mol_form_field
-					name \E-mail
-					bid <= mail_bid \
-					Content <= Mail_control $mol_string
-						hint \name@domain.com
-						value? <=> mail? \
-						disabled <= disabled
-				- - канал привлечения (есть в тз, для статистики)
-			buttons /
+				<= Contacts $mol_form_group sub /
+					<= Phone_field $mol_form_field
+						name @ \Phone
+						Content <= Phone_control $mol_phone
+					<= Email_field $mol_form_field
+						name @ \Email
+						Content <= Email_control $mol_string
+							hint @ \my_email@mail.ru
+				<= Accept $mol_paragraph
+					title \Нажимая кнопку «Подать заявку», ты соглашаешься на обработку персональных данных, указанных тобой в анкете (включая контактную информацию и фотографии), в рамках проекта «Карьерный портал Правительства Москвы» в соответствии с текстом согласия.
+				- канал привлечения (есть в тз, для статистики)
+
+$mol_text_list $mol_text
+	auto_scroll null
+	attr *
+		^
+		mol_text_list_type <= type \
+	Paragraph* $mol_text_list_item
+		index <= item_index*
+		sub <= block_content*
+
+$mol_text_list_item $mol_paragraph
+	attr *
+		^
+		mol_text_list_item_index <= index 0
+
+$hyoo_intern_cabinet_norole $hyoo_intern_cabinet
+	spreads *
+		info <= Info $mol_page
+			title \Информация для кандидатов
+			body /
+				<= Info_text $mol_text
+					text <= info_text \a
+						\# Стажировка в Правительстве Москвы
+						\Прямо сейчас ты делаешь свой первый шаг на пути к карьере в Правительстве Москвы — участвуешь в отборе на стажировку, которая пройдет с 1 августа 2023 года по 31 января 2024 года. **Мы ждем твою заявку до 17 апреля.**
+						\Стать стажерами Правительства Москвы могут студенты бакалавриата или специалитета, обучающиеся на последнем курсе, магистранты и выпускники вузов, получившие первое образование с 2016 по 2022 год.
+						\**Чтобы начать заполнение заявки, перейди по ссылке ниже. Внимательно проверь, правильно ли введены все данные и особенно адрес электронной почты — на него в течение двух недель после подачи заявки придет информация о твоих следующих шагах.**
+						\Анкета — это начало нашего знакомства. Мы хотим узнать о твоем образовании, опыте работы, если он есть, увлечениях или внеучебной деятельности, о навыках, которые ты приобрел во время учебы. Обязательно заполни анкету полностью перед подачей заявки — мы не сможем увидеть изменения, внесенные после отклика.
+						\Желаем удачи!
+				<= Resume_link $mol_button_major
+					title \Перейти к заполнению заявки
+					click? <=> open_resume? null
+		resume_page <= Resume_page $mol_page
+			title \Заполнить заявку
+			body /
+				<= Resume $hyoo_intern_resume_card
+					person <= user
 				<= Send_resume $mol_button_major
 					- (тз) Модуль «Подать заявку» – должен позволять отправлять заявку на участие в отборе на стажировку, видеть статус заявки на стажировку: отказ в прохождении на стажировку, прохождение на следующий этап отбора, прохождение на стажировку.
-					title \Отправить
-					click? <=> submit?
+					title \Подать заявку
+					click? <=> send_resume? null
+				- <= Send_notify $mol_paragraph
+					title \Заявка подана, ответное письмо будет отправлено на твою электронную почту
+		sign <= Sign $mol_page
+			title \Вход в личный кабинет
+			body /
+				<= Sign_info $mol_text
+					text \
+						\Твой аккаунт будет автоматически привязан к браузеру на этом устройстве.
+						\Перейти в личный кабинет:
+				<= Open_intern $mol_button_minor
+					title \Стажера
+					click <= role*intern
+				<= Open_curator $mol_button_minor
+					title \Куратора
+					click <= role*curator
+				<= Open_mentor $mol_button_minor
+					title \Наставника
+					click <= role*mentor
+				<= Open_manager $mol_button_minor
+					title \Специалиста отдела кадров
+					click <= role*manager
 
-$hyoo_intern_catalog_interns $hyoo_intern_catalog_scroll
-	access \get
-	menu_title \Стажеры
-	Page_content* $mol_view
+$hyoo_intern_campaign_card $mol_page
+	campaign $hyoo_intern_campaign
+	title \Кампания стажировки
+	body /
+		<= Campaign_form $mol_form_draft
+			model <= campaign
+			value_str*? => value_str*?
+			form_fields /
+				<= Name_field $mol_form_field
+					name \Наименование
+					Content <= Name $mol_string
+						value? <=> value_str*name?
+
+$hyoo_intern_catalog_scroll $mol_book2
+	Placeholder null
+	ids /
+		\test
+	ids_numered /
+	pages /
+		<= Rows $mol_page
+			title <= menu_title \Rows
+			tools <= menu_tools /$mol_view
+			body <= menu_body /
+				<= Row_list $mol_list
+					rows <= links /
+						<= Row_link*0 $mol_link
+							title <= row_title* \
+							arg * id <= id* \
+							click*? <=> click*? null
+			foot <= menu_foot /$mol_view
+		<= Pages $mol_scroll
+			sub <= spreads /
+	Page* $mol_view
 		sub /
-			<= Resume_card* $hyoo_intern_resume_card
+			<= Page_link* $mol_link
+				minimal_height 40
+				title <= page_title* \
+				arg * id <= id*
+			<= Page_content* $mol_view
+				sub <= page_content* /$mol_view_content
+
+$mol_icon_filter $mol_icon path \M14,12V19.88C14.04,20.18 13.94,20.5 13.71,20.71C13.32,21.1 12.69,21.1 12.3,20.71L10.29,18.7C10.06,18.47 9.96,18.16 10,17.87V12H9.97L4.21,4.62C3.87,4.19 3.95,3.56 4.38,3.22C4.57,3.08 4.78,3 5,3V3H19V3C19.22,3 19.43,3.08 19.62,3.22C20.05,3.56 20.13,4.19 19.79,4.62L14.03,12H14Z
+
+$hyoo_intern_catalog_entities $hyoo_intern_catalog_scroll
+	entity_links $hyoo_intern_entity_links
+	access \mod
+	item* null
+	Page_content_view* $mol_list
+		sub /
+			<= Card_view* $mol_view
+	Page_content_edit* $mol_list
+		sub /
+			<= Card_edit* $mol_view
+			<= Drop* $mol_button_minor
+				title \Удалить
+				click <= drop* null
 	menu_tools /
+		<= Filter $mol_check_icon
+			Icon <= Filter_icon $mol_icon_filter
+			checked? <=> filter_opened? false
+	menu_foot /
 		<= Add $mol_button_minor
+			sub / <= Add_icon $mol_icon_plus
 			click? <=> add? null
+	Filter_form $mol_form_draft
+		form_fields <= filter_form_fields /
+		buttons /
+			<= Apply_filter $mol_button_minor
+				title \Применить
+
+$hyoo_intern_catalog_curators $hyoo_intern_catalog_entities
+	menu_title \Кураторы
+	Card_view* $hyoo_intern_person_card
+		disabled true
+		person <= item*
+	Card_edit* $hyoo_intern_person_card
+		person <= item*
+
+$hyoo_intern_catalog_interns $hyoo_intern_catalog_entities
+	menu_title \Стажеры
+	Card_view* $hyoo_intern_person_card
+		disabled true
+		person <= item* $hyoo_intern_person
+	Card_edit* $hyoo_intern_person_card
+		person <= item*
 
 $hyoo_intern_vacancy_card $mol_view
+	vacancy $hyoo_intern_vacancy
 	sub /
 		<= Form $mol_form_draft
+			model <= vacancy
 			value_str*? => value_str*?
 			form_fields /
 				<= Scope_field $mol_form_field
 					name \Сфера деятельности
 					Content <= Scope $mol_string
-				<= Adress_field $mol_form_field
+				<= Company_field $mol_form_field
 					name \Организация
-					Content <= Adress $mol_string
+					Content <= Company $mol_string
 				<= Tasks_field $mol_form_field
 					name \Обязанности и задачи
 					Content <= Tasks $mol_string
@@ -1431,132 +1433,108 @@ $hyoo_intern_vacancy_card $mol_view
 					name \Тестовые задания
 					Content <= Tests $mol_string
 
-$hyoo_intern_catalog_vacancies $hyoo_intern_catalog_scroll
-	access \get
+$hyoo_intern_catalog_vacancies $hyoo_intern_catalog_entities
 	menu_title \Вакансии (заявки на стажеров)
-	Page_content* $mol_view
-		sub /
-			<= Vacancy_card* $hyoo_intern_vacancy_card
-	menu_tools /
-		<= Add $mol_button_minor
-			click? <=> add? null
+	Card_view* $hyoo_intern_vacancy_card
+		vacancy <= item* $hyoo_intern_vacancy
+	Card_edit* $hyoo_intern_vacancy_card
+		vacancy <= item*
+
+$hyoo_intern_company_card $mol_view
+	disabled false
+	company $hyoo_intern_company
+	sub /
+		<= Form $mol_form_draft
+			value_str*? => value_str*?
+			model <= company
+			form_fields /
+				<= Name_field $mol_form_field
+					name \Наименование
+					Content <= Name $mol_string
+						value? <=> value_str*name?
+						disabled <= disabled
+				<= Scope_field $mol_form_field
+					name \Сфера деятельности
+					Content <= Scope $mol_string
+						value? <=> value_str*scope?
+						disabled <= disabled
+				<= Adress_field $mol_form_field
+					name \Адрес
+					Content <= Adress $mol_string
+						value? <=> value_str*adress?
+						disabled <= disabled
+
+$hyoo_intern_catalog_companies $hyoo_intern_catalog_entities
+	menu_title \Организации
+	Card_view* $hyoo_intern_company_card
+		disabled true
+		company <= item* $hyoo_intern_company
+	Card_edit* $hyoo_intern_company_card
+		company <= item*
+	filter_form_fields /
+		<= Scope_field $mol_form_field
+			name \Сфера деятельности
+			Content <= Scope $mol_string
+
+$hyoo_intern_manager_card $mol_view
+	disabled false
+	manager $hyoo_intern_manager
+	sub /
+		<= Form $mol_form_draft
+			model <= manager
+			value_str*? => value_str*?
+			form_fields /
+				<= Person_field $mol_form_field
+					Content <= Person $hyoo_intern_person_card
+						person <= person $hyoo_intern_person
+						disabled <= disabled
+				<= Company_field $mol_form_field
+					name \Организация
+					Content <= Company $hyoo_intern_company_card
+						company <= company $hyoo_intern_company
+						disabled <= disabled
+
+$hyoo_intern_catalog_managers $hyoo_intern_catalog_entities
+	menu_title \Кадровые специалисты
+	Card_view* $hyoo_intern_manager_card
+		disabled true
+		manager <= item* $hyoo_intern_manager
+	Card_edit* $hyoo_intern_manager_card
+		manager <= item*
+
+$hyoo_intern_catalog_mentors $hyoo_intern_catalog_entities
+	menu_title \Наставники
+	Card_view* $hyoo_intern_person_card
+		disabled true
+		person <= item*
+	Card_edit* $hyoo_intern_person_card
+		person <= item*
 
 $hyoo_intern_cabinet_admin $hyoo_intern_cabinet
+	profile_title \Администратор
 	campaign $hyoo_intern_campaign
-		companies_ids => companies_ids
-		company* => company*
-		company_add => company_add
-		company_drop* => company_drop*
-		managers_ids => managers_ids
-		manager* => manager*
-		manager_add => manager_add
+		companies => companies
+		managers => managers
+		curators => curators
+		mentors => mentors
+		candidates_on_review => candidates_on_review
 	spreads *
+		profile <= Profile
 		campaign <= Campaign $hyoo_intern_campaign_card
 			campaign <= campaign
-		companies <= Companies $hyoo_intern_catalog_companies
-			ids <= companies_ids
-			company* <= company*
-			add <= company_add
-			drop* <= company_drop*
-		managers <= Managers $hyoo_intern_catalog_managers
-			ids <= managers_ids
-			manager* <= manager*
-			add <= manager_add
-		mentors <= Mentors $hyoo_intern_catalog_mentors
 		curators <= Curators $hyoo_intern_catalog_curators
-		interns <= Interns $hyoo_intern_catalog_interns
-		vacancies <= Vacancies $hyoo_intern_catalog_vacancies
-
-$mol_map_yandex_mark $mol_object
-	pos $mol_vector_2d /
-		0
-		0
-	box $mol_vector_2d /
-		<= box_lat $mol_vector_range /
-			0
-			0
-		<= box_lon $mol_vector_range /
-			0
-			0
-	hint \
-	title <= address \
-	content \
-	object null
-
-$mol_map_yandex $mol_view
-	zoom?val 2
-	center?val /
-		0
-		0
-	objects /$mol_map_yandex_mark
-
-$hyoo_intern_cabinet_intern $hyoo_intern_cabinet
-	spreads *
-		profile <= Intern_profile $mol_page
-			title \Профиль
-			body /
-				<= Resume_card $hyoo_intern_resume_card
-		career_school <= Career_school $mol_page
-			- (тз) Модуль «Карьерная школа» – должен позволять переводить на платформу с онлайн-треком Карьерной школы Правительства Москвы и telegram-канал.
-			- Этап 2. Релевантные кандидаты в течении недели просматривают вебинары для знакомства со структурой Правительства Москвы, а также проходят образовательный онлайн-трек с конспектами, тестированиями и видеоэкскурсиями.
-			title \Карьерная школа
-			- Прохождение программы развития стажеров явялется обязательной частью для получения сертификата об окончании стажировки в Правительстве Москвы.
-			- Посещений всех мастер-классов. 100%
-		tests <= Tests $mol_page
-			- (тз) Модуль «Тестирование» – должен позволять переводить на платформу для прохождения тестирования и сохранять результаты пройденного тестирования.
-			- Этап 3. Тестирование Релевантные кандидаты проходят тестирование по русскому языку, анализу информации, компьютерной грамотности.
-			title \Тестирование
-			- Прохождение трека Русский язык 85%
-			- Прохождение трека Карьерный Шаг в Правительство Москвы 90%
-			- Прохождение трека Анализ информации 85%
-			- Один трек на выбор:
-				- Прохождение трека Word 85%
-				- Прохождение трека Excel 85%
-				- Прохождение трека PowerPoint 85%
-		championship <= Championship $mol_page
-			- - из тз: стажер - это кандидат, который прошел 3 этапа
-			- - должно быть неактивно до прохождения предыдущих этапов?
-			- Этап 4. Кейс-чемпионат 400 участников, прошедших отбор по итогам тестирования, делятся на команды и решают кейсы – реальные задачи от организаций Правительства Москвы, презентуя решения перед членами жюри.
-			title \Кейс-чемпионат
-		invitations <= Intern_invitations $hyoo_intern_catalog_vacancies
-			- (тз) Модуль «Приглашения» – должен позволять видеть доступные места для стажировки в органах власти, отправлять тестовые задания и
-				видеть статусы проверки заданий и приглашения по итогам прохождения заданий от мест стажировок, а также позволять
-				подтверждать принятие приглашения на стажировку. Также в списке доступных мест должен быть отражен рейтинг организации, 
-				отзывы стажеров и оценка работы наставника прошлыми стажерами.
-			- Приглашения на стажировку направляются стажеру, также может прийти приглашение пройти собеседование на платформе. Стажер может подтвердить принятие приглашения.
-			- - если организация сама пригласила конкретного кандидата на собеседование, можно это указывать здесь же
-			menu_title \Приглашения
-		responses <= Responses $mol_page
-			- Этап 5. Тестовое задание и собеседование с работодателямию Кандидаты посещают марафон работодателей, где в экспресс-формате знакомятся с доступными для прохождения стажировки организациями. Работодатели направляют тестовые задания кураторам, а кураторы стажерам, которые они могут решить для отклика на вакансии. После получения решенных тестовых заданий, работодатель может пригласить стажера на собеседование. 
-			title \Мои отклики
-		map <= Map_page $mol_page
-			title \Карта
-			body /
-				<= Map $mol_map_yandex
-		- (тз) Модуль «Карта» – должен позволять видеть стажерам на карте Москвы, где расположены доступные места стажировки.
-		- (тз) Модуль «Обратная связь о работе наставника» – должен позволять по итогам 2-х месяцев стажировки ставить оценку работы наставника и оставить текстовый отзыв.
-		- (тз, доп) Модуль «Расписание» – должен позволять видеть стажерам расписание обязательных мероприятий в рамках программы развития: вебинары, экскурсии, мастер-классы и т.д. У кураторов должна быть возможность оформить расписание на платформе.
-			- Даты Время Название Спикер
-			- 15 февраля 10:00 - 12:00 мастер-класс "Пиши как профи" Ермаков
-		internship <= Internship $mol_page
-			title \Моя стажировка
-			body /
-				<= Vacancy $hyoo_intern_vacancy_card
-			- - из тз: возможность смены места каждые 2 месяца.
-		timesheet <= Timesheet $mol_page
-			title \Табель рабочего времени
-
-$hyoo_intern_cabinet_curator $hyoo_intern_cabinet
-	spreads *
-		profile <= Profile $mol_page
-			title \Профиль
-			body /
-				<= Person_card $hyoo_intern_person_card
-					person <= user
-		interns <= Interns $hyoo_intern_catalog_interns
-			menu_title \Мои стажеры
-		candidats <= Candidats $hyoo_intern_catalog_interns
-			menu_title \Заявки на стажировку (кандидаты)
+			entity_links <= curators
+			menu_foot /
+				<= Add_curator $mol_button_minor
+					sub / <= Add_icon $mol_icon_plus
+					click? <=> add_curator? null
+				<= Add_curator_person $mol_string
+					value? <=> add_curator_person_id? \
+		resumes <= Resumes $hyoo_intern_catalog_interns
+			menu_title \Заявки на стажировку (резюме)
+			entity_links <= candidates_on_review
+		candidates <= Candidates $hyoo_intern_catalog_interns
+			menu_title \Кандидаты
 		requested_invitations <= Requested_invitations $hyoo_intern_catalog_vacancies
 			menu_title \Потребность в стажерах (приглашения)
 			- (тз) Модуль «Потребность в стажерах» - должен позволять видеть заполненные заявки на стажеров от кадров, редактировать их,
@@ -1565,7 +1543,20 @@ $hyoo_intern_cabinet_curator $hyoo_intern_cabinet
 				- Заявки на стажеров отражаются в разделе «Приглашения», стажеры откликаются на них с помощью прохождения заданий.
 				- Результаты откликов на заявки отражаются в личных кабинетах Кадров, а также у кураторов стажировки в административном блоке.
 			- - мб оставить "подтвержденные" и "неподтвержденные" в одном разделе, сделав фильтр?
-		curator_statistics <= Curator_statistics $mol_page
+		companies <= Companies $hyoo_intern_catalog_companies
+			entity_links <= companies
+		managers <= Managers $hyoo_intern_catalog_managers
+			entity_links <= managers
+		mentors <= Mentors $hyoo_intern_catalog_mentors
+			entity_links <= mentors
+			menu_foot /
+				<= Add_mentor $mol_button_minor
+					sub / <= Add_icon $mol_icon_plus
+					click? <=> add_mentor? null
+				<= Add_mentor_person $mol_string
+					value? <=> add_mentor_person_id? \
+		vacancies <= Vacancies $hyoo_intern_catalog_vacancies
+		statistics <= Statistics $mol_page
 			title \Статистика
 			- (тз) Модуль «Статистика» – должен позволять автоматически сводить статистику по заявкам кандидатов, данным стажеров и заявкам на
 				стажеров, давать прогнозирование статистических данных с помощью искусственного интеллекта. 
@@ -1578,16 +1569,193 @@ $hyoo_intern_cabinet_curator $hyoo_intern_cabinet
 			видеть их прогресс обучения, статус получения сертификата, повторное прохождение и рейтинг по оценкам стажеров.
 		- (тз, доп) Модуль «Заявления стажеров» – должен позволять отслеживать статус заявления на отпуск и увольнения стажера, автоматически интегрировать данные о согласованных заявлениях в табель стажеров
 		- (тз, доп) Модуль «Рассылки» – должен позволять делать автоматические рассылки по почтам стажеров, наставникам и кадровым специалистам, а также внутри сайта направлять уведомления.
+		career_school <= Career_school $mol_page
+			- (тз) Модуль «Карьерная школа» – должен позволять переводить на платформу с онлайн-треком Карьерной школы Правительства Москвы и telegram-канал.
+			- Этап 2. Релевантные кандидаты в течении недели просматривают вебинары для знакомства со структурой Правительства Москвы, а также проходят образовательный онлайн-трек с конспектами, тестированиями и видеоэкскурсиями.
+			title \Карьерная школа
+			body /
+				<= Career_school_text $mol_textarea
+					value <= career_school_text \
+						\[Ссылка 1](https://talent.mos.ru)
+						\[Ссылка 2](https://talent.mos.ru)
+		tests <= Tests $mol_page
+			- (тз) Модуль «Тестирование» – должен позволять переводить на платформу для прохождения тестирования и сохранять результаты пройденного тестирования.
+			- Этап 3. Тестирование Релевантные кандидаты проходят тестирование по русскому языку, анализу информации, компьютерной грамотности.
+			title \Этап тестирования
+			body /
+				<= Tests_text $mol_textarea
+					value <= tests_text \
+						\[Прохождение трека Русский язык](https://talent.mos.ru)
+						\[Ссылка 2](https://talent.mos.ru)
+						\[Прохождение трека Карьерный Шаг в Правительство Москвы](https://talent.mos.ru)
+						\[Прохождение трека Анализ информации](https://talent.mos.ru)
+						\Один трек на выбор:
+						\[Прохождение трека Word](https://talent.mos.ru)
+						\[Прохождение трека Excel](https://talent.mos.ru)
+						\[Прохождение трека PowerPoint](https://talent.mos.ru)
+		championship <= Championship $mol_page
+			- Этап 4. Кейс-чемпионат 400 участников, прошедших отбор по итогам тестирования, делятся на команды и решают кейсы – реальные задачи от организаций Правительства Москвы, презентуя решения перед членами жюри.
+			title \Кейс-чемпионат
+			body /
+				<= Championship_text $mol_textarea
+					value <= championship_text \
+						\Защити свой проект на кейс-чемпионате.
+
+$hyoo_intern_cabinet_curator $hyoo_intern_cabinet_admin
+	profile_title \Профиль куратора
+
+$mol_icon_minus $mol_icon path \M19,13H5V11H19V13Z
+
+$mol_number $mol_view
+	precision_view <= precision 1
+	precision_change <= precision 1
+	value_min -Infinity
+	value_max +Infinity
+	value? +NaN
+	enabled true
+	sub /
+		<= String $mol_string
+			- \ we don't want native number controls in mobile devices
+			- \ https://stackoverflow.com/questions/3790935/can-i-hide-the-html5-number-input-s-spin-box
+			type <= type \tel
+			value?val <=> value_string?val \
+			hint <= hint \ 
+			enabled <= string_enabled <= enabled
+			submit? <=> submit? null
+		<= Dec $mol_button_minor
+			event_click? <=> event_dec? null
+			enabled <= dec_enabled <= enabled
+			sub / <= dec_icon $mol_icon_minus
+		<= Inc $mol_button_minor
+			event_click? <=> event_inc? null
+			enabled <= inc_enabled <= enabled
+			sub / <= inc_icon $mol_icon_plus
+
+$hyoo_intern_cabinet_intern $hyoo_intern_cabinet
+	profile_title \Профиль стажера
+	profile_name_sub / <= Stage_title $mol_paragraph
+		title <= stage_title \1 этап стажировки
+	stage? 3
+	profile_body /
+		<= Profile_card
+		<= Sign_out
+		<= Intern_stage_field $mol_form_field
+			name \Demo intern_stage
+			control <= Intern_stage_number $mol_number
+				value_min 1
+				value_max 5
+				value? <=> stage?
+	stage_spreads *
+		1 *
+			profile <= Profile
+			resume <= Resume $mol_page
+				title \Анкета
+				body /
+					<= Resume_card $hyoo_intern_resume_card
+						person <= user
+		2 *
+			profile <= Profile
+			resume <= Resume
+			career_school <= Career_school $mol_page
+				- (тз) Модуль «Карьерная школа» – должен позволять переводить на платформу с онлайн-треком Карьерной школы Правительства Москвы и telegram-канал.
+				- Этап 2. Релевантные кандидаты в течении недели просматривают вебинары для знакомства со структурой Правительства Москвы, а также проходят образовательный онлайн-трек с конспектами, тестированиями и видеоэкскурсиями.
+				title \Карьерная школа
+				body /
+					<= Career_school_text $mol_text
+						text <= career_school_text \
+							\[Ссылка 1](https://talent.mos.ru)
+							\[Ссылка 2](https://talent.mos.ru)
+				- Прохождение программы развития стажеров явялется обязательной частью для получения сертификата об окончании стажировки в Правительстве Москвы.
+				- Посещений всех мастер-классов. 100%
+		3 *
+			profile <= Profile
+			resume <= Resume
+			career_school <= Career_school
+			tests <= Tests $mol_page
+				- (тз) Модуль «Тестирование» – должен позволять переводить на платформу для прохождения тестирования и сохранять результаты пройденного тестирования.
+				- Этап 3. Тестирование Релевантные кандидаты проходят тестирование по русскому языку, анализу информации, компьютерной грамотности.
+				title \Тестирование
+				body /
+					<= Tests_text $mol_text
+						text <= tests_text \
+							\[Прохождение трека Русский язык](https://talent.mos.ru)
+							\[Ссылка 2](https://talent.mos.ru)
+							\[Прохождение трека Карьерный Шаг в Правительство Москвы](https://talent.mos.ru)
+							\[Прохождение трека Анализ информации](https://talent.mos.ru)
+							\Один трек на выбор:
+							\[Прохождение трека Word](https://talent.mos.ru)
+							\[Прохождение трека Excel](https://talent.mos.ru)
+							\[Прохождение трека PowerPoint](https://talent.mos.ru)
+		4 *
+			profile <= Profile
+			resume <= Resume
+			championship <= Championship $mol_page
+				- Этап 4. Кейс-чемпионат 400 участников, прошедших отбор по итогам тестирования, делятся на команды и решают кейсы – реальные задачи от организаций Правительства Москвы, презентуя решения перед членами жюри.
+				title \Кейс-чемпионат
+				body /
+					<= Championship_text $mol_text
+						text <= championship_text \
+							\Защити свой проект на кейс-чемпионате.
+			invitations <= Intern_invitations $hyoo_intern_catalog_vacancies
+			- (тз) Модуль «Приглашения» – должен позволять видеть доступные места для стажировки в органах власти, отправлять тестовые задания и
+				видеть статусы проверки заданий и приглашения по итогам прохождения заданий от мест стажировок, а также позволять
+				подтверждать принятие приглашения на стажировку. Также в списке доступных мест должен быть отражен рейтинг организации, 
+				отзывы стажеров и оценка работы наставника прошлыми стажерами.
+			- Приглашения на стажировку направляются стажеру, также может прийти приглашение пройти собеседование на платформе. Стажер может подтвердить принятие приглашения.
+			- - если организация сама пригласила конкретного кандидата на собеседование, можно это указывать здесь же
+				menu_title \Приглашения
+			responses <= Responses $mol_page
+				- Этап 5. Тестовое задание и собеседование с работодателямию Кандидаты посещают марафон работодателей, где в экспресс-формате знакомятся с доступными для прохождения стажировки организациями. Работодатели направляют тестовые задания кураторам, а кураторы стажерам, которые они могут решить для отклика на вакансии. После получения решенных тестовых заданий, работодатель может пригласить стажера на собеседование. 
+				title \Мои отклики
+			- map <= Map_page $mol_page
+				title \Карта
+				body /
+					<= Map $mol_map_yandex
+			- (тз) Модуль «Карта» – должен позволять видеть стажерам на карте Москвы, где расположены доступные места стажировки.
+			- (тз) Модуль «Обратная связь о работе наставника» – должен позволять по итогам 2-х месяцев стажировки ставить оценку работы наставника и оставить текстовый отзыв.
+			- (тз, доп) Модуль «Расписание» – должен позволять видеть стажерам расписание обязательных мероприятий в рамках программы развития: вебинары, экскурсии, мастер-классы и т.д. У кураторов должна быть возможность оформить расписание на платформе.
+				- Даты Время Название Спикер
+				- 15 февраля 10:00 - 12:00 мастер-класс "Пиши как профи" Ермаков
+		5 *
+			profile <= Profile
+			resume <= Resume
+			internship <= Internship $mol_page
+				title \Моя стажировка
+				body /
+					<= Vacancy $hyoo_intern_vacancy_card
+				- - из тз: возможность смены места каждые 2 месяца.
+			timesheet <= Timesheet $mol_page
+				title \Табель рабочего времени
+
+$hyoo_intern_cabinet_mentor $hyoo_intern_cabinet
+	profile_title \Профиль наставника
+	spreads *
+		profile <= Profile
+		company <= Company_page $mol_page
+			title \Организация
+			body /
+				<= Company $hyoo_intern_company_card
+		- interns <= Interns $hyoo_intern_catalog_interns
+			menu_title \Найти кандидата
+		vacancy <= Vacancy_page $mol_page
+			title \Заявка на стажера
+			body /
+				<= Vacancy $hyoo_intern_vacancy_card
+		interns <= Interns $hyoo_intern_catalog_interns
+			menu_title \Отклики на заявку
+		- interns <= Interns $hyoo_intern_catalog_interns
+			menu_title \Ход стажировки
+		- (тз) Модуль «Заявка» – должен видеть информацию о стажере, который к нему направлен: результаты заданий, статус приглашения, контакты стажера, резюме, результаты оценки
+		- (тз) Модуль «Обратная связь о работе стажера» – должен позволять по итогам 2-х месяцев стажировки ставить оценку работы стажера и оставить текстовый отзыв.
+		- (тз, доп) Модуль «Школа наставников» – должен позволять переходить на платформу с треком Школы наставников, видеть % прохождения программы и рейтинг.
+		- (тз, доп) Модуль «Расписание стажера» – должен позволять видеть расписание мероприятий в рамках программы развития, а также сроки распределения стажеров.
 
 $hyoo_intern_cabinet_manager $hyoo_intern_cabinet
+	profile_title \Профиль специалиста ОК
 	spreads *
-		profile <= Profile $mol_page
-			title \Профиль
-			body /
-				<= Person_card $hyoo_intern_person_card
-					person <= user
+		profile <= Profile
 		company <= Company_page $mol_page
-			title \Моя организация
+			title \Организация
 			body /
 				<= Company $hyoo_intern_company_card
 		mentors <= Mentors $hyoo_intern_catalog_mentors
@@ -1601,58 +1769,67 @@ $hyoo_intern_cabinet_manager $hyoo_intern_cabinet
 		- (тз, доп) Модуль «Расписание стажера» – должен позволять видеть кадровым специалистам расписание мероприятий в рамках программы развития стажеров, которых направили к ним в организацию: вебинары, экскурсии, мастер-классы и т.д.
 		- (тз, доп) Модуль «Рейтинг» – должен позволять видеть рейтинг всех наставников и рейтинг организаций, по оценкам отзывов стажеров, а также видеть рейтинг стажеров по итогам прохождения отбора и отзывам по итогам этапов прохождения стажировки.
 
-$hyoo_intern_cabinet_mentor $hyoo_intern_cabinet
-	spreads *
-		profile <= Profile $mol_page
-			title \Профиль
-			body /
-				<= Person_card $hyoo_intern_person_card
-					person <= user
-		company <= Company_page $mol_page
-			title \Моя организация
-			body /
-				<= Company $hyoo_intern_company_card
-		interns <= Interns $hyoo_intern_catalog_interns
-			menu_title \Мои стажеры
-		- (тз) Модуль «Заявка» – должен видеть информацию о стажере, который к нему направлен: результаты заданий, статус приглашения, контакты стажера, резюме, результаты оценки
-		- (тз) Модуль «Обратная связь о работе стажера» – должен позволять по итогам 2-х месяцев стажировки ставить оценку работы стажера и оставить текстовый отзыв.
-		- (тз, доп) Модуль «Школа наставников» – должен позволять переходить на платформу с треком Школы наставников, видеть % прохождения программы и рейтинг.
-		- (тз, доп) Модуль «Расписание стажера» – должен позволять видеть расписание мероприятий в рамках программы развития, а также сроки распределения стажеров.
-
 $hyoo_intern $mol_book2
 	plugins /
 		<= Theme $mol_theme_auto
 	user $hyoo_intern_person
+	campaign $hyoo_intern_campaign
 	yard $hyoo_sync_client
-	role? \admin
-	pages /
+	role? \norole
+	- pages /
 		<= Demo $mol_page
 			body /
-				<= Role $mol_switch
-					value? <=> role?
-					options *
-						norole \norole
-						admin \admin
-						intern \intern
-						curator \curator
-						manager \manager
-						mentor \mentor
+				<= Peer_field $mol_form_field
+					name \Peer_id
+					control <= Peer_id $mol_paragraph
+						title? <=> peer_id? \
+				<= Person_id_field $mol_form_field
+					name \Person_id
+					control <= Person_id $mol_paragraph
+						title? <=> user_id? \
+				<= Campaign_field $mol_form_field
+					name \Campaign_id
+					control <= Campaign_id $mol_string
+						value? <=> campaign_id? \
+				<= Campaign_owner_peer_id_field $mol_form_field
+					name \Campaign_owner_peer_id
+					control <= Campaign_owner_peer_id $mol_paragraph
+						title <= campaign_owner_peer_id \
+				<= Add_campaign $mol_button_minor
+					click? <=> add_campaign?
+				<= Role_field $mol_form_field
+					name \Role
+					control <= Role $mol_switch
+						value? <=> role?
+						options *
+							norole \norole
+							admin \admin
+							curator \curator
+							intern \intern
+							mentor \mentor
+							manager \manager
 	cabinets *
-		norole <= Sign_cabinet $hyoo_intern_cabinet
-			user <= user
+		norole <= Sign_cabinet $hyoo_intern_cabinet_norole
 			yard <= yard
+			user <= user
+			campaign <= campaign
 		admin <= Admin_cabinet $hyoo_intern_cabinet_admin
-			user <= user
 			yard <= yard
-		intern <= Intern_cabinet $hyoo_intern_cabinet_intern
 			user <= user
-			yard <= yard
+			campaign <= campaign
 		curator <= Curator_cabinet $hyoo_intern_cabinet_curator
-			user <= user
 			yard <= yard
-		manager <= Manager_cabinet $hyoo_intern_cabinet_manager
 			user <= user
+			campaign <= campaign
+		intern <= Intern_cabinet $hyoo_intern_cabinet_intern
 			yard <= yard
+			user <= user
+			campaign <= campaign
 		mentor <= Mentor_cabinet $hyoo_intern_cabinet_mentor
-			user <= user
 			yard <= yard
+			user <= user
+			campaign <= campaign
+		manager <= Manager_cabinet $hyoo_intern_cabinet_manager
+			yard <= yard
+			user <= user
+			campaign <= campaign

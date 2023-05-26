@@ -1064,6 +1064,12 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    class $hyoo_intern_vacancy extends $hyoo_crowd_struct {
+        requirements(next?: string): string;
+    }
+}
+
+declare namespace $ {
     function $mol_reconcile<Prev, Next>({ prev, from, to, next, equal, drop, insert, update, }: {
         prev: readonly Prev[];
         from: number;
@@ -1091,32 +1097,42 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    function $mol_guard_defined<T>(value: T): value is NonNullable<T>;
+}
+
+declare namespace $ {
     let $mol_action: typeof $mol_wire_method;
 }
 
 declare namespace $ {
-    class $hyoo_intern_manager extends $hyoo_crowd_struct {
-        person(next?: $hyoo_intern_person): $hyoo_intern_person | null | undefined;
-        company(next?: string): string;
+    class $hyoo_intern_entity_links<Item extends typeof $hyoo_crowd_node> extends $hyoo_crowd_list {
+        Item: Item;
+        fund(): $hyoo_crowd_fund<Item>;
+        ids(): `${string}_${string}`[];
+        item(id: $mol_int62_string): InstanceType<Item>;
+        items(): InstanceType<Item>[];
+        item_make(): InstanceType<Item>;
+        item_push(obj: InstanceType<Item>): InstanceType<Item>;
+        item_drop(obj: InstanceType<Item>): void;
     }
 }
 
 declare namespace $ {
-    class $hyoo_intern_campaign extends $hyoo_crowd_struct {
-        name(next?: string): string;
-        owner(next?: $hyoo_intern_person): $hyoo_intern_person | null | undefined;
-        companies_node(): $hyoo_crowd_list;
-        companies_ids(): string[];
-        companies(): $hyoo_intern_company[];
-        company(id: string): $hyoo_intern_company;
-        company_add(): $hyoo_intern_company;
-        company_drop(id: string): void;
-        managers_node(): $hyoo_crowd_list;
-        managers_ids(): string[];
-        managers(): $hyoo_intern_manager[];
-        manager(id: string): $hyoo_intern_manager;
-        manager_add(): $hyoo_intern_manager;
-        manager_drop(obj: $hyoo_intern_manager): void;
+    type $mol_blob = Blob;
+    let $mol_blob: {
+        new (blobParts?: readonly BlobPart[], options?: BlobPropertyBag): Blob;
+        prototype: Blob;
+    };
+}
+
+declare namespace $ {
+    class $hyoo_crowd_blob extends $hyoo_crowd_list {
+        uri(): string;
+        type(next?: string): string;
+        blob(next?: $mol_blob): Blob;
+        buffer(next?: Uint8Array, type?: string): Uint8Array;
+        str(next?: string, type?: string): string;
+        json(next?: any, type?: string): any;
     }
 }
 
@@ -1269,30 +1285,69 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $hyoo_intern_company extends $hyoo_crowd_struct {
+    class $hyoo_intern_person extends $hyoo_crowd_struct {
+        peer_id(next?: $mol_int62_string): string;
+        role(next?: string): string;
         name(next?: string): string;
-        adress(next?: string): string;
-        scope(next?: string): string;
-        campaign(next?: $hyoo_intern_campaign): $hyoo_intern_campaign | null | undefined;
-        managers_node(): $hyoo_crowd_list;
-        managers_ids(): string[];
-        managers(): ($hyoo_intern_manager | undefined)[];
-        manager(id: string): $hyoo_intern_manager | undefined;
-        manager_add(): $hyoo_intern_manager | undefined;
-        manager_drop(obj: $hyoo_intern_manager): void;
+        name_family(next?: string): string;
+        email(next?: string): string;
+        mentor_vacancy(): $hyoo_intern_vacancy;
+        signed(next?: boolean): boolean;
+        campaigns(): $hyoo_intern_entity_links<typeof $hyoo_intern_campaign>;
+        avatar_node(): $hyoo_crowd_blob;
+        avatar(): string;
+        about(next?: string): string;
+        status(next?: string): string;
+        country(next?: string): string;
+        city(next?: string): string;
+        phone(next?: string): string;
+        job_status(next?: 'working_for_hire' | 'self-employed' | 'unemployed'): string;
+        skills(next?: string[]): string[];
+        jobs_node(): $hyoo_crowd_list;
+        jobs(next?: Array<{
+            position: string;
+            functions: string;
+            company: string;
+            industry: string;
+            date_start: string;
+            date_end: string;
+            present: boolean;
+        }>): {
+            position: string;
+            functions: string;
+            company: string;
+            industry: string;
+            date_start: string;
+            date_end: string;
+            present: boolean;
+        }[];
+        institutions_node(): $hyoo_crowd_list;
+        institutions(next?: Array<{
+            degree: string;
+            institution: string;
+            department: string;
+            specialty: string;
+            date_finish: string;
+        }>): {
+            degree: string;
+            institution: string;
+            department: string;
+            specialty: string;
+            date_finish: string;
+        }[];
     }
 }
 
 declare namespace $ {
-    class $hyoo_intern_person extends $hyoo_crowd_struct {
+    class $hyoo_intern_campaign extends $hyoo_crowd_struct {
         name(next?: string): string;
-        name_family(next?: string): string;
-        email(next?: string): string;
-        registered(next?: boolean): boolean;
-        campaigns_node(): $hyoo_crowd_list;
-        campaigns(): $hyoo_intern_campaign[];
-        campaign_add(): $hyoo_intern_campaign;
-        campaign_drop(obj: $hyoo_intern_campaign): void;
+        owner(next?: $hyoo_intern_person): $hyoo_intern_person | null | undefined;
+        curators(): $hyoo_intern_entity_links<typeof $hyoo_intern_person>;
+        candidates_on_review(): $hyoo_intern_entity_links<typeof $hyoo_intern_person>;
+        mentors(): $hyoo_intern_entity_links<typeof $hyoo_intern_person>;
+        companies(): $hyoo_intern_entity_links<typeof $hyoo_intern_company>;
+        managers(): $hyoo_intern_entity_links<typeof $hyoo_intern_manager>;
+        curator_add(person_id: $mol_int62_string): $hyoo_intern_person;
     }
 }
 
@@ -1642,12 +1697,63 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
-    class $mol_speck extends $mol_view {
+    class $mol_link extends $mol_view {
+        uri(): string;
+        dom_name(): string;
         attr(): Record<string, any>;
-        style(): Record<string, any>;
+        sub(): readonly $mol_view_content[];
+        arg(): Record<string, any>;
+        event(): Record<string, any>;
+        uri_toggle(): string;
+        hint(): string;
+        hint_safe(): string;
+        target(): string;
+        file_name(): string;
+        current(): boolean;
+        event_click(event?: any): any;
+        click(event?: any): any;
+    }
+}
+
+declare namespace $.$$ {
+    class $mol_link extends $.$mol_link {
+        uri_toggle(): string;
+        uri(): string;
+        uri_off(): string;
+        uri_native(): URL;
+        current(): boolean;
+        file_name(): string;
+        minimal_height(): number;
+        external(): boolean;
+        target(): '_self' | '_blank' | '_top' | '_parent' | string;
+        hint_safe(): string;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_pop extends $mol_view {
+        showed(val?: any): boolean;
+        align_vert(): string;
+        align_hor(): string;
+        prefer(): string;
         sub(): readonly any[];
-        theme(): string;
-        value(): any;
+        sub_visible(): readonly any[];
+        Anchor(): any;
+        align(): string;
+        bubble_content(): readonly $mol_view_content[];
+        height_max(): number;
+        Bubble(): $mol_pop_bubble;
+    }
+    class $mol_pop_bubble extends $mol_view {
+        sub(): readonly $mol_view_content[];
+        style(): Record<string, any>;
+        attr(): Record<string, any>;
+        content(): readonly $mol_view_content[];
+        height_max(): number;
+        align(): string;
     }
 }
 
@@ -1662,6 +1768,44 @@ declare namespace $ {
 }
 
 declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $mol_pop extends $.$mol_pop {
+        showed(next?: boolean): boolean;
+        sub_visible(): any[];
+        height_max(): number;
+        align(): string;
+        align_vert(): "suspense" | "top" | "bottom";
+        align_hor(): "suspense" | "left" | "right";
+        View_port(): $mol_view;
+        view_port(): {
+            width: number;
+            height: number;
+            left: number;
+            right: number;
+            top: number;
+            bottom: number;
+        } | {
+            left: number;
+            top: number;
+            width: number;
+            height: number;
+        };
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_speck extends $mol_view {
+        attr(): Record<string, any>;
+        style(): Record<string, any>;
+        sub(): readonly any[];
+        theme(): string;
+        value(): any;
+    }
 }
 
 declare namespace $ {
@@ -1820,202 +1964,6 @@ declare namespace $ {
 
 declare namespace $ {
     class $mol_button_minor extends $mol_button_typed {
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $mol_check extends $mol_button_minor {
-        attr(): Record<string, any>;
-        sub(): readonly $mol_view_content[];
-        checked(next?: any): boolean;
-        aria_checked(): string;
-        aria_role(): string;
-        Icon(): any;
-        title(): string;
-        Title(): $mol_view;
-        label(): readonly any[];
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $.$$ {
-    class $mol_check extends $.$mol_check {
-        click(next?: Event): void;
-        sub(): readonly $mol_view_content[];
-        label(): readonly any[];
-        aria_checked(): string;
-    }
-}
-
-declare namespace $ {
-    class $mol_check_list extends $mol_view {
-        Option(id: any): $$.$mol_check;
-        options(): Record<string, any>;
-        keys(): readonly string[];
-        sub(): readonly $mol_check[];
-        option_checked(id: any, val?: any): boolean;
-        option_title(id: any): string;
-        option_label(id: any): readonly any[];
-        enabled(): boolean;
-        option_enabled(id: any): boolean;
-        option_hint(id: any): string;
-        items(): readonly $mol_check[];
-    }
-}
-
-declare namespace $.$$ {
-    class $mol_check_list extends $.$mol_check_list {
-        options(): {
-            [key: string]: string;
-        };
-        keys(): readonly string[];
-        items(): $mol_check[];
-        option_title(key: string): string;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $mol_switch extends $mol_check_list {
-        value(val?: any): string;
-    }
-}
-
-declare namespace $ {
-    class $mol_state_session<Value> extends $mol_object {
-        static 'native()': Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
-        static native(): Storage | {
-            getItem(key: string): any;
-            setItem(key: string, value: string): void;
-            removeItem(key: string): void;
-        };
-        static value<Value>(key: string, next?: Value): Value;
-        prefix(): string;
-        value(key: string, next?: Value): Value;
-    }
-}
-
-declare namespace $.$$ {
-    class $mol_switch extends $.$mol_switch {
-        value(next?: any): any;
-        option_checked(key: string, next?: boolean): boolean;
-    }
-}
-
-declare namespace $ {
-    class $mol_page extends $mol_view {
-        dom_name(): string;
-        field(): Record<string, any>;
-        sub(): readonly any[];
-        tabindex(): number;
-        Logo(): any;
-        title_content(): readonly any[];
-        Title(): $mol_view;
-        tools(): readonly $mol_view_content[];
-        Tools(): $mol_view;
-        head(): readonly any[];
-        Head(): $mol_view;
-        body(): readonly $mol_view_content[];
-        body_scroll_top(val?: any): number;
-        Body(): $$.$mol_scroll;
-        foot(): readonly $mol_view[];
-        Foot(): $mol_view;
-    }
-}
-
-declare namespace $.$$ {
-}
-
-declare namespace $ {
-    class $mol_link extends $mol_view {
-        uri(): string;
-        dom_name(): string;
-        attr(): Record<string, any>;
-        sub(): readonly $mol_view_content[];
-        arg(): Record<string, any>;
-        event(): Record<string, any>;
-        uri_toggle(): string;
-        hint(): string;
-        hint_safe(): string;
-        target(): string;
-        file_name(): string;
-        current(): boolean;
-        event_click(event?: any): any;
-        click(event?: any): any;
-    }
-}
-
-declare namespace $.$$ {
-    class $mol_link extends $.$mol_link {
-        uri_toggle(): string;
-        uri(): string;
-        uri_off(): string;
-        uri_native(): URL;
-        current(): boolean;
-        file_name(): string;
-        minimal_height(): number;
-        external(): boolean;
-        target(): '_self' | '_blank' | '_top' | '_parent' | string;
-        hint_safe(): string;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $mol_pop extends $mol_view {
-        showed(val?: any): boolean;
-        align_vert(): string;
-        align_hor(): string;
-        prefer(): string;
-        sub(): readonly any[];
-        sub_visible(): readonly any[];
-        Anchor(): any;
-        align(): string;
-        bubble_content(): readonly $mol_view_content[];
-        height_max(): number;
-        Bubble(): $mol_pop_bubble;
-    }
-    class $mol_pop_bubble extends $mol_view {
-        sub(): readonly $mol_view_content[];
-        style(): Record<string, any>;
-        attr(): Record<string, any>;
-        content(): readonly $mol_view_content[];
-        height_max(): number;
-        align(): string;
-    }
-}
-
-declare namespace $.$$ {
-    class $mol_pop extends $.$mol_pop {
-        showed(next?: boolean): boolean;
-        sub_visible(): any[];
-        height_max(): number;
-        align(): string;
-        align_vert(): "suspense" | "top" | "bottom";
-        align_hor(): "suspense" | "left" | "right";
-        View_port(): $mol_view;
-        view_port(): {
-            width: number;
-            height: number;
-            left: number;
-            right: number;
-            top: number;
-            bottom: number;
-        } | {
-            left: number;
-            top: number;
-            width: number;
-            height: number;
-        };
     }
 }
 
@@ -2622,11 +2570,11 @@ declare namespace $ {
 
 declare namespace $.$$ {
     class $mol_search extends $.$mol_search {
-        anchor_content(): ($mol_button_minor | $mol_string)[];
+        anchor_content(): ($mol_string | $mol_button_minor)[];
         suggests_showed(next?: boolean): boolean;
         suggest_selected(next?: string): void;
-        nav_components(): ($mol_button_minor | $mol_string)[];
-        nav_focused(component?: $mol_view): $mol_view | $mol_button_minor | $mol_string | null;
+        nav_components(): ($mol_string | $mol_button_minor)[];
+        nav_focused(component?: $mol_view): $mol_view | $mol_string | $mol_button_minor | null;
         suggest_label(key: string): string;
         menu_items(): $mol_button_minor[];
         suggest_select(id: string, event?: MouseEvent): void;
@@ -2635,6 +2583,30 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_page extends $mol_view {
+        dom_name(): string;
+        field(): Record<string, any>;
+        sub(): readonly any[];
+        tabindex(): number;
+        Logo(): any;
+        title_content(): readonly any[];
+        Title(): $mol_view;
+        tools(): readonly $mol_view_content[];
+        Tools(): $mol_view;
+        head(): readonly any[];
+        Head(): $mol_view;
+        body(): readonly $mol_view_content[];
+        body_scroll_top(val?: any): number;
+        Body(): $$.$mol_scroll;
+        foot(): readonly $mol_view[];
+        Foot(): $mol_view;
+    }
+}
+
+declare namespace $.$$ {
 }
 
 declare namespace $ {
@@ -2692,6 +2664,125 @@ declare namespace $ {
 }
 
 declare namespace $ {
+    class $mol_labeler extends $mol_list {
+        rows(): readonly any[];
+        label(): readonly $mol_view_content[];
+        Label(): $mol_view;
+        content(): readonly any[];
+        Content(): $mol_view;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_form_field extends $mol_labeler {
+        bids(): readonly string[];
+        label(): readonly any[];
+        content(): readonly any[];
+        name(): string;
+        bid(): string;
+        Bid(): $mol_view;
+        control(): any;
+    }
+}
+
+declare namespace $.$$ {
+    class $mol_form_field extends $.$mol_form_field {
+        bid(): string;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_row extends $mol_view {
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_form extends $mol_list {
+        submit_allowed(): boolean;
+        submit_blocked(): boolean;
+        event(): Record<string, any>;
+        submit(event?: any): any;
+        rows(): readonly any[];
+        keydown(event?: any): any;
+        form_fields(): readonly $mol_form_field[];
+        body(): readonly $mol_form_field[];
+        Body(): $$.$mol_list;
+        buttons(): readonly $mol_view[];
+        foot(): readonly $mol_view[];
+        Foot(): $mol_row;
+    }
+}
+
+declare namespace $.$$ {
+    class $mol_form extends $.$mol_form {
+        form_fields(): readonly $mol_form_field[];
+        submit_allowed(): boolean;
+        submit_blocked(): boolean;
+        keydown(next: KeyboardEvent): void;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_form_draft extends $mol_form {
+        model(): $mol_object2;
+    }
+}
+
+declare namespace $.$$ {
+    class $mol_form_draft extends $.$mol_form_draft {
+        value_str(field: string, next?: string | null): string;
+        value_numb(field: string, next?: boolean | null): number;
+        value_bool(field: string, next?: boolean | null): boolean;
+        value(field: string, next?: string | number | boolean | null): any;
+        state(next?: Record<string, string | number | boolean | null> | null): Record<string, string | number | boolean | null>;
+        changed(): boolean;
+        submit_allowed(): boolean;
+        submit(next?: Event): void;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $hyoo_intern_person_card extends $mol_view {
+        disabled(): boolean;
+        person(): $hyoo_intern_person;
+        sub(): readonly any[];
+        Person_id(): $$.$mol_string;
+        Person_id_field(): $$.$mol_form_field;
+        Peer(): $$.$mol_string;
+        Peer_field(): $$.$mol_form_field;
+        Name(): $$.$mol_string;
+        Name_field(): $$.$mol_form_field;
+        Name_family(): $$.$mol_string;
+        Name_family_field(): $$.$mol_form_field;
+        Email(): $$.$mol_string;
+        Email_field(): $$.$mol_form_field;
+        value_str(id: any, next?: any): string;
+        Form(): $$.$mol_form_draft;
+    }
+}
+
+declare namespace $.$$ {
+    class $hyoo_intern_person_card extends $.$hyoo_intern_person_card {
+        sub(): readonly any[];
+    }
+}
+
+declare namespace $ {
     class $mol_image extends $mol_view {
         dom_name(): string;
         field(): Record<string, any>;
@@ -2718,6 +2809,78 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+}
+
+declare namespace $ {
+    class $hyoo_intern_person_avatar extends $mol_image {
+        blob(): any;
+        placeholder(): string;
+    }
+}
+
+declare namespace $.$$ {
+    class $hyoo_intern_person_avatar extends $.$hyoo_intern_person_avatar {
+        blob_exists(): boolean;
+        placeholder(): string;
+        uri(): any;
+    }
+}
+
+declare namespace $.$$ {
+}
+
+declare namespace $ {
+    class $hyoo_intern_person_card_profile extends $mol_view {
+        id(): `${string}_${string}`;
+        name(): string;
+        avatar_node(): $hyoo_crowd_blob;
+        person(): $hyoo_intern_person;
+        sub(): readonly any[];
+        Avatar(): $$.$hyoo_intern_person_avatar;
+        title(): string;
+        Title(): $$.$mol_paragraph;
+        Name(): $$.$mol_paragraph;
+        name_sub(): readonly any[];
+        Name_sub(): $$.$mol_paragraph;
+        info(): readonly any[];
+        Info(): $$.$mol_list;
+    }
+}
+
+declare namespace $.$$ {
+    class $hyoo_intern_person_card_profile extends $.$hyoo_intern_person_card_profile {
+        info(): $mol_paragraph[];
+        name(): string;
+    }
+}
+
+declare namespace $.$$ {
+}
+
+declare namespace $ {
+    class $mol_check extends $mol_button_minor {
+        attr(): Record<string, any>;
+        sub(): readonly $mol_view_content[];
+        checked(next?: any): boolean;
+        aria_checked(): string;
+        aria_role(): string;
+        Icon(): any;
+        title(): string;
+        Title(): $mol_view;
+        label(): readonly any[];
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $.$$ {
+    class $mol_check extends $.$mol_check {
+        click(next?: Event): void;
+        sub(): readonly $mol_view_content[];
+        label(): readonly any[];
+        aria_checked(): string;
+    }
 }
 
 declare namespace $ {
@@ -2809,6 +2972,59 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
+}
+
+declare namespace $ {
+    class $hyoo_intern_cabinet extends $mol_book2_catalog {
+        user(): $hyoo_intern_person;
+        campaign(): $hyoo_intern_campaign;
+        yard(): $hyoo_sync_client;
+        Placeholder(): any;
+        role(id: any): any;
+        Menu_profile_card(): $$.$hyoo_intern_person_card_profile;
+        Profile(): $mol_page;
+        menu_head(): readonly any[];
+        menu_body(): readonly any[];
+        menu_foot(): readonly any[];
+        param(): string;
+        profile_title(): string;
+        profile_name_sub(): readonly any[];
+        Profile_card(): $$.$hyoo_intern_person_card;
+        sign_out(next?: any): any;
+        Sign_out(): $mol_button_minor;
+        profile_body(): readonly any[];
+        Logo(): $$.$mol_image;
+        menu_title(): string;
+        Title(): $$.$mol_paragraph;
+        descr(): string;
+        Descr(): $$.$mol_paragraph;
+        Label(): $$.$mol_list;
+        Lights(): $$.$mol_lights_toggle;
+        Online(): $$.$hyoo_sync_online;
+    }
+}
+
+declare namespace $.$$ {
+    class $hyoo_intern_cabinet extends $.$hyoo_intern_cabinet {
+        sign_out(): void;
+        role(role: string): void;
+        default_spread_key(): string;
+        menu_link_content(spread_key: string): readonly any[];
+        arg(spread: string): {
+            [x: string]: string | null;
+        };
+        pages(): any[];
+    }
+}
+
+declare namespace $.$$ {
+    const $hyoo_intern_cabinet_page_style: {
+        maxWidth: any;
+        flex: {
+            grow: number;
+            basis: any;
+        };
+    };
 }
 
 declare namespace $ {
@@ -2963,14 +3179,6 @@ declare namespace $.$$ {
 }
 
 declare namespace $.$$ {
-}
-
-declare namespace $ {
-    type $mol_blob = Blob;
-    let $mol_blob: {
-        new (blobParts?: readonly BlobPart[], options?: BlobPropertyBag): Blob;
-        prototype: Blob;
-    };
 }
 
 declare namespace $ {
@@ -3159,6 +3367,20 @@ declare namespace $ {
         minimal_height(): number;
     }
     class $mol_grid_number extends $mol_grid_cell {
+    }
+}
+
+declare namespace $ {
+    class $mol_state_session<Value> extends $mol_object {
+        static 'native()': Pick<Storage, 'getItem' | 'setItem' | 'removeItem'>;
+        static native(): Storage | {
+            getItem(key: string): any;
+            setItem(key: string, value: string): void;
+            removeItem(key: string): void;
+        };
+        static value<Value>(key: string, next?: Value): Value;
+        prefix(): string;
+        value(key: string, next?: Value): Value;
     }
 }
 
@@ -3499,582 +3721,12 @@ declare namespace $ {
 }
 
 declare namespace $ {
-    class $mol_icon_eye extends $mol_icon {
-        path(): string;
-    }
-}
-
-declare namespace $ {
-    class $mol_password extends $mol_view {
-        type(val?: any): string;
-        sub(): readonly any[];
-        hint(): string;
-        value(val?: any): string;
-        submit(event?: any): any;
-        enabled(): boolean;
-        Pass(): $$.$mol_string;
-        checked(val?: any): boolean;
-        Show_icon(): $mol_icon_eye;
-        Show(): $mol_check_icon;
-        content(): readonly any[];
-    }
-}
-
-declare namespace $.$$ {
-    class $mol_password extends $.$mol_password {
-        checked(next?: boolean): boolean;
-    }
-}
-
-declare namespace $ {
-    class $mol_labeler extends $mol_list {
-        rows(): readonly any[];
-        label(): readonly $mol_view_content[];
-        Label(): $mol_view;
-        content(): readonly any[];
-        Content(): $mol_view;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $mol_form_field extends $mol_labeler {
-        bids(): readonly string[];
-        label(): readonly any[];
-        content(): readonly any[];
-        name(): string;
-        bid(): string;
-        Bid(): $mol_view;
-        control(): any;
-    }
-}
-
-declare namespace $.$$ {
-    class $mol_form_field extends $.$mol_form_field {
-        bid(): string;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $mol_text_list extends $mol_text {
-        auto_scroll(): any;
-        attr(): Record<string, any>;
-        Paragraph(id: any): $mol_text_list_item;
-        type(): string;
-    }
-    class $mol_text_list_item extends $mol_paragraph {
-        attr(): Record<string, any>;
-        index(): number;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $mol_row extends $mol_view {
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $mol_form extends $mol_list {
-        submit_allowed(): boolean;
-        submit_blocked(): boolean;
-        event(): Record<string, any>;
-        submit(event?: any): any;
-        rows(): readonly any[];
-        keydown(event?: any): any;
-        form_fields(): readonly $mol_form_field[];
-        body(): readonly $mol_form_field[];
-        Body(): $$.$mol_list;
-        buttons(): readonly $mol_view[];
-        foot(): readonly $mol_view[];
-        Foot(): $mol_row;
-    }
-}
-
-declare namespace $.$$ {
-    class $mol_form extends $.$mol_form {
-        form_fields(): readonly $mol_form_field[];
-        submit_allowed(): boolean;
-        submit_blocked(): boolean;
-        keydown(next: KeyboardEvent): void;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $hyoo_meta_safe extends $mol_page {
-        title(): string;
-        yard(): $hyoo_sync_yard<unknown>;
-        bid_pass_long(): string;
-        key_size(): number;
-        attr(): Record<string, any>;
-        body(): readonly any[];
-        Expot_bid(): $$.$mol_text;
-        password_bid(): string;
-        password(next?: any): string;
-        Password(): $$.$mol_password;
-        Password_field(): $$.$mol_form_field;
-        recall_enabled(): boolean;
-        recall(next?: any): string;
-        Recall(): $$.$mol_string;
-        Recall_field(): $$.$mol_form_field;
-        Export_pass(): $$.$mol_list;
-        export_link(): string;
-        Export_link(): $$.$mol_link;
-        export_rows(): readonly any[];
-        Export_block(): $$.$mol_list;
-        Iport_descr(): $$.$mol_text;
-        Import_pass(): $$.$mol_list;
-        import_switch(next?: any): any;
-        peer_new(): string;
-        Peer_new(): $$.$mol_avatar;
-        impot_switch_title(): string;
-        Import_switch(): $mol_button_minor;
-        import_rows(): readonly any[];
-        Import_block(): $$.$mol_list;
-        content(): readonly any[];
-        Content(): $$.$mol_list;
-    }
-}
-
-declare namespace $ {
-    function $mol_base64_decode(base64: string): Uint8Array;
-}
-
-declare namespace $ {
-    function $mol_base64_decode_web(base64Str: string): Uint8Array;
-}
-
-declare namespace $ {
-    class $mol_crypto_secret extends Object {
-        readonly native: CryptoKey & {
-            type: 'private';
-        };
-        static size: number;
-        static extra: number;
-        constructor(native: CryptoKey & {
-            type: 'private';
-        });
-        static generate(): Promise<$mol_crypto_secret>;
-        static from(serial: BufferSource | string): Promise<$mol_crypto_secret>;
-        serial(): Promise<ArrayBuffer>;
-        encrypt(open: BufferSource, salt: BufferSource): Promise<ArrayBuffer>;
-        decrypt(closed: BufferSource, salt: BufferSource): Promise<ArrayBuffer>;
-    }
-}
-
-declare namespace $ {
-    class $mol_after_work extends $mol_object2 {
-        delay: number;
-        task: () => void;
-        id: any;
-        constructor(delay: number, task: () => void);
-        destructor(): void;
-    }
-}
-
-declare namespace $ {
-    function $mol_wait_rest_async(this: $): Promise<unknown>;
-    function $mol_wait_rest(this: $): unknown;
-}
-
-declare namespace $ {
-    function $mol_base64_encode(src: string | Uint8Array): string;
-}
-
-declare namespace $ {
-    function $mol_base64_encode_web(str: string | Uint8Array): string;
-}
-
-declare namespace $.$$ {
-    class $hyoo_meta_safe extends $.$hyoo_meta_safe {
-        password_bid(): string;
-        content(): $mol_list[];
-        recall(next?: string): string;
-        recall_enabled(): boolean;
-        peer_current(): `${string}_${string}`;
-        peer_new(): `${string}_${string}`;
-        key_import(next?: string | null): string | null;
-        key_new(): string | null;
-        import_switch(): void;
-        key_export(): string;
-        export_rows(): ($mol_link | $mol_list | $mol_text)[];
-        import_rows(): ($mol_button_minor | $mol_list | $mol_text)[];
-        export_link(): string;
-    }
-}
-
-declare namespace $.$$ {
-}
-
-declare namespace $ {
     class $mol_button_major extends $mol_button_typed {
         attr(): Record<string, any>;
     }
 }
 
 declare namespace $ {
-}
-
-declare namespace $ {
-    class $mol_form_draft extends $mol_form {
-        model(): $mol_object2;
-    }
-}
-
-declare namespace $.$$ {
-    class $mol_form_draft extends $.$mol_form_draft {
-        value_str(field: string, next?: string | null): string;
-        value_numb(field: string, next?: boolean | null): number;
-        value_bool(field: string, next?: boolean | null): boolean;
-        value(field: string, next?: string | number | boolean | null): any;
-        state(next?: Record<string, string | number | boolean | null> | null): Record<string, string | number | boolean | null>;
-        changed(): boolean;
-        submit_allowed(): boolean;
-        submit(next?: Event): void;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $hyoo_intern_sign extends $mol_page {
-        person(): $hyoo_intern_person;
-        title(): string;
-        safe(): readonly any[];
-        Safe(): $$.$hyoo_meta_safe;
-        steps(): readonly any[];
-        step(next?: any): number;
-        body(): readonly any[];
-        Name(): $$.$mol_string;
-        Name_field(): $$.$mol_form_field;
-        Name_family(): $$.$mol_string;
-        Name_family_field(): $$.$mol_form_field;
-        Email(): $$.$mol_string;
-        Email_field(): $$.$mol_form_field;
-        personal(): readonly any[];
-        step_current(): readonly any[];
-        back(next?: any): any;
-        back_enabled(): boolean;
-        Back_button(): $mol_button_minor;
-        next(next?: any): any;
-        Next_button(): $mol_button_major;
-        Submit_button(): $mol_button_major;
-        buttons(): readonly any[];
-        submit(next?: any): void;
-        value_str(id: any, next?: any): string;
-        Form(): $$.$mol_form_draft;
-    }
-}
-
-declare namespace $.$$ {
-    class $hyoo_intern_sign extends $.$hyoo_intern_sign {
-        step_current(): any;
-        buttons(): ($mol_button_minor | $mol_button_major)[];
-        next(): void;
-        back(): void;
-        back_enabled(): boolean;
-        submit(): void;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $hyoo_intern_cabinet extends $mol_book2_catalog {
-        user(): $hyoo_intern_person;
-        yard(): $hyoo_sync_client;
-        Placeholder(): any;
-        menu_head(): readonly any[];
-        menu_foot(): readonly any[];
-        param(): string;
-        norole_spreads(): Record<string, any>;
-        Logo(): $$.$mol_image;
-        menu_title(): string;
-        Title(): $$.$mol_paragraph;
-        descr(): string;
-        Descr(): $$.$mol_paragraph;
-        Label(): $$.$mol_list;
-        Lights(): $$.$mol_lights_toggle;
-        Online(): $$.$hyoo_sync_online;
-        Sign(): $$.$hyoo_intern_sign;
-    }
-}
-
-declare namespace $.$$ {
-    class $hyoo_intern_cabinet extends $.$hyoo_intern_cabinet {
-        default_spread_key(): string;
-        arg(spread: string): {
-            [x: string]: string | null;
-        };
-        pages(): any[];
-        spreads(): Record<string, any>;
-    }
-}
-
-declare namespace $.$$ {
-    const $hyoo_intern_cabinet_page_style: {
-        maxWidth: any;
-        flex: {
-            grow: number;
-            basis: any;
-        };
-    };
-}
-
-declare namespace $ {
-    class $hyoo_intern_campaign_card extends $mol_page {
-        campaign(): $hyoo_intern_campaign;
-        title(): string;
-        body(): readonly any[];
-        Name(): $$.$mol_string;
-        Name_field(): $$.$mol_form_field;
-        value_str(id: any, next?: any): string;
-        Campaign_form(): $$.$mol_form_draft;
-    }
-}
-
-declare namespace $ {
-    class $hyoo_intern_catalog_scroll extends $mol_book2 {
-        Placeholder(): any;
-        ids(): readonly any[];
-        ids_numered(): readonly any[];
-        pages(): readonly any[];
-        Page(id: any): $mol_view;
-        menu_title(): string;
-        menu_tools(): readonly $mol_view[];
-        row_title(id: any): string;
-        id(id: any): string;
-        click(id: any, next?: any): any;
-        Row_link(id: any): $$.$mol_link;
-        links(): readonly any[];
-        Row_list(): $$.$mol_list;
-        menu_body(): readonly any[];
-        menu_foot(): readonly $mol_view[];
-        Rows(): $mol_page;
-        spreads(): readonly any[];
-        Pages(): $$.$mol_scroll;
-        page_title(id: any): string;
-        Page_link(id: any): $$.$mol_link;
-        page_content(id: any): readonly $mol_view_content[];
-        Page_content(id: any): $mol_view;
-    }
-}
-
-declare namespace $.$$ {
-    class $hyoo_intern_catalog_scroll extends $.$hyoo_intern_catalog_scroll {
-        id_numered(): any;
-        row_title(id: string): string;
-        page_title(id: string): string;
-        id(id: string): string;
-        links(): $mol_link[];
-        spreads(): $mol_view[];
-    }
-}
-
-declare namespace $.$$ {
-}
-
-declare namespace $ {
-    class $hyoo_intern_company_card extends $mol_view {
-        disabled(): boolean;
-        company(): $hyoo_intern_company;
-        sub(): readonly any[];
-        Name(): $$.$mol_string;
-        Name_field(): $$.$mol_form_field;
-        Scope(): $$.$mol_string;
-        Scope_field(): $$.$mol_form_field;
-        Adress(): $$.$mol_string;
-        Adress_field(): $$.$mol_form_field;
-        value_str(id: any, next?: any): string;
-        Form(): $$.$mol_form_draft;
-    }
-}
-
-declare namespace $.$$ {
-    class $hyoo_intern_company_card extends $.$hyoo_intern_company_card {
-    }
-}
-
-declare namespace $ {
-    class $mol_icon_filter extends $mol_icon {
-        path(): string;
-    }
-}
-
-declare namespace $ {
-    class $mol_icon_plus extends $mol_icon {
-        path(): string;
-    }
-}
-
-declare namespace $ {
-    class $hyoo_intern_catalog_companies extends $hyoo_intern_catalog_scroll {
-        access(): string;
-        menu_title(): string;
-        Page_content_read(id: any): $$.$mol_list;
-        Page_content_mod(id: any): $$.$mol_list;
-        menu_tools(): readonly any[];
-        menu_foot(): readonly any[];
-        Filter_form(): $$.$mol_form_draft;
-        company(id: any): $hyoo_intern_company;
-        Company_card_read(id: any): $$.$hyoo_intern_company_card;
-        Company_card_mod(id: any): $$.$hyoo_intern_company_card;
-        drop(id: any): any;
-        Drop(id: any): $mol_button_minor;
-        Filter_icon(): $mol_icon_filter;
-        filter_opened(next?: any): boolean;
-        Filter(): $mol_check_icon;
-        Add_icon(): $mol_icon_plus;
-        add(next?: any): any;
-        Add(): $mol_button_minor;
-        Scope(): $$.$mol_string;
-        Scope_field(): $$.$mol_form_field;
-        Apply_filter(): $mol_button_minor;
-    }
-}
-
-declare namespace $.$$ {
-    class $hyoo_intern_catalog_companies extends $.$hyoo_intern_catalog_companies {
-        companies(): $hyoo_intern_company[];
-        menu_body(): readonly any[];
-        menu_foot(): readonly any[];
-        page_content(id: any): $mol_list[];
-    }
-}
-
-declare namespace $ {
-    class $hyoo_intern_person_card extends $mol_view {
-        disabled(): boolean;
-        person(): $hyoo_intern_person;
-        sub(): readonly any[];
-        Name(): $$.$mol_string;
-        Name_field(): $$.$mol_form_field;
-        Name_family(): $$.$mol_string;
-        Name_family_field(): $$.$mol_form_field;
-        Email(): $$.$mol_string;
-        Email_field(): $$.$mol_form_field;
-        value_str(id: any, next?: any): string;
-        Form(): $$.$mol_form_draft;
-    }
-}
-
-declare namespace $.$$ {
-    class $hyoo_intern_person_card extends $.$hyoo_intern_person_card {
-    }
-}
-
-declare namespace $ {
-    class $hyoo_intern_manager_card extends $mol_view {
-        disabled(): boolean;
-        manager(): $hyoo_intern_manager;
-        sub(): readonly any[];
-        person(): $hyoo_intern_person;
-        Person(): $$.$hyoo_intern_person_card;
-        Person_field(): $$.$mol_form_field;
-        Company(): $$.$mol_string;
-        Company_field(): $$.$mol_form_field;
-        value_str(id: any, next?: any): string;
-        Form(): $$.$mol_form_draft;
-    }
-}
-
-declare namespace $.$$ {
-    class $hyoo_intern_manager_card extends $.$hyoo_intern_manager_card {
-    }
-}
-
-declare namespace $ {
-    class $hyoo_intern_catalog_managers extends $hyoo_intern_catalog_scroll {
-        access(): string;
-        menu_title(): string;
-        Page_content(id: any): $mol_view;
-        menu_tools(): readonly any[];
-        manager(id: any): $hyoo_intern_manager;
-        Manager_card(id: any): $$.$hyoo_intern_manager_card;
-        add(next?: any): any;
-        Add(): $mol_button_minor;
-    }
-}
-
-declare namespace $.$$ {
-    class $hyoo_intern_catalog_managers extends $.$hyoo_intern_catalog_managers {
-        managers(): $hyoo_intern_manager[];
-    }
-}
-
-declare namespace $ {
-    class $hyoo_intern_mentor_card extends $mol_view {
-        disabled(): boolean;
-        sub(): readonly any[];
-        person(): $hyoo_intern_person;
-        Person(): $$.$hyoo_intern_person_card;
-        Person_field(): $$.$mol_form_field;
-        Company(): $$.$mol_string;
-        Company_field(): $$.$mol_form_field;
-        value_str(id: any, next?: any): string;
-        Form(): $$.$mol_form_draft;
-    }
-}
-
-declare namespace $.$$ {
-    class $hyoo_intern_mentor_card extends $.$hyoo_intern_mentor_card {
-    }
-}
-
-declare namespace $ {
-    class $hyoo_intern_catalog_mentors extends $hyoo_intern_catalog_scroll {
-        access(): string;
-        menu_title(): string;
-        Page_content(id: any): $mol_view;
-        menu_tools(): readonly any[];
-        Mentor_card(id: any): $$.$hyoo_intern_mentor_card;
-        add(next?: any): any;
-        Add(): $mol_button_minor;
-    }
-}
-
-declare namespace $ {
-    class $hyoo_intern_curator_card extends $mol_view {
-        disabled(): boolean;
-        sub(): readonly any[];
-        person(): $hyoo_intern_person;
-        Person(): $$.$hyoo_intern_person_card;
-        Person_field(): $$.$mol_form_field;
-        value_str(id: any, next?: any): string;
-        Form(): $$.$mol_form_draft;
-    }
-}
-
-declare namespace $.$$ {
-    class $hyoo_intern_curator_card extends $.$hyoo_intern_curator_card {
-    }
-}
-
-declare namespace $ {
-    class $hyoo_intern_catalog_curators extends $hyoo_intern_catalog_scroll {
-        access(): string;
-        menu_title(): string;
-        Page_content(id: any): $mol_view;
-        menu_tools(): readonly any[];
-        Curator_card(id: any): $$.$hyoo_intern_curator_card;
-        add(next?: any): any;
-        Add(): $mol_button_minor;
-    }
 }
 
 declare namespace $ {
@@ -4455,15 +4107,716 @@ declare namespace $.$$ {
         options_filtered(): readonly string[];
         option_label(id: string): any;
         option_rows(): $mol_button_minor[];
-        option_focused(component?: $mol_view): $mol_view | $mol_button_minor | $mol_string | null;
+        option_focused(component?: $mol_view): $mol_view | $mol_string | $mol_button_minor | null;
         event_select(id: string, event?: MouseEvent): void;
-        nav_components(): ($mol_button_minor | $mol_string)[];
+        nav_components(): ($mol_string | $mol_button_minor)[];
         trigger_content(): readonly $mol_view_content[];
         menu_content(): ($mol_view | $mol_button_minor)[];
     }
 }
 
 declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_icon_plus extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_icon_delete extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_check_list extends $mol_view {
+        Option(id: any): $$.$mol_check;
+        options(): Record<string, any>;
+        keys(): readonly string[];
+        sub(): readonly $mol_check[];
+        option_checked(id: any, val?: any): boolean;
+        option_title(id: any): string;
+        option_label(id: any): readonly any[];
+        enabled(): boolean;
+        option_enabled(id: any): boolean;
+        option_hint(id: any): string;
+        items(): readonly $mol_check[];
+    }
+}
+
+declare namespace $.$$ {
+    class $mol_check_list extends $.$mol_check_list {
+        options(): {
+            [key: string]: string;
+        };
+        keys(): readonly string[];
+        items(): $mol_check[];
+        option_title(key: string): string;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_switch extends $mol_check_list {
+        value(val?: any): string;
+    }
+}
+
+declare namespace $.$$ {
+    class $mol_switch extends $.$mol_switch {
+        value(next?: any): any;
+        option_checked(key: string, next?: boolean): boolean;
+    }
+}
+
+declare namespace $ {
+    class $mol_select_list extends $mol_view {
+        value(val?: any): readonly string[];
+        dictionary(): Record<string, any>;
+        badges_list(): readonly $mol_view[];
+        Badge(id: any): $mol_button_minor;
+        sub(): readonly $mol_view[];
+        Badges(): readonly $mol_view[];
+        badge_title(id: any): string;
+        remove(id: any, event?: any): any;
+        badge_hint(): string;
+        enabled(): boolean;
+        drop_enabled(): boolean;
+        align_hor(): string;
+        options(): readonly string[];
+        options_pickable(): readonly string[];
+        pick(val?: any): string;
+        option_title(id: any): string;
+        pick_enabled(): boolean;
+        pick_hint(): string;
+        Pick_icon(): $mol_icon_plus;
+        Pick(): $$.$mol_select;
+    }
+}
+
+declare namespace $.$$ {
+    class $mol_select_list extends $.$mol_select_list {
+        value(val?: string[]): readonly string[];
+        pick(key?: string): string;
+        options(): readonly string[];
+        options_pickable(): readonly string[];
+        option_title(key: string): string;
+        badge_title(index: number): string;
+        pick_enabled(): boolean;
+        Badges(): $mol_button_minor[];
+        title(): string;
+        remove(index: number): void;
+    }
+}
+
+declare namespace $.$$ {
+}
+
+declare namespace $ {
+    class $mol_icon_tick extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $mol_check_box extends $mol_check {
+        Icon(): $mol_icon_tick;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_textarea extends $mol_stack {
+        attr(): Record<string, any>;
+        event(): Record<string, any>;
+        sub(): readonly any[];
+        symbols_alt(): Record<string, any>;
+        symbols_alt_shift(): Record<string, any>;
+        clickable(val?: any): boolean;
+        sidebar_showed(): boolean;
+        press(event?: any): any;
+        hover(event?: any): any;
+        value(val?: any): string;
+        hint(): string;
+        enabled(): boolean;
+        spellcheck(): boolean;
+        length_max(): number;
+        selection(val?: any): readonly number[];
+        submit(next?: any): any;
+        bring(): void;
+        Edit(): $mol_textarea_edit;
+        row_numb(id: any): number;
+        highlight(): string;
+        View(): $$.$mol_text_code;
+    }
+    class $mol_textarea_edit extends $mol_string {
+        dom_name(): string;
+        enter(): string;
+        field(): Record<string, any>;
+    }
+}
+
+declare namespace $.$$ {
+    class $mol_textarea extends $.$mol_textarea {
+        indent_inc(): void;
+        indent_dec(): void;
+        symbol_insert(event: KeyboardEvent): void;
+        hover(event: PointerEvent): void;
+        press(event: KeyboardEvent): void;
+        row_numb(index: number): number;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $mol_phone extends $mol_format {
+        mask(id: any): string;
+        keyboard(): string;
+    }
+}
+
+declare namespace $.$$ {
+    const $mol_phone_formats: Record<string, string>;
+    class $mol_phone extends $.$mol_phone {
+        mask(val: string): string;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_intern_resume_card extends $mol_view {
+        disabled(): boolean;
+        person(): $hyoo_intern_person;
+        submit(next?: any): any;
+        sub(): readonly any[];
+        name_second_bid(): string;
+        name_second(next?: any): string;
+        Name_second_control(): $$.$mol_string;
+        Name_second_field(): $$.$mol_form_field;
+        name_first_bid(): string;
+        name_first(next?: any): string;
+        Name_first_control(): $$.$mol_string;
+        Name_first_field(): $$.$mol_form_field;
+        name_patronymic_bid(): string;
+        name_patronymic(next?: any): string;
+        Name_patronymic_control(): $$.$mol_string;
+        Name_patronymic_field(): $$.$mol_form_field;
+        Names(): $mol_form_group;
+        birthdate_value(next?: any): string;
+        enabled(): boolean;
+        Birthdate_control(): $$.$mol_date;
+        Birthdate_field(): $$.$mol_form_field;
+        citizenship(next?: any): string;
+        citizenship_dict(): Record<string, any>;
+        Citizenship_control(): $$.$mol_select;
+        Citizenship_field(): $$.$mol_form_field;
+        city(next?: any): string;
+        City_control(): $$.$mol_string;
+        City_field(): $$.$mol_form_field;
+        Bdate_citizenship_city(): $mol_form_group;
+        institutions_field_name(): string;
+        Institution_add_icon(): $mol_icon_plus;
+        institution_add(next?: any): any;
+        Institution_add(): $mol_button_minor;
+        specialty(id: any, next?: any): string;
+        Specialty_control(id: any): $$.$mol_string;
+        Specialty_field(id: any): $$.$mol_form_field;
+        degree(id: any, next?: any): string;
+        Degree_control(id: any): $$.$mol_string;
+        Degree_field(id: any): $$.$mol_form_field;
+        Student_group(id: any): $mol_form_group;
+        date_finish(id: any, next?: any): any;
+        Date_finish_control(id: any): $$.$mol_date;
+        Date_finish(id: any): $$.$mol_form_field;
+        institution(id: any, next?: any): string;
+        Institution_control(id: any): $$.$mol_string;
+        Institution_field(id: any): $$.$mol_form_field;
+        department(id: any, next?: any): string;
+        Department_control(id: any): $$.$mol_string;
+        Department_field(id: any): $$.$mol_form_field;
+        Institution_group(id: any): $mol_form_group;
+        Institution_drop_icon(id: any): $mol_icon_delete;
+        institution_drop(id: any, next?: any): any;
+        Institution_drop(id: any): $mol_button_minor;
+        Institution_drop_row(id: any): $mol_row;
+        Institution_form(id: any): $$.$mol_list;
+        institution_rows(): readonly any[];
+        Institution_content(): $$.$mol_list;
+        Institutions_field(): $$.$mol_form_field;
+        job_status(next?: any): string;
+        Job_status_control(): $$.$mol_switch;
+        Job_status_field(): $$.$mol_form_field;
+        Skills_field_name(): $$.$mol_paragraph;
+        name(): $$.$mol_paragraph;
+        skills(next?: any): readonly any[];
+        skills_dict(): Record<string, any>;
+        Skills_control(): $$.$mol_select_list;
+        Skills_field(): $$.$mol_form_field;
+        jobs_field_name(): string;
+        Job_add_icon(): $mol_icon_plus;
+        job_add(next?: any): any;
+        Job_add(): $mol_button_minor;
+        position(id: any, next?: any): string;
+        Position_control(id: any): $$.$mol_string;
+        Position_field(id: any): $$.$mol_form_field;
+        Employer_group(id: any): $mol_form_group;
+        date_start(id: any, next?: any): any;
+        Date_start_control(id: any): $$.$mol_date;
+        Date_start_field(id: any): $$.$mol_form_field;
+        date_end(id: any, next?: any): any;
+        Date_end_control(id: any): $$.$mol_date;
+        present(id: any, next?: any): boolean;
+        Up_to_present_control(id: any): $mol_check_box;
+        Date_end_content(id: any): $mol_view;
+        Date_end_field(id: any): $$.$mol_form_field;
+        Date_group(id: any): $mol_form_group;
+        company(id: any, next?: any): string;
+        Company_control(id: any): $$.$mol_string;
+        Company_field(id: any): $$.$mol_form_field;
+        industry(id: any, next?: any): string;
+        Industry_contrl(id: any): $$.$mol_string;
+        Industry_field(id: any): $$.$mol_form_field;
+        Company_group(id: any): $mol_form_group;
+        functions(id: any, next?: any): string;
+        Functions_control(id: any): $$.$mol_textarea;
+        Functions_field(id: any): $$.$mol_form_field;
+        Job_drop_icon(id: any): $mol_icon_delete;
+        job_drop(id: any, next?: any): any;
+        Job_drop(id: any): $mol_button_minor;
+        Job_drop_row(id: any): $mol_row;
+        Job_form(id: any): $$.$mol_list;
+        job_rows(): readonly any[];
+        Jobs_content(): $$.$mol_list;
+        Jobs_field(): $$.$mol_form_field;
+        Work(): $$.$mol_form;
+        exp(next?: any): string;
+        Exp_control(): $$.$mol_textarea;
+        Exp_field(): $$.$mol_form_field;
+        Phone_control(): $$.$mol_phone;
+        Phone_field(): $$.$mol_form_field;
+        Email_control(): $$.$mol_string;
+        Email_field(): $$.$mol_form_field;
+        Contacts(): $mol_form_group;
+        Accept(): $$.$mol_paragraph;
+        profile_fields(): readonly any[];
+        Resume_form(): $$.$mol_form;
+    }
+}
+
+declare namespace $ {
+    class $mol_picture extends Object {
+        readonly canvas: HTMLCanvasElement;
+        constructor(canvas: HTMLCanvasElement);
+        get context(): CanvasRenderingContext2D | null;
+        static fit(image: CanvasImageSource | Blob | string, width?: number, height?: number): $mol_picture;
+        static make(image: CanvasImageSource, width: number, height?: number): $mol_picture;
+        static sizes(image: CanvasImageSource): number[];
+        static load(uri: string): Promise<HTMLImageElement>;
+        format(type: 'image/png' | 'image/jpeg' | 'image/webp', quality?: number): Blob | null;
+    }
+}
+
+declare namespace $.$$ {
+    type Job = ReturnType<$hyoo_intern_person['jobs']>[number];
+    type Job_keys = keyof Job;
+    type Institution = ReturnType<$hyoo_intern_person['institutions']>[number];
+    type Institution_keys = keyof Institution;
+    export class $hyoo_intern_resume_card extends $.$hyoo_intern_resume_card {
+        enabled(): boolean;
+        job_status(next?: string): string;
+        skills(next?: string[]): string[];
+        avatar_file(next?: File[]): never[];
+        avatar_drop(): void;
+        job_rows(): $mol_list[];
+        job_add(): void;
+        job_drop(id: number): void;
+        job({ id, key }: {
+            id: number;
+            key: Job_keys;
+        }, next?: string): any;
+        position(id: number, next?: string): any;
+        date_start(id: number, next?: $mol_time_moment): $mol_time_moment | null;
+        date_end(id: number, next?: $mol_time_moment): $mol_time_moment | null;
+        institution_rows(): $mol_list[];
+        institution_add(): void;
+        institution_drop(id: number): void;
+        institution_change({ id, key }: {
+            id: number;
+            key: Institution_keys;
+        }, next?: string): string;
+        date_finish(id: number, next?: string): $mol_time_moment | null;
+    }
+    export {};
+}
+
+declare namespace $.$$ {
+}
+
+declare namespace $ {
+    class $mol_text_list extends $mol_text {
+        auto_scroll(): any;
+        attr(): Record<string, any>;
+        Paragraph(id: any): $mol_text_list_item;
+        type(): string;
+    }
+    class $mol_text_list_item extends $mol_paragraph {
+        attr(): Record<string, any>;
+        index(): number;
+    }
+}
+
+declare namespace $ {
+}
+
+declare namespace $ {
+    class $hyoo_intern_cabinet_norole extends $hyoo_intern_cabinet {
+        spreads(): Record<string, any>;
+        info_text(): string;
+        Info_text(): $$.$mol_text;
+        open_resume(next?: any): any;
+        Resume_link(): $mol_button_major;
+        Info(): $mol_page;
+        Resume(): $$.$hyoo_intern_resume_card;
+        send_resume(next?: any): any;
+        Send_resume(): $mol_button_major;
+        Resume_page(): $mol_page;
+        Sign_info(): $$.$mol_text;
+        Open_intern(): $mol_button_minor;
+        Open_curator(): $mol_button_minor;
+        Open_mentor(): $mol_button_minor;
+        Open_manager(): $mol_button_minor;
+        Sign(): $mol_page;
+    }
+}
+
+declare namespace $.$$ {
+    class $hyoo_intern_cabinet_norole extends $.$hyoo_intern_cabinet_norole {
+        send_resume(): void;
+        open_resume(): void;
+    }
+}
+
+declare namespace $.$$ {
+}
+
+declare namespace $ {
+    class $hyoo_intern_campaign_card extends $mol_page {
+        campaign(): $hyoo_intern_campaign;
+        title(): string;
+        body(): readonly any[];
+        Name(): $$.$mol_string;
+        Name_field(): $$.$mol_form_field;
+        value_str(id: any, next?: any): string;
+        Campaign_form(): $$.$mol_form_draft;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_intern_catalog_scroll extends $mol_book2 {
+        Placeholder(): any;
+        ids(): readonly any[];
+        ids_numered(): readonly any[];
+        pages(): readonly any[];
+        Page(id: any): $mol_view;
+        menu_title(): string;
+        menu_tools(): readonly $mol_view[];
+        row_title(id: any): string;
+        id(id: any): string;
+        click(id: any, next?: any): any;
+        Row_link(id: any): $$.$mol_link;
+        links(): readonly any[];
+        Row_list(): $$.$mol_list;
+        menu_body(): readonly any[];
+        menu_foot(): readonly $mol_view[];
+        Rows(): $mol_page;
+        spreads(): readonly any[];
+        Pages(): $$.$mol_scroll;
+        page_title(id: any): string;
+        Page_link(id: any): $$.$mol_link;
+        page_content(id: any): readonly $mol_view_content[];
+        Page_content(id: any): $mol_view;
+    }
+}
+
+declare namespace $.$$ {
+    class $hyoo_intern_catalog_scroll extends $.$hyoo_intern_catalog_scroll {
+        id_numered(): any;
+        row_title(id: string): string;
+        page_title(id: string): string;
+        id(id: string): string;
+        links(): $mol_link[];
+        spreads(): $mol_view[];
+    }
+}
+
+declare namespace $.$$ {
+}
+
+declare namespace $ {
+    class $mol_icon_filter extends $mol_icon {
+        path(): string;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_intern_catalog_entities extends $hyoo_intern_catalog_scroll {
+        entity_links(): $hyoo_intern_entity_links<typeof $hyoo_crowd_node>;
+        access(): string;
+        item(id: any): any;
+        Page_content_view(id: any): $$.$mol_list;
+        Page_content_edit(id: any): $$.$mol_list;
+        menu_tools(): readonly any[];
+        menu_foot(): readonly any[];
+        Filter_form(): $$.$mol_form_draft;
+        Card_view(id: any): $mol_view;
+        Card_edit(id: any): $mol_view;
+        drop(id: any): any;
+        Drop(id: any): $mol_button_minor;
+        Filter_icon(): $mol_icon_filter;
+        filter_opened(next?: any): boolean;
+        Filter(): $mol_check_icon;
+        Add_icon(): $mol_icon_plus;
+        add(next?: any): any;
+        Add(): $mol_button_minor;
+        filter_form_fields(): readonly any[];
+        Apply_filter(): $mol_button_minor;
+    }
+}
+
+declare namespace $.$$ {
+    class $hyoo_intern_catalog_entities extends $.$hyoo_intern_catalog_entities {
+        ids(): `${string}_${string}`[];
+        item(id: string): $hyoo_crowd_node;
+        add(): $hyoo_crowd_node;
+        drop(id: $mol_int62_string): void;
+        menu_body(): readonly any[];
+        menu_foot(): readonly any[];
+        page_content(id: any): $mol_list[];
+    }
+}
+
+declare namespace $ {
+    class $hyoo_intern_catalog_curators extends $hyoo_intern_catalog_entities {
+        menu_title(): string;
+        Card_view(id: any): $$.$hyoo_intern_person_card;
+        Card_edit(id: any): $$.$hyoo_intern_person_card;
+    }
+}
+
+declare namespace $.$$ {
+    class $hyoo_intern_catalog_curators extends $.$hyoo_intern_catalog_curators {
+        entity_links(): $hyoo_intern_entity_links<typeof $hyoo_intern_person>;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_intern_catalog_interns extends $hyoo_intern_catalog_entities {
+        menu_title(): string;
+        Card_view(id: any): $$.$hyoo_intern_person_card;
+        Card_edit(id: any): $$.$hyoo_intern_person_card;
+        item(id: any): $hyoo_intern_person;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_intern_vacancy_card extends $mol_view {
+        vacancy(): $hyoo_intern_vacancy;
+        sub(): readonly any[];
+        Scope(): $$.$mol_string;
+        Scope_field(): $$.$mol_form_field;
+        Company(): $$.$mol_string;
+        Company_field(): $$.$mol_form_field;
+        Tasks(): $$.$mol_string;
+        Tasks_field(): $$.$mol_form_field;
+        Requirements(): $$.$mol_string;
+        Requirements_field(): $$.$mol_form_field;
+        Tests(): $$.$mol_string;
+        Tests_field(): $$.$mol_form_field;
+        value_str(id: any, next?: any): string;
+        Form(): $$.$mol_form_draft;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_intern_catalog_vacancies extends $hyoo_intern_catalog_entities {
+        menu_title(): string;
+        Card_view(id: any): $hyoo_intern_vacancy_card;
+        Card_edit(id: any): $hyoo_intern_vacancy_card;
+        item(id: any): $hyoo_intern_vacancy;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_intern_manager extends $hyoo_crowd_struct {
+        person(next?: $hyoo_intern_person): $hyoo_intern_person | null | undefined;
+        company(next?: $hyoo_intern_company): $hyoo_intern_person | null | undefined;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_intern_company extends $hyoo_crowd_struct {
+        name(next?: string): string;
+        adress(next?: string): string;
+        scope(next?: string): string;
+        campaign(next?: $hyoo_intern_campaign): $hyoo_intern_campaign | null | undefined;
+        managers_node(): $hyoo_crowd_list;
+        managers_ids(): string[];
+        managers(): ($hyoo_intern_manager | undefined)[];
+        manager(id: string): $hyoo_intern_manager | undefined;
+        manager_add(): $hyoo_intern_manager | undefined;
+        manager_drop(obj: $hyoo_intern_manager): void;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_intern_company_card extends $mol_view {
+        disabled(): boolean;
+        company(): $hyoo_intern_company;
+        sub(): readonly any[];
+        Name(): $$.$mol_string;
+        Name_field(): $$.$mol_form_field;
+        Scope(): $$.$mol_string;
+        Scope_field(): $$.$mol_form_field;
+        Adress(): $$.$mol_string;
+        Adress_field(): $$.$mol_form_field;
+        value_str(id: any, next?: any): string;
+        Form(): $$.$mol_form_draft;
+    }
+}
+
+declare namespace $.$$ {
+    class $hyoo_intern_company_card extends $.$hyoo_intern_company_card {
+    }
+}
+
+declare namespace $ {
+    class $hyoo_intern_catalog_companies extends $hyoo_intern_catalog_entities {
+        menu_title(): string;
+        Card_view(id: any): $$.$hyoo_intern_company_card;
+        Card_edit(id: any): $$.$hyoo_intern_company_card;
+        filter_form_fields(): readonly any[];
+        item(id: any): $hyoo_intern_company;
+        Scope(): $$.$mol_string;
+        Scope_field(): $$.$mol_form_field;
+    }
+}
+
+declare namespace $.$$ {
+    class $hyoo_intern_catalog_companies extends $.$hyoo_intern_catalog_companies {
+    }
+}
+
+declare namespace $ {
+    class $hyoo_intern_manager_card extends $mol_view {
+        disabled(): boolean;
+        manager(): $hyoo_intern_manager;
+        sub(): readonly any[];
+        person(): $hyoo_intern_person;
+        Person(): $$.$hyoo_intern_person_card;
+        Person_field(): $$.$mol_form_field;
+        company(): $hyoo_intern_company;
+        Company(): $$.$hyoo_intern_company_card;
+        Company_field(): $$.$mol_form_field;
+        value_str(id: any, next?: any): string;
+        Form(): $$.$mol_form_draft;
+    }
+}
+
+declare namespace $.$$ {
+    class $hyoo_intern_manager_card extends $.$hyoo_intern_manager_card {
+    }
+}
+
+declare namespace $ {
+    class $hyoo_intern_catalog_managers extends $hyoo_intern_catalog_entities {
+        menu_title(): string;
+        Card_view(id: any): $$.$hyoo_intern_manager_card;
+        Card_edit(id: any): $$.$hyoo_intern_manager_card;
+        item(id: any): $hyoo_intern_manager;
+    }
+}
+
+declare namespace $.$$ {
+    class $hyoo_intern_catalog_managers extends $.$hyoo_intern_catalog_managers {
+    }
+}
+
+declare namespace $ {
+    class $hyoo_intern_catalog_mentors extends $hyoo_intern_catalog_entities {
+        menu_title(): string;
+        Card_view(id: any): $$.$hyoo_intern_person_card;
+        Card_edit(id: any): $$.$hyoo_intern_person_card;
+    }
+}
+
+declare namespace $ {
+    class $hyoo_intern_cabinet_admin extends $hyoo_intern_cabinet {
+        profile_title(): string;
+        companies(): $hyoo_intern_entity_links<typeof $hyoo_intern_company>;
+        managers(): $hyoo_intern_entity_links<typeof $hyoo_intern_manager>;
+        curators(): $hyoo_intern_entity_links<typeof $hyoo_intern_person>;
+        mentors(): $hyoo_intern_entity_links<typeof $hyoo_intern_person>;
+        candidates_on_review(): $hyoo_intern_entity_links<typeof $hyoo_intern_person>;
+        campaign(): $hyoo_intern_campaign;
+        spreads(): Record<string, any>;
+        Campaign(): $hyoo_intern_campaign_card;
+        Add_icon(): $mol_icon_plus;
+        add_curator(next?: any): any;
+        Add_curator(): $mol_button_minor;
+        add_curator_person_id(next?: any): string;
+        Add_curator_person(): $$.$mol_string;
+        Curators(): $$.$hyoo_intern_catalog_curators;
+        Resumes(): $hyoo_intern_catalog_interns;
+        Candidates(): $hyoo_intern_catalog_interns;
+        Requested_invitations(): $hyoo_intern_catalog_vacancies;
+        Companies(): $$.$hyoo_intern_catalog_companies;
+        Managers(): $$.$hyoo_intern_catalog_managers;
+        add_mentor(next?: any): any;
+        Add_mentor(): $mol_button_minor;
+        add_mentor_person_id(next?: any): string;
+        Add_mentor_person(): $$.$mol_string;
+        Mentors(): $hyoo_intern_catalog_mentors;
+        Vacancies(): $hyoo_intern_catalog_vacancies;
+        Statistics(): $mol_page;
+        Timesheet(): $mol_page;
+        career_school_text(): string;
+        Career_school_text(): $$.$mol_textarea;
+        Career_school(): $mol_page;
+        tests_text(): string;
+        Tests_text(): $$.$mol_textarea;
+        Tests(): $mol_page;
+        championship_text(): string;
+        Championship_text(): $$.$mol_textarea;
+        Championship(): $mol_page;
+    }
+}
+
+declare namespace $.$$ {
+    class $hyoo_intern_cabinet_admin extends $.$hyoo_intern_cabinet_admin {
+        add_curator(): $hyoo_intern_person;
+        add_mentor(): $hyoo_intern_person;
+    }
+}
+
+declare namespace $.$$ {
+}
+
+declare namespace $ {
+    class $hyoo_intern_cabinet_curator extends $hyoo_intern_cabinet_admin {
+        profile_title(): string;
+    }
+}
+
+declare namespace $.$$ {
+    class $hyoo_intern_cabinet_curator extends $.$hyoo_intern_cabinet_curator {
+    }
 }
 
 declare namespace $ {
@@ -4514,442 +4867,71 @@ declare namespace $.$$ {
 }
 
 declare namespace $ {
-    class $mol_textarea extends $mol_stack {
-        attr(): Record<string, any>;
-        event(): Record<string, any>;
-        sub(): readonly any[];
-        symbols_alt(): Record<string, any>;
-        symbols_alt_shift(): Record<string, any>;
-        clickable(val?: any): boolean;
-        sidebar_showed(): boolean;
-        press(event?: any): any;
-        hover(event?: any): any;
-        value(val?: any): string;
-        hint(): string;
-        enabled(): boolean;
-        spellcheck(): boolean;
-        length_max(): number;
-        selection(val?: any): readonly number[];
-        submit(next?: any): any;
-        bring(): void;
-        Edit(): $mol_textarea_edit;
-        row_numb(id: any): number;
-        highlight(): string;
-        View(): $$.$mol_text_code;
-    }
-    class $mol_textarea_edit extends $mol_string {
-        dom_name(): string;
-        enter(): string;
-        field(): Record<string, any>;
-    }
-}
-
-declare namespace $.$$ {
-    class $mol_textarea extends $.$mol_textarea {
-        indent_inc(): void;
-        indent_dec(): void;
-        symbol_insert(event: KeyboardEvent): void;
-        hover(event: PointerEvent): void;
-        press(event: KeyboardEvent): void;
-        row_numb(index: number): number;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
-    class $hyoo_intern_resume_card extends $mol_view {
-        disabled(): boolean;
-        submit(next?: any): any;
-        sub(): readonly any[];
-        name_second_bid(): string;
-        name_second(next?: any): string;
-        Name_second_control(): $$.$mol_string;
-        Name_second_field(): $$.$mol_form_field;
-        name_first_bid(): string;
-        name_first(next?: any): string;
-        Name_first_control(): $$.$mol_string;
-        Name_first_field(): $$.$mol_form_field;
-        name_patronymic_bid(): string;
-        name_patronymic(next?: any): string;
-        Name_patronymic_control(): $$.$mol_string;
-        Name_patronymic_field(): $$.$mol_form_field;
-        Names(): $mol_form_group;
-        birthdate_value(next?: any): string;
-        enabled(): boolean;
-        Birthdate_control(): $$.$mol_date;
-        Birthdate_field(): $$.$mol_form_field;
-        citizenship(next?: any): string;
-        citizenship_dict(): Record<string, any>;
-        Citizenship_control(): $$.$mol_select;
-        Citizenship_field(): $$.$mol_form_field;
-        city(next?: any): string;
-        City_control(): $$.$mol_string;
-        City_field(): $$.$mol_form_field;
-        Bdate_citizenship_city(): $mol_form_group;
-        education(next?: any): string;
-        Education_control(): $$.$mol_string;
-        Education_field(): $$.$mol_form_field;
-        degree(next?: any): string;
-        Degree_control(): $$.$mol_string;
-        Degree_field(): $$.$mol_form_field;
-        end_year(next?: any): number;
-        End_year_control(): $$.$mol_number;
-        End_year_field(): $$.$mol_form_field;
-        education_sub(): readonly any[];
-        Education(): $mol_form_group;
-        exp(next?: any): string;
-        Exp_control(): $$.$mol_textarea;
-        Exp_field(): $$.$mol_form_field;
-        mail_bid(): string;
-        mail(next?: any): string;
-        Mail_control(): $$.$mol_string;
-        Mail_field(): $$.$mol_form_field;
-        profile_fields(): readonly any[];
-        Send_resume(): $mol_button_major;
-        Resume_form(): $$.$mol_form;
-    }
-}
-
-declare namespace $.$$ {
-    class $hyoo_intern_resume_card extends $.$hyoo_intern_resume_card {
-        enabled(): boolean;
-    }
-}
-
-declare namespace $ {
-    class $hyoo_intern_catalog_interns extends $hyoo_intern_catalog_scroll {
-        access(): string;
-        menu_title(): string;
-        Page_content(id: any): $mol_view;
-        menu_tools(): readonly any[];
-        Resume_card(id: any): $$.$hyoo_intern_resume_card;
-        add(next?: any): any;
-        Add(): $mol_button_minor;
-    }
-}
-
-declare namespace $ {
-    class $hyoo_intern_vacancy_card extends $mol_view {
-        sub(): readonly any[];
-        Scope(): $$.$mol_string;
-        Scope_field(): $$.$mol_form_field;
-        Adress(): $$.$mol_string;
-        Adress_field(): $$.$mol_form_field;
-        Tasks(): $$.$mol_string;
-        Tasks_field(): $$.$mol_form_field;
-        Requirements(): $$.$mol_string;
-        Requirements_field(): $$.$mol_form_field;
-        Tests(): $$.$mol_string;
-        Tests_field(): $$.$mol_form_field;
-        value_str(id: any, next?: any): string;
-        Form(): $$.$mol_form_draft;
-    }
-}
-
-declare namespace $ {
-    class $hyoo_intern_catalog_vacancies extends $hyoo_intern_catalog_scroll {
-        access(): string;
-        menu_title(): string;
-        Page_content(id: any): $mol_view;
-        menu_tools(): readonly any[];
-        Vacancy_card(id: any): $hyoo_intern_vacancy_card;
-        add(next?: any): any;
-        Add(): $mol_button_minor;
-    }
-}
-
-declare namespace $ {
-    class $hyoo_intern_cabinet_admin extends $hyoo_intern_cabinet {
-        companies_ids(): string[];
-        company(id: any): $hyoo_intern_company;
-        company_add(): $hyoo_intern_company;
-        company_drop(id: any): void;
-        managers_ids(): string[];
-        manager(id: any): $hyoo_intern_manager;
-        manager_add(): $hyoo_intern_manager;
-        campaign(): $hyoo_intern_campaign;
-        spreads(): Record<string, any>;
-        Campaign(): $hyoo_intern_campaign_card;
-        Companies(): $$.$hyoo_intern_catalog_companies;
-        Managers(): $$.$hyoo_intern_catalog_managers;
-        Mentors(): $hyoo_intern_catalog_mentors;
-        Curators(): $hyoo_intern_catalog_curators;
-        Interns(): $hyoo_intern_catalog_interns;
-        Vacancies(): $hyoo_intern_catalog_vacancies;
-    }
-}
-
-declare namespace $.$$ {
-    class $hyoo_intern_cabinet_admin extends $.$hyoo_intern_cabinet_admin {
-        campaign(): $hyoo_intern_campaign;
-    }
-}
-
-declare namespace $ {
-    class $mol_vector<Value, Length extends number> extends Array<Value> {
-        get length(): Length;
-        constructor(...values: Value[] & {
-            length: Length;
-        });
-        map<Res>(convert: (value: Value, index: number, array: this) => Res, self?: any): $mol_vector<Res, Length>;
-        merged<Patch>(patches: readonly Patch[] & {
-            length: Length;
-        }, combine: (value: Value, patch: Patch) => Value): this;
-        limited(this: $mol_vector<number, Length>, limits: readonly (readonly [number, number])[] & {
-            length: Length;
-        }): this;
-        added0(this: $mol_vector<number, Length>, diff: number): this;
-        added1(this: $mol_vector<number, Length>, diff: readonly number[] & {
-            length: Length;
-        }): this;
-        multed0(this: $mol_vector<number, Length>, mult: number): this;
-        multed1(this: $mol_vector<number, Length>, mults: readonly number[] & {
-            length: Length;
-        }): this;
-        powered0(this: $mol_vector<number, Length>, mult: number): this;
-        expanded1(this: $mol_vector<$mol_vector_range<number>, Length>, point: readonly number[] & {
-            length: Length;
-        }): this;
-        expanded2(this: $mol_vector<$mol_vector_range<number>, Length>, point: readonly (readonly [number, number])[] & {
-            length: Length;
-        }): this;
-        center<Item extends $mol_vector<number, number>>(this: $mol_vector<Item, Length>): Item;
-        distance(this: $mol_vector<$mol_vector<number, number>, Length>): number;
-        transponed(this: $mol_vector<$mol_vector<number, number>, Length>): $mol_vector<$mol_vector<number, Length>, typeof this[0]['length']>;
-        get x(): Value;
-        set x(next: Value);
-        get y(): Value;
-        set y(next: Value);
-        get z(): Value;
-        set z(next: Value);
-    }
-    class $mol_vector_1d<Value> extends $mol_vector<Value, 1> {
-    }
-    class $mol_vector_2d<Value> extends $mol_vector<Value, 2> {
-    }
-    class $mol_vector_3d<Value> extends $mol_vector<Value, 3> {
-    }
-    class $mol_vector_range<Value> extends $mol_vector<Value, 2> {
-        0: Value;
-        1: Value;
-        constructor(min: Value, max?: Value);
-        get min(): Value;
-        set min(next: Value);
-        get max(): Value;
-        set max(next: Value);
-        get inversed(): $mol_vector_range<Value>;
-        expanded0(value: Value): $mol_vector_range<Value>;
-    }
-    let $mol_vector_range_full: $mol_vector_range<number>;
-    class $mol_vector_matrix<Width extends number, Height extends number> extends $mol_vector<readonly number[] & {
-        length: Width;
-    }, Height> {
-        added2(diff: readonly (readonly number[] & {
-            length: Width;
-        })[] & {
-            length: Height;
-        }): this;
-        multed2(diff: readonly (readonly number[] & {
-            length: Width;
-        })[] & {
-            length: Height;
-        }): this;
-    }
-}
-
-declare namespace $ {
-    class $mol_map_yandex_mark extends $mol_object {
-        pos(): $mol_vector_2d<number>;
-        box(): $mol_vector_2d<$mol_vector_range<number>>;
-        hint(): string;
-        title(): string;
-        content(): string;
-        object(): any;
-        box_lat(): $mol_vector_range<number>;
-        box_lon(): $mol_vector_range<number>;
-        address(): string;
-    }
-}
-
-declare namespace $ {
-    type $mol_type_unary_func = ((param: any) => any);
-    type $mol_type_unary_class = new (param: any) => any;
-    type $mol_type_unary = $mol_type_unary_func | $mol_type_unary_class;
-}
-
-declare namespace $ {
-    type $mol_type_param<Func, Index extends number> = Func extends (...params: infer Params) => any ? Params[Index] : Func extends new (...params: infer Params2) => any ? Params2[Index] : never;
-}
-
-declare namespace $ {
-    function $mol_func_is_class(func: Function): boolean;
-}
-
-declare namespace $ {
-    type $mol_type_result<Func> = Func extends (...params: any) => infer Result ? Result : Func extends new (...params: any) => infer Result ? Result : never;
-}
-
-declare namespace $ {
-    type Guard_value<Funcs extends $mol_type_unary[], Index extends keyof Funcs> = $mol_type_param<Index extends keyof $mol_type_tail<Funcs> ? $mol_type_tail<Funcs>[Index] : any, 0>;
-    type Guard<Funcs extends $mol_type_unary[]> = {
-        [Index in keyof Funcs]: (Funcs[Index] extends $mol_type_unary_func ? (input: $mol_type_param<Funcs[Index], 0>) => Guard_value<Funcs, Index> : new (input: $mol_type_param<Funcs[Index], 0>) => Guard_value<Funcs, Index>);
-    };
-    export function $mol_data_pipe<Funcs extends $mol_type_unary[]>(...funcs: Funcs & Guard<Funcs>): ((this: any, input: $mol_type_param<Funcs[0], 0>) => $mol_type_result<$mol_type_foot<Funcs>>) & {
-        config: {
-            funcs: Funcs & Guard<Funcs>;
-        };
-        Value: $mol_type_result<$mol_type_foot<Funcs>>;
-    };
-    export {};
-}
-
-declare namespace $ {
-    let $mol_data_string: (val: string) => string;
-}
-
-declare namespace $ {
-    function $mol_data_array<Sub extends $mol_data_value>(sub: Sub): ((val: readonly Parameters<Sub>[0][]) => readonly ReturnType<Sub>[]) & {
-        config: Sub;
-        Value: readonly ReturnType<Sub>[];
-    };
-}
-
-declare namespace $ {
-    type $mol_type_partial_undefined<Val> = $mol_type_merge<Partial<Val> & Pick<Val, {
-        [Field in keyof Val]: undefined extends Val[Field] ? never : Field;
-    }[keyof Val]>>;
-}
-
-declare namespace $ {
-    function $mol_data_record<Sub extends Record<string, $mol_data_value>>(sub: Sub): ((val: $mol_type_merge<Partial<{ [key in keyof Sub]: Parameters<Sub[key]>[0]; }> & Pick<{ [key in keyof Sub]: Parameters<Sub[key]>[0]; }, ({ [key in keyof Sub]: Parameters<Sub[key]>[0]; } extends infer T ? { [Field in keyof T]: undefined extends { [key in keyof Sub]: Parameters<Sub[key]>[0]; }[Field] ? never : Field; } : never)[keyof Sub]>>) => Readonly<$mol_type_merge<Partial<{ [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }> & Pick<{ [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }, ({ [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; } extends infer T_1 ? { [Field_1 in keyof T_1]: undefined extends { [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }[Field_1] ? never : Field_1; } : never)[keyof Sub]>>>) & {
-        config: Sub;
-        Value: Readonly<$mol_type_merge<Partial<{ [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }> & Pick<{ [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }, ({ [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; } extends infer T_2 ? { [Field_1 in keyof T_2]: undefined extends { [key_1 in keyof Sub]: ReturnType<Sub[key_1]>; }[Field_1] ? never : Field_1; } : never)[keyof Sub]>>>;
-    };
-}
-
-declare namespace $ {
-    let $mol_geo_search_attribution: string;
-    function $mol_geo_search({ query, count }: {
-        query: string;
-        count?: number;
-    }): {
-        coord: $mol_vector_2d<number>;
-        box: $mol_vector_2d<$mol_vector_range<number>>;
-    }[];
-}
-
-declare namespace $.$$ {
-    class $mol_map_yandex_mark extends $.$mol_map_yandex_mark {
-        object(): any;
-        found(): {
-            coord: $mol_vector_2d<number>;
-            box: $mol_vector_2d<$mol_vector_range<number>>;
-        };
-        pos(): $mol_vector_2d<number>;
-        box(): $mol_vector_2d<$mol_vector_range<number>>;
-    }
-}
-
-declare namespace $ {
-    class $mol_map_yandex extends $mol_view {
-        zoom(val?: any): number;
-        center(val?: any): readonly any[];
-        objects(): readonly $mol_map_yandex_mark[];
-    }
-}
-
-declare namespace $ {
-    class $mol_import extends $mol_object2 {
-        static module(uri: string): any;
-        static module_async(uri: string): Promise<any>;
-        static script(uri: string): any;
-        static script_async(uri: string): Promise<any>;
-        static style(uri: string): any;
-        static style_async(uri: string): any;
-    }
-}
-
-declare namespace $ {
-    class $mol_mem_force extends Object {
-        constructor();
-        $mol_mem_force: boolean;
-        static $mol_mem_force: boolean;
-        static toString(): string;
-    }
-    class $mol_mem_force_cache extends $mol_mem_force {
-    }
-    class $mol_mem_force_update extends $mol_mem_force {
-    }
-    class $mol_mem_force_fail extends $mol_mem_force_cache {
-    }
-}
-
-declare namespace $ {
-    function $mol_fiber_defer<Value = void>(calculate: () => Value): $mol_wire_task<{}, [], Value>;
-    function $mol_fiber_root<Calculate extends (this: This, ...args: any[]) => Result, Result = void, This = void>(calculate: Calculate): Calculate;
-    function $mol_fiber_sync<Args extends any[], Value = void, This = void>(request: (this: This, ...args: Args) => PromiseLike<Value>): (...args: Args) => Value;
-    function $mol_fiber_warp(): Promise<void>;
-    class $mol_fiber_solid extends $mol_wrapper {
-        static func<This, Args extends any[], Result>(task: (this: This, ...args: Args) => Result): (this: This, ...args: Args) => Result;
-    }
-    class $mol_fiber {
-        static method: typeof $mol_wire_method;
-    }
-}
-
-declare namespace $.$$ {
-    class $mol_map_yandex extends $.$mol_map_yandex {
-        static api(): any;
-        wait_ready(ymaps: any): Promise<unknown>;
-        api(next?: any, force?: $mol_mem_force): any;
-        update(event?: any): void;
-        bounds_updated(): boolean;
-        center(next?: readonly [number, number], force?: $mol_mem_force): $mol_vector_2d<number> | readonly [number, number];
-        render(): void;
-    }
-}
-
-declare namespace $ {
-}
-
-declare namespace $ {
     class $hyoo_intern_cabinet_intern extends $hyoo_intern_cabinet {
-        spreads(): Record<string, any>;
+        profile_title(): string;
+        profile_name_sub(): readonly any[];
+        stage(next?: any): number;
+        profile_body(): readonly any[];
+        stage_spreads(): Record<string, any>;
+        stage_title(): string;
+        Stage_title(): $$.$mol_paragraph;
+        Intern_stage_number(): $$.$mol_number;
+        Intern_stage_field(): $$.$mol_form_field;
         Resume_card(): $$.$hyoo_intern_resume_card;
-        Intern_profile(): $mol_page;
+        Resume(): $mol_page;
+        career_school_text(): string;
+        Career_school_text(): $$.$mol_text;
         Career_school(): $mol_page;
+        tests_text(): string;
+        Tests_text(): $$.$mol_text;
         Tests(): $mol_page;
+        championship_text(): string;
+        Championship_text(): $$.$mol_text;
         Championship(): $mol_page;
         Intern_invitations(): $hyoo_intern_catalog_vacancies;
         Responses(): $mol_page;
-        Map(): $$.$mol_map_yandex;
-        Map_page(): $mol_page;
         Vacancy(): $hyoo_intern_vacancy_card;
         Internship(): $mol_page;
         Timesheet(): $mol_page;
     }
 }
 
-declare namespace $ {
-    class $hyoo_intern_cabinet_curator extends $hyoo_intern_cabinet {
-        spreads(): Record<string, any>;
-        Person_card(): $$.$hyoo_intern_person_card;
-        Profile(): $mol_page;
-        Interns(): $hyoo_intern_catalog_interns;
-        Candidats(): $hyoo_intern_catalog_interns;
-        Requested_invitations(): $hyoo_intern_catalog_vacancies;
-        Curator_statistics(): $mol_page;
-        Timesheet(): $mol_page;
+declare namespace $.$$ {
+    class $hyoo_intern_cabinet_intern extends $.$hyoo_intern_cabinet_intern {
+        spreads(): any;
+        profile_title(): string;
+        stage_title(): string;
     }
+}
+
+declare namespace $.$$ {
+}
+
+declare namespace $ {
+    class $hyoo_intern_cabinet_mentor extends $hyoo_intern_cabinet {
+        profile_title(): string;
+        spreads(): Record<string, any>;
+        Company(): $$.$hyoo_intern_company_card;
+        Company_page(): $mol_page;
+        Vacancy(): $hyoo_intern_vacancy_card;
+        Vacancy_page(): $mol_page;
+        Interns(): $hyoo_intern_catalog_interns;
+    }
+}
+
+declare namespace $.$$ {
+    class $hyoo_intern_cabinet_mentor extends $.$hyoo_intern_cabinet_mentor {
+        vacancy(): $hyoo_intern_vacancy;
+    }
+}
+
+declare namespace $.$$ {
 }
 
 declare namespace $ {
     class $hyoo_intern_cabinet_manager extends $hyoo_intern_cabinet {
+        profile_title(): string;
         spreads(): Record<string, any>;
-        Person_card(): $$.$hyoo_intern_person_card;
-        Profile(): $mol_page;
         Company(): $$.$hyoo_intern_company_card;
         Company_page(): $mol_page;
         Mentors(): $hyoo_intern_catalog_mentors;
@@ -4957,34 +4939,24 @@ declare namespace $ {
     }
 }
 
-declare namespace $ {
-    class $hyoo_intern_cabinet_mentor extends $hyoo_intern_cabinet {
-        spreads(): Record<string, any>;
-        Person_card(): $$.$hyoo_intern_person_card;
-        Profile(): $mol_page;
-        Company(): $$.$hyoo_intern_company_card;
-        Company_page(): $mol_page;
-        Interns(): $hyoo_intern_catalog_interns;
-    }
+declare namespace $.$$ {
 }
 
 declare namespace $ {
     class $hyoo_intern extends $mol_book2 {
         plugins(): readonly any[];
         user(): $hyoo_intern_person;
+        campaign(): $hyoo_intern_campaign;
         yard(): $hyoo_sync_client;
         role(next?: any): string;
-        pages(): readonly any[];
         cabinets(): Record<string, any>;
         Theme(): $$.$mol_theme_auto;
-        Role(): $$.$mol_switch;
-        Demo(): $mol_page;
-        Sign_cabinet(): $$.$hyoo_intern_cabinet;
+        Sign_cabinet(): $$.$hyoo_intern_cabinet_norole;
         Admin_cabinet(): $$.$hyoo_intern_cabinet_admin;
-        Intern_cabinet(): $hyoo_intern_cabinet_intern;
-        Curator_cabinet(): $hyoo_intern_cabinet_curator;
+        Curator_cabinet(): $$.$hyoo_intern_cabinet_curator;
+        Intern_cabinet(): $$.$hyoo_intern_cabinet_intern;
+        Mentor_cabinet(): $$.$hyoo_intern_cabinet_mentor;
         Manager_cabinet(): $hyoo_intern_cabinet_manager;
-        Mentor_cabinet(): $hyoo_intern_cabinet_mentor;
     }
 }
 
@@ -4992,7 +4964,13 @@ declare namespace $.$$ {
     type Role = keyof ReturnType<$hyoo_intern["cabinets"]>;
     export class $hyoo_intern extends $.$hyoo_intern {
         home(): $hyoo_crowd_land;
+        peer_id(): `${string}_${string}`;
+        user_id(): $mol_int62_string;
         user(): $hyoo_intern_person;
+        campaign_id(next?: $mol_int62_string): `${string}_${string}`;
+        campaign_owner_peer_id(): string;
+        campaign(): $hyoo_intern_campaign;
+        add_campaign(): void;
         role(next?: Role): string;
         sub(): any[];
     }
