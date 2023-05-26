@@ -34,13 +34,13 @@ $hyoo_intern_cabinet_norole $hyoo_intern_cabinet
 						\Перейти в личный кабинет:
 				<= Open_intern $mol_button_minor
 					title \Стажера
-					click? <=> role*intern?
+					click <= role*intern
 				<= Open_curator $mol_button_minor
 					title \Куратора
-					click? <=> role*curator?
+					click <= role*curator
 				<= Open_mentor $mol_button_minor
 					title \Наставника
-					click? <=> role*mentor?
+					click <= role*mentor
 				<= Open_manager $mol_button_minor
 					title \Специалиста отдела кадров
-					click? <=> role*manager?
+					click <= role*manager
