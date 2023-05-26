@@ -39,7 +39,7 @@ $hyoo_intern $mol_book2
 							mentor \mentor
 							manager \manager
 	cabinets *
-		norole <= Sign_cabinet $hyoo_intern_cabinet
+		norole <= Sign_cabinet $hyoo_intern_cabinet_norole
 			yard <= yard
 			user <= user
 			campaign <= campaign

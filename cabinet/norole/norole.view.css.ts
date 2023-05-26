@@ -1,6 +1,6 @@
 namespace $.$$ {
 
-	$mol_style_define( $.$hyoo_intern_cabinet_candidate, {
+	$mol_style_define( $.$hyoo_intern_cabinet_norole, {
 
 		Resume_page: $hyoo_intern_cabinet_page_style,
 

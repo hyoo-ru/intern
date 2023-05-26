@@ -30,10 +30,6 @@ namespace $.$$ {
 			]
 		}
 
-		spreads() {
-			return this.norole_spreads()
-		}
-
 	}
 
 }

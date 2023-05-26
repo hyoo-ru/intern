@@ -5,6 +5,7 @@ $hyoo_intern_cabinet $mol_book2_catalog
 	Placeholder null
 	Profile_card $hyoo_intern_person_card_profile
 		title <= profile_title \Профиль
+		name_sub <= profile_name_sub /
 		person <= user
 	menu_head /
 		<= Logo $mol_image
@@ -19,6 +20,3 @@ $hyoo_intern_cabinet $mol_book2_catalog
 		<= Online $hyoo_sync_online
 			yard <= yard
 	param \section
-	norole_spreads *
-		sign <= Sign $hyoo_intern_sign
-			person <= user
