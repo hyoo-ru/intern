@@ -9,7 +9,7 @@ namespace $ {
 
 		@ $mol_mem
 		role( next?: string ) {
-			return this.sub( 'role', $hyoo_crowd_reg ).str( next ) ?? 'norole' as keyof ReturnType<$hyoo_intern["role"]>
+			return this.sub( 'role', $hyoo_crowd_reg ).str( next ) || 'norole' as keyof ReturnType<$hyoo_intern["role"]>
 		}
 
 		@ $mol_mem
