@@ -17,6 +17,10 @@ namespace $ {
 				.filter( $mol_guard_defined )
 		}
 
+		length() {
+			return this.ids().length
+		}
+
 		@ $mol_mem_key
 		item( id: $mol_int62_string ) {
 			return this.fund().Item( id! )

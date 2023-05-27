@@ -6,7 +6,7 @@ $hyoo_intern_cabinet $mol_book2_catalog
 	role* null
 	menu_tools /
 		<= User $mol_link
-			uri <= uri*user
+			uri <= uri*person
 			sub / <= User_icon $mol_icon_account
 			hint \Учетная запись
 	Menu_logo $hyoo_intern_person_avatar

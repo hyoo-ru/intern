@@ -22,8 +22,10 @@ namespace $ {
 		}
 
 		@ $mol_mem
-		owner() {
-			return this.world()!.Fund( $hyoo_intern_person ).Item( this.land.peer_id() )
+		owner( next?: $hyoo_intern_person ) {
+			const str = this.sub('owner', $hyoo_crowd_reg).str( next && next.id() )
+			const id = $mol_int62_string_ensure(str)
+			return id ? this.world()?.Fund($hyoo_intern_person).Item(id) : null
 		}
 
 		@ $mol_mem

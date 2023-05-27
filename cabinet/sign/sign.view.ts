@@ -2,8 +2,11 @@ namespace $.$$ {
 
 	export class $hyoo_intern_cabinet_sign extends $.$hyoo_intern_cabinet_sign {
 
+		campaign_creating() {
+			return this.person().campaigns().items()?.[0] ?? super.campaign_creating()
+		}
+
 		person_has_camapigns() {
-			console.log('items', this.person().campaigns().items().length)
 			return this.person().campaigns().items().length > 0
 		}
 
@@ -13,7 +16,6 @@ namespace $.$$ {
 
 		@ $mol_mem
 		campaign_body() {
-			console.log(11, this.person(), this.campaign_current())
 			return [
 				this.About(),
 				... this.person_has_camapigns() ? [ this.Campaign() ] : [ null ],
@@ -22,7 +24,17 @@ namespace $.$$ {
 
 		@ $mol_action
 		campaign_add() {
-			this.person().campaigns().item_make()
+			const obj = this.person().campaign_add()
+			this.person().campaign_current( obj )
+		}
+
+		@ $mol_action
+		start() {
+			this.person().signed(true)
+		}
+
+		start_button_enabled() {
+			return this.person_has_camapigns()
 		}
 
 	}

@@ -5,6 +5,7 @@ namespace $ {
 		id() {
 			return this.land.id()
 		}
+
 		@ $mol_mem
 		role_raw( next?: string ) {
 			return this.$.$mol_state_local.value( 'role' , next ) || 'norole'
@@ -62,6 +63,13 @@ namespace $ {
 			const node = this.data().sub('campaigns', $hyoo_intern_entity_links<typeof $hyoo_intern_campaign>)
 			node.Item = $hyoo_intern_campaign
 			return node
+		}
+
+		@ $mol_action
+		campaign_add() {
+			const obj = this.campaigns().item_make()
+			obj.owner( this )
+			return obj
 		}
 
 		@ $mol_mem

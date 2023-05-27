@@ -6,7 +6,7 @@ namespace $.$$ {
 		Spread() {
 			if ( !this.spread() ) this.spread( Object.keys(this.spreads())[0] )
 			return {
-				user: this.Person_page(),
+				person: this.Person_page(),
 				confirm: this.Confirm_page(),
 				...this.spreads(),
 			}[ this.spread() ]! as any
