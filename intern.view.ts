@@ -11,7 +11,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		user() {
-			return this.home().node( this.home().id(), $hyoo_intern_person )
+			return this.home().chief.as( $hyoo_intern_person )
 		}
 
 		// @ $mol_mem

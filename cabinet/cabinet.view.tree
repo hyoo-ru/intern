@@ -21,3 +21,4 @@ $hyoo_intern_cabinet $mol_book2_catalog
 		uri <= uri* \
 		sub <= menu_link_content*
 	Person_page $hyoo_intern_person_page
+		person <= user

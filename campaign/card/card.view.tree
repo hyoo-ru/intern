@@ -1,12 +1,19 @@
-$hyoo_intern_campaign_card $mol_page
+$hyoo_intern_campaign_card $mol_form
+	user $hyoo_intern_person
 	campaign $hyoo_intern_campaign
-	title \Кампания стажировки
-	body /
-		<= Campaign_form $mol_form_draft
-			model <= campaign
-			value_str*? => value_str*?
-			form_fields /
-				<= Name_field $mol_form_field
-					name \Наименование
-					Content <= Name $mol_string
-						value? <=> value_str*name?
+		name? => name?
+	form_fields /
+		<= Group $mol_form_group sub /
+			<= Name_field $mol_form_field
+				name \Название кампании
+				control <= Name_control $mol_string
+					value? <=> name?
+			<= Current_field $mol_form_field
+				name \Текущая кампания
+				control <= Current_control $mol_check_box
+					title \Выбрать
+					checked? <=> campaign_current? false
+		<= Invite_link_field $mol_form_field
+			name \Ссылка для регистрации
+			control <= Invite_link_control $mol_button_copy
+				title <= invite_link \

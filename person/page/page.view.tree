@@ -45,3 +45,13 @@ $hyoo_intern_person_page $mol_page
 				Head null
 			<= Campaigns $mol_view
 				title \Кампании стажировки
+				sub /
+					<= Desc $mol_paragraph title \Описание что это и зачем
+					<= Campaign_add $mol_button_major
+						title \Создать кампанию
+						click? <=> campaign_add? null
+					<= Campaign_list $mol_list
+						rows <= campaign_list /
+							<= Campaign*0 $hyoo_intern_campaign_card
+								user <= person
+								campaign <= campaign* $hyoo_intern_campaign
