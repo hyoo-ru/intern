@@ -7,15 +7,15 @@ namespace $.$$ {
 			return this.$.$mol_state_arg.make_link({ campaign: this.campaign().id() })
 		}
 
-		@ $mol_mem
-		campaign_current( next?: boolean ) {
-			if (next === true) {
-				this.user().campaign_current( this.campaign() )
-				return next
-			}
+		// @ $mol_mem
+		// campaign_current( next?: boolean ) {
+		// 	if (next === true) {
+		// 		this.user().campaign_current( this.campaign() )
+		// 		return next
+		// 	}
 			
-			return this.campaign().id() === this.user().campaign_current()?.id()
-		}
+		// 	return this.campaign().id() === this.user().campaign_current()?.id()
+		// }
 
 	}
 

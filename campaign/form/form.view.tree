@@ -1,12 +1,11 @@
 $hyoo_intern_campaign_form $mol_form
-	user $hyoo_intern_person
 	campaign $hyoo_intern_campaign
 		name? => name?
 		info? => info?
 		image_node => image_node
 	form_fields /
 		<= Image_field $mol_form_field
-			name \Изображение
+			name \Логотип
 			control <= Image_control $hyoo_intern_person_avatar
 				blob_node <= image_node
 				control true
@@ -22,7 +21,7 @@ $hyoo_intern_campaign_form $mol_form
 			name \Ссылка для регистрации
 			control <= Invite_link_control $mol_button_copy
 				title <= invite_link \
-		<= Current_field $mol_form_field
+		- <= Current_field $mol_form_field
 			name \Текущая кампания
 			control <= Current_control $mol_check_box
 				title \Выбрать

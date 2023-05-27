@@ -26,7 +26,7 @@ namespace $.$$ {
 		}
 
 		campaign_name() {
-			return this.campaign_current()?.name() ?? super.campaign_name()
+			return this.campaign_current()?.name() || super.campaign_name()
 		}
 
 	}

@@ -1,5 +1,6 @@
 $hyoo_intern_cabinet_sign $hyoo_intern_cabinet
 	person $hyoo_intern_person
+		campaign_current => campaign_current
 	tools /
 	spreads *
 		person <= Person_page $mol_page
@@ -15,8 +16,19 @@ $hyoo_intern_cabinet_sign $hyoo_intern_cabinet
 				<= Campaign_add $mol_button_major
 					title \Создать кампанию
 					click? <=> campaign_add? null
+					enabled <= campaign_add_enabled false
 			body <= campaign_body /
-				<= About $mol_paragraph title \Описание что это и зачем
+				<= About $mol_text text \
+					\Кампания стажировки - это мерроприятия в рамках которого проходит одна стажировка.
+					\Для старта новой стажировки на странице учетной записи будет необходимо создать новую кампанию.
+					\
+					\Нажмите на кнопку "Создать кампанию" и настройте первую кампанию.
 				<= Campaign $hyoo_intern_campaign_form
-					user <= person
-					campaign <= campaign $hyoo_intern_campaign
+					campaign <= campaign_current
+		sign <= Sign_page $mol_page
+			title \Вход
+			body /
+				<= About2 $mol_text text \
+					\Осталось только войти в кампанию.
+					\
+					\Вернуться к настройкам кампаний вы можете в любой момент на странице "Учетная запись".

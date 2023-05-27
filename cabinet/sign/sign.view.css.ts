@@ -6,6 +6,10 @@ namespace $.$$ {
 			padding: $mol_gap.block,
 		},
 
+		About2: {
+			padding: $mol_gap.block,
+		},
+
 	} )
 
 }
