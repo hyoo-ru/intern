@@ -5,6 +5,16 @@ namespace $ {
 		id() {
 			return this.land.id()
 		}
+		@ $mol_mem
+		role_raw( next?: string ) {
+			return this.$.$mol_state_local.value( 'role' , next ) || 'norole'
+		}
+
+		@ $mol_mem
+		role_raw_confirmed(): boolean {
+			//return this.role_raw() === this.role()
+			return true //todo
+		}
 
 		@ $mol_mem
 		data() {

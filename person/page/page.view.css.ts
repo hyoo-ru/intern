@@ -21,6 +21,23 @@ namespace $.$$ {
 			},
 		},
 
+		Not_confirmed: {
+			flex: {
+				shrink: 0,
+			},
+			padding: $mol_gap.block,
+		},
+		Not_confirmed_text: {
+			padding: {
+				top: $mol_gap.block,
+				left: $mol_gap.block,
+			}
+		},
+		Confirm_link: {
+			wordBreak: 'break-all',
+		},
+		
+
 	} )
 
 }
