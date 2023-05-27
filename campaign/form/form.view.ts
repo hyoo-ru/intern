@@ -1,6 +1,6 @@
 namespace $.$$ {
 
-	export class $hyoo_intern_campaign_card extends $.$hyoo_intern_campaign_card {
+	export class $hyoo_intern_campaign_form extends $.$hyoo_intern_campaign_form {
 
 		@ $mol_mem
 		invite_link() {

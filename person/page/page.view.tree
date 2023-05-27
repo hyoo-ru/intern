@@ -52,6 +52,6 @@ $hyoo_intern_person_page $mol_page
 						click? <=> campaign_add? null
 					<= Campaign_list $mol_list
 						rows <= campaign_list /
-							<= Campaign*0 $hyoo_intern_campaign_card
+							<= Campaign*0 $hyoo_intern_campaign_form
 								user <= person
 								campaign <= campaign* $hyoo_intern_campaign

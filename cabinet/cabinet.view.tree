@@ -1,6 +1,6 @@
 $hyoo_intern_cabinet $mol_book2_catalog
 	user $hyoo_intern_person
-	campaign $hyoo_intern_campaign
+		campaign_current => campaign_current
 	yard $hyoo_sync_client
 	Placeholder null
 	role* null
@@ -9,7 +9,11 @@ $hyoo_intern_cabinet $mol_book2_catalog
 			uri <= uri*user
 			sub / <= User_icon $mol_icon_account
 			hint \Учетная запись
-	menu_title \Стажировка
+	Menu_logo $hyoo_intern_person_avatar
+		blob_node <= campaign_image_node $hyoo_crowd_blob
+		control false
+		size 36
+	menu_title <= campaign_name \$hyoo_intern
 	menu_body /
 		<= Menu_links
 	menu_foot /

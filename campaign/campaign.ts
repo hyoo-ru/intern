@@ -12,6 +12,16 @@ namespace $ {
 		}
 
 		@ $mol_mem
+		image_node() {
+			return this.yoke( 'image', $hyoo_crowd_blob )!
+		}
+
+		@ $mol_mem
+		info( next?: string ) {
+			return this.sub( 'info', $hyoo_crowd_text ).text( next ) || '# Заголовок\nОписание стажировки для кандидатов'
+		}
+
+		@ $mol_mem
 		owner() {
 			return this.world()!.Fund( $hyoo_intern_person ).Item( this.land.peer_id() )
 		}
@@ -51,16 +61,15 @@ namespace $ {
 			return node
 		}
 		
-
 		@ $mol_action
 		curator_add( person_id: $mol_int62_string ){
-			const person = this.world()!.Fund( $hyoo_intern_person ).Item( person_id )
-			const curator = this.curators().item_push( person )
-			const peer_id = $mol_int62_string_ensure( curator.peer_id() )!
-			this.land.level( curator.id(), $hyoo_crowd_peer_level.law )
-			this.curators().land.level( curator.id(), $hyoo_crowd_peer_level.law )
-			this.companies().land.level( curator.id(), $hyoo_crowd_peer_level.law )
-			return curator
+			// const person = this.world()!.Fund( $hyoo_intern_person ).Item( person_id )
+			// const curator = this.curators().item_push( person )
+			// const peer_id = $mol_int62_string_ensure( curator.peer_id() )!
+			// this.land.level( curator.id(), $hyoo_crowd_peer_level.law )
+			// this.curators().land.level( curator.id(), $hyoo_crowd_peer_level.law )
+			// this.companies().land.level( curator.id(), $hyoo_crowd_peer_level.law )
+			// return curator
 		}
 		
 	}
