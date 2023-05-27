@@ -2,44 +2,48 @@ namespace $ {
 
 	export class $hyoo_intern_person extends $hyoo_crowd_struct {
 
-		@ $mol_mem
-		peer_id( next?: $mol_int62_string ) {
-			return this.sub( 'peer', $hyoo_crowd_reg ).str( next ) ?? null
+		id() {
+			return this.land.id()
 		}
 
 		@ $mol_mem
-		role( next?: string ) {
-			return this.sub( 'role', $hyoo_crowd_reg ).str( next ) || 'norole' as keyof ReturnType<$hyoo_intern["role"]>
+		data() {
+			return this.sub( '$hyoo_intern', $hyoo_crowd_struct )
 		}
 
 		@ $mol_mem
 		name( next?: string ) {
-			return this.sub( 'name', $hyoo_crowd_reg ).str( next ) ?? ''
+			return this.data().sub( 'name', $hyoo_crowd_reg ).str( next ) ?? ''
 		}
 
 		@ $mol_mem
 		name_family( next?: string ) {
-			return this.sub( 'name_family', $hyoo_crowd_reg ).str( next ) ?? ''
+			return this.data().sub( 'name_family', $hyoo_crowd_reg ).str( next ) ?? ''
 		}
 
 		@ $mol_mem
 		email( next?: string ) {
-			return this.sub( 'email', $hyoo_crowd_reg ).str( next ) ?? ''
+			return this.data().sub( 'email', $hyoo_crowd_reg ).str( next ) ?? ''
+		}
+
+		@ $mol_mem
+		phone( next?: string ) {
+			return this.data().sub( 'phone', $hyoo_crowd_reg ).str( next ) ?? ''
 		}
 
 		@ $mol_mem
 		mentor_vacancy( ) {
-			return this.sub( 'vacancy', $hyoo_intern_vacancy ) ?? null
+			return this.data().sub( 'vacancy', $hyoo_intern_vacancy ) ?? null
 		}
 
 		@ $mol_mem
 		signed(next?: boolean) {
-			return this.sub( 'signed', $hyoo_crowd_reg ).bool( next ) ?? false
+			return this.data().sub( 'signed', $hyoo_crowd_reg ).bool( next ) ?? false
 		}
 
 		@ $mol_mem
 		campaigns() {
-			const node = this.sub('campaigns', $hyoo_intern_entity_links<typeof $hyoo_intern_campaign>)
+			const node = this.data().sub('campaigns', $hyoo_intern_entity_links<typeof $hyoo_intern_campaign>)
 			node.Item = $hyoo_intern_campaign
 			return node
 		}
@@ -57,42 +61,37 @@ namespace $ {
 
 		@ $mol_mem
 		about( next?: string ) {
-			return this.sub( 'about', $hyoo_crowd_reg ).str( next )
+			return this.data().sub( 'about', $hyoo_crowd_reg ).str( next )
 		}
 
 		@ $mol_mem
 		status( next?: string ) {
-			return this.sub( 'status', $hyoo_crowd_reg ).str( next )
+			return this.data().sub( 'status', $hyoo_crowd_reg ).str( next )
 		}
 
 		@ $mol_mem
 		country( next?: string ) {
-			return this.sub( 'country', $hyoo_crowd_reg ).str( next )
+			return this.data().sub( 'country', $hyoo_crowd_reg ).str( next )
 		}
 
 		@ $mol_mem
 		city( next?: string ) {
-			return this.sub( 'city', $hyoo_crowd_reg ).str( next )
-		}
-
-		@ $mol_mem
-		phone( next?: string ) {
-			return this.sub( 'phone', $hyoo_crowd_reg ).str( next )
+			return this.data().sub( 'city', $hyoo_crowd_reg ).str( next )
 		}
 
 		@ $mol_mem
 		job_status( next?: 'working_for_hire' | 'self-employed' | 'unemployed' ) {
-			return this.sub( 'job_status', $hyoo_crowd_reg ).str( next )
+			return this.data().sub( 'job_status', $hyoo_crowd_reg ).str( next )
 		}
 
 		@ $mol_mem
 		skills( next?: string[] ) {
-			return this.sub( 'skills', $hyoo_crowd_list ).list( next ).map(String)
+			return this.data().sub( 'skills', $hyoo_crowd_list ).list( next ).map(String)
 		}
 
 		@ $mol_mem
 		jobs_node() {
-			return this.sub( 'jobs', $hyoo_crowd_list )
+			return this.data().sub( 'jobs', $hyoo_crowd_list )
 		}
 
 		@ $mol_mem
@@ -112,7 +111,7 @@ namespace $ {
 
 		@ $mol_mem
 		institutions_node() {
-			return this.sub( 'institutions', $hyoo_crowd_list )
+			return this.data().sub( 'institutions', $hyoo_crowd_list )
 		}
 
 		@ $mol_mem
@@ -135,7 +134,7 @@ namespace $ {
 
 		// @ $mol_mem
 		// posts_node() {
-		// 	return this.sub( 'posts', $hyoo_crowd_list )
+		// 	return this.state().sub( 'posts', $hyoo_crowd_list )
 		// }
 
 		// @ $mol_mem
@@ -157,7 +156,7 @@ namespace $ {
 
 		// @ $mol_mem
 		// projects_node() {
-		// 	return this.sub( 'projects', $hyoo_crowd_list )
+		// 	return this.state().sub( 'projects', $hyoo_crowd_list )
 		// }
 
 		// @ $mol_mem
@@ -179,7 +178,7 @@ namespace $ {
 
 		// @ $mol_mem
 		// pubs(next?: $hyoo_intern_person[]) {
-		// 	const ids = this.sub('pubs', $hyoo_crowd_list).list( next && next.map( obj => obj.id() ) )
+		// 	const ids = this.state().sub('pubs', $hyoo_crowd_list).list( next && next.map( obj => obj.id() ) )
 		// 	return ids
 		// 		.filter( id => $mol_int62_string_ensure(id))
 		// 		.map( id => this.domain().person( $mol_int62_string_ensure(id)! ) )
@@ -187,7 +186,7 @@ namespace $ {
 
 		// @ $mol_mem
 		// subs(next?: $hyoo_intern_person[]) {
-		// 	const ids = this.sub('subs', $hyoo_crowd_list).list( next && next.map( obj => obj.id() ) )
+		// 	const ids = this.state().sub('subs', $hyoo_crowd_list).list( next && next.map( obj => obj.id() ) )
 		// 	return ids
 		// 		.filter( id => $mol_int62_string_ensure(id))
 		// 		.map( id => this.domain().person( $mol_int62_string_ensure(id)! ) )

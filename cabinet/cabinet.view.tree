@@ -4,26 +4,12 @@ $hyoo_intern_cabinet $mol_book2_catalog
 	yard $hyoo_sync_client
 	Placeholder null
 	role* null
-	Menu_profile_card $hyoo_intern_person_card_profile
-		title <= profile_title \Профиль
-		name_sub <= profile_name_sub /
-		person <= user
-	Profile $mol_page
-		title <= profile_title \Профиль
-		body <= profile_body /
-			<= Profile_card $hyoo_intern_person_card
-				person <= user
-			<= Sign_out $mol_button_minor
-				title \Выйти из личного кабинета
-				click? <=> sign_out? null
-	menu_head /
-		<= Logo $mol_image
-			uri \/hyoo/intern/logo/logo.svg
-		<= Label $mol_list rows /
-			<= Title $mol_paragraph
-				title <= menu_title \Стажировка
-			<= Descr $mol_paragraph
-				title <= descr @ \Правительство Москвы
+	menu_tools /
+		<= User $mol_link
+			uri <= uri*user
+			sub / <= User_icon $mol_icon_account
+			hint \Учетная запись
+	menu_title \Стажировка
 	menu_body /
 		<= Menu_links
 	menu_foot /
@@ -31,3 +17,7 @@ $hyoo_intern_cabinet $mol_book2_catalog
 		<= Online $hyoo_sync_online
 			yard <= yard
 	param \section
+	Menu_link*0 $mol_link
+		uri <= uri* \
+		sub <= menu_link_content*
+	Person_page $hyoo_intern_person_page

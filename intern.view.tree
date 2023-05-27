@@ -4,39 +4,8 @@ $hyoo_intern $mol_book2
 	user $hyoo_intern_person
 	campaign $hyoo_intern_campaign
 	yard $hyoo_sync_client
+	Person_page $hyoo_intern_person_page
 	role? \norole
-	- pages /
-		<= Demo $mol_page
-			body /
-				<= Peer_field $mol_form_field
-					name \Peer_id
-					control <= Peer_id $mol_paragraph
-						title? <=> peer_id? \
-				<= Person_id_field $mol_form_field
-					name \Person_id
-					control <= Person_id $mol_paragraph
-						title? <=> user_id? \
-				<= Campaign_field $mol_form_field
-					name \Campaign_id
-					control <= Campaign_id $mol_string
-						value? <=> campaign_id? \
-				<= Campaign_owner_peer_id_field $mol_form_field
-					name \Campaign_owner_peer_id
-					control <= Campaign_owner_peer_id $mol_paragraph
-						title <= campaign_owner_peer_id \
-				<= Add_campaign $mol_button_minor
-					click? <=> add_campaign?
-				<= Role_field $mol_form_field
-					name \Role
-					control <= Role $mol_switch
-						value? <=> role?
-						options *
-							norole \norole
-							admin \admin
-							curator \curator
-							intern \intern
-							mentor \mentor
-							manager \manager
 	cabinets *
 		norole <= Sign_cabinet $hyoo_intern_cabinet_norole
 			yard <= yard

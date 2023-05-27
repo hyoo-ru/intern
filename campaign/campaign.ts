@@ -55,9 +55,9 @@ namespace $ {
 			const person = this.world()!.Fund( $hyoo_intern_person ).Item( person_id )
 			const curator = this.curators().item_push( person )
 			const peer_id = $mol_int62_string_ensure( curator.peer_id() )!
-			this.land.level( peer_id, $hyoo_crowd_peer_level.law )
-			this.curators().land.level( peer_id, $hyoo_crowd_peer_level.law )
-			this.companies().land.level( peer_id, $hyoo_crowd_peer_level.law )
+			this.land.level( curator.id(), $hyoo_crowd_peer_level.law )
+			this.curators().land.level( curator.id(), $hyoo_crowd_peer_level.law )
+			this.companies().land.level( curator.id(), $hyoo_crowd_peer_level.law )
 			return curator
 		}
 		
