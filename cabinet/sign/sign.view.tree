@@ -1,0 +1,22 @@
+$hyoo_intern_cabinet_sign $hyoo_intern_cabinet
+	person $hyoo_intern_person
+	tools /
+	spreads *
+		person <= Person_page $mol_page
+			title \Профиль
+			body /
+				<= Person_form $hyoo_intern_person_form
+					person <= person
+		safe <= Sage_page $hyoo_meta_safe
+			title \Ключи
+		campaign <= Campaign_page $mol_page
+			title \Кампания стажировки
+			tools /
+				<= Campaign_add $mol_button_major
+					title \Создать кампанию
+					click? <=> campaign_add? null
+			body <= campaign_body /
+				<= About $mol_paragraph title \Описание что это и зачем
+				<= Campaign $hyoo_intern_campaign_form
+					user <= person
+					campaign <= campaign $hyoo_intern_campaign

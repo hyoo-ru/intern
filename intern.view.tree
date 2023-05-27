@@ -5,9 +5,12 @@ $hyoo_intern $mol_book2
 	campaign $hyoo_intern_campaign
 	yard $hyoo_sync_client
 	Person_page $hyoo_intern_person_page
-	role? \norole
+	role? \sign
 	cabinets *
-		norole <= Sign_cabinet $hyoo_intern_cabinet_norole
+		sign <= Sign_cabinet $hyoo_intern_cabinet_sign
+			yard <= yard
+			person <= user
+		norole <= Norole_cabinet $hyoo_intern_cabinet_norole
 			yard <= yard
 			user <= user
 			campaign <= campaign

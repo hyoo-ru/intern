@@ -27,5 +27,5 @@ $hyoo_intern_cabinet $mol_book2_catalog
 	Person_page $hyoo_intern_person_page
 		person <= user
 	Confirm_page $hyoo_intern_confirm
-		campaign <= campaign
+		campaign <= campaign_current
 		yard <= yard
