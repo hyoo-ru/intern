@@ -26,3 +26,6 @@ $hyoo_intern_cabinet $mol_book2_catalog
 		sub <= menu_link_content*
 	Person_page $hyoo_intern_person_page
 		person <= user
+	Confirm_page $hyoo_intern_confirm
+		campaign <= campaign
+		yard <= yard

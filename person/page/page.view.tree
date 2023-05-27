@@ -6,6 +6,12 @@ $hyoo_intern_person_page $mol_page
 		email? => email?
 		phone? => phone?
 	body /
+		<= Not_confirmed $mol_card 
+			sub /
+				<= Not_confirmed_text $mol_paragraph
+					title \Аккаунт не подтвержден. Для подтверждения необходимо передать администратору ссылку:
+				<= Confirm_link $mol_button_copy
+					title? <=> confirm_link? \
 		<= Deck $mol_deck items /
 			<= Profile $mol_form
 				title @ \Профиль

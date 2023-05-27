@@ -15,6 +15,22 @@ namespace $.$$ {
 			return this.person().campaigns().ids().map( id => this.Campaign(id) )
 		}
 
+
+		@ $mol_mem
+		confirm_link() {
+			return this.$.$mol_state_arg.make_link({ 
+				section: 'confirm',
+				confirm_id: this.person().id(),
+				confirm_role: this.person().role_raw(), 
+			})
+		}
+
+		@ $mol_mem
+		body() {
+			if ( this.person().role_raw_confirmed() ) return [ this.Deck() ]
+			return super.body()
+		}
+
 	}
 
 }

@@ -4,6 +4,7 @@ namespace $.$$ {
 
 		@ $mol_mem
 		Spread() {
+			if ( this.spread() === 'confirm' ) return this.Confirm_page()
 			if ( !this.spread() ) this.spread( Object.keys(this.spreads())[0] )
 			return { user: this.Person_page(), ...this.spreads() }[ this.spread() ]!
 		}
