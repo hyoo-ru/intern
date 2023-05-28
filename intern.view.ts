@@ -15,32 +15,27 @@ namespace $.$$ {
 		}
 
 		@ $mol_mem
-		campaign_arg() {
-			const str = this.$.$mol_state_arg.value('campaign')
+		campaign_join() {
+			const str = this.$.$mol_state_arg.value('campaign_join')
 			const id = $mol_int62_string_ensure( str )
 			return id ? this.home().world()?.Fund( $hyoo_intern_campaign ).Item(id) : null
 		}
 
 		@ $mol_mem
 		role() {
-			if (!this.campaign_arg()) {
+			// В ссылке есть id кампании в которую входим и пользователь не проходил 'sign' - пришел новый кандидат или новый сотрудник
+			if (this.campaign_join() && !this.user().signed()) return 'norole'
 
-				if (!this.user().signed()) return 'sign'
+			// В ссылке нет id кампании в которую входим и пользователь не проходил 'sign' - создаем кампанию
+			if (!this.campaign_join() && !this.user().signed()) return 'sign'
 
-				// После прохождения sign текущая кампания всегда есть, можно переключиться только на другую кампанию
-				// Первая кампания включается на этапе sign
-				// Также кампании нельзя удалить, только перевести в стадию закрыта
+			// Заходим в текущую кампанию, пользователь админ
+			if (this.user().campaign_current()?.owner()?.id() === this.user().id()) return 'admin'
 
-				if (this.user().campaign_current()?.owner()?.id() === this.user().id()) return 'admin'
+			// Пользователь ждет аппрува на присоединение в качестве сотрудника
+			if (this.user().campaign_current()?.person_wants_to_staff( this.user() )) return 'norole'
 
-				return 'qwe'
-
-			} else {
-
-				return 'norole'
-
-			}
-
+			return 'qwe'
 		}
 
 		sub() {

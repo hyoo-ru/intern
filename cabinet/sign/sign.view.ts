@@ -24,8 +24,7 @@ namespace $.$$ {
 
 		@ $mol_action
 		campaign_add() {
-			const obj = this.person().campaign_add()
-			this.person().campaign_current( obj )
+			this.person().campaigns().item_make()
 		}
 
 		@ $mol_action

@@ -1,46 +1,24 @@
 $hyoo_intern_cabinet_norole $hyoo_intern_cabinet
+	campaign_join $hyoo_intern_campaign
+	menu_tools /
 	spreads *
-		info <= Info $mol_page
+		info <= Info_page $mol_page
 			title \Информация для кандидатов
 			body /
 				<= Info_text $mol_text
-					text <= info_text \a
-						\# Стажировка в Правительстве Москвы
-						\Прямо сейчас ты делаешь свой первый шаг на пути к карьере в Правительстве Москвы — участвуешь в отборе на стажировку, которая пройдет с 1 августа 2023 года по 31 января 2024 года. **Мы ждем твою заявку до 17 апреля.**
-						\Стать стажерами Правительства Москвы могут студенты бакалавриата или специалитета, обучающиеся на последнем курсе, магистранты и выпускники вузов, получившие первое образование с 2016 по 2022 год.
-						\**Чтобы начать заполнение заявки, перейди по ссылке ниже. Внимательно проверь, правильно ли введены все данные и особенно адрес электронной почты — на него в течение двух недель после подачи заявки придет информация о твоих следующих шагах.**
-						\Анкета — это начало нашего знакомства. Мы хотим узнать о твоем образовании, опыте работы, если он есть, увлечениях или внеучебной деятельности, о навыках, которые ты приобрел во время учебы. Обязательно заполни анкету полностью перед подачей заявки — мы не сможем увидеть изменения, внесенные после отклика.
-						\Желаем удачи!
-				<= Resume_link $mol_button_major
-					title \Перейти к заполнению заявки
-					click? <=> open_resume? null
-		resume_page <= Resume_page $mol_page
+					text <= campaign_info \ 
+				<= Actions $mol_row sub /
+					<= Resume_link $mol_button_major
+						title \Заполнить заявку
+						click? <=> spread*resume?
+					<= Im_staff $mol_button_minor
+						title \Я сотрудник
+						click? <=> staff_request? null
+		resume <= Resume_page $mol_page
 			title \Заполнить заявку
 			body /
 				<= Resume $hyoo_intern_resume_card
 					person <= user
 				<= Send_resume $mol_button_major
-					- (тз) Модуль «Подать заявку» – должен позволять отправлять заявку на участие в отборе на стажировку, видеть статус заявки на стажировку: отказ в прохождении на стажировку, прохождение на следующий этап отбора, прохождение на стажировку.
 					title \Подать заявку
 					click? <=> send_resume? null
-				- <= Send_notify $mol_paragraph
-					title \Заявка подана, ответное письмо будет отправлено на твою электронную почту
-		sign <= Sign $mol_page
-			title \Вход в личный кабинет
-			body /
-				<= Sign_info $mol_text
-					text \
-						\Твой аккаунт будет автоматически привязан к браузеру на этом устройстве.
-						\Перейти в личный кабинет:
-				<= Open_intern $mol_button_minor
-					title \Стажера
-					click <= role*intern
-				<= Open_curator $mol_button_minor
-					title \Куратора
-					click <= role*curator
-				<= Open_mentor $mol_button_minor
-					title \Наставника
-					click <= role*mentor
-				<= Open_manager $mol_button_minor
-					title \Специалиста отдела кадров
-					click <= role*manager

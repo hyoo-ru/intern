@@ -2,7 +2,7 @@ $hyoo_intern $mol_book2
 	plugins /
 		<= Theme $mol_theme_auto
 	user $hyoo_intern_person
-	campaign $hyoo_intern_campaign
+	campaign_join null
 	yard $hyoo_sync_client
 	Person_page $hyoo_intern_person_page
 	role? \sign
@@ -13,11 +13,10 @@ $hyoo_intern $mol_book2
 		norole <= Norole_cabinet $hyoo_intern_cabinet_norole
 			yard <= yard
 			user <= user
-			campaign <= campaign
+			campaign_join <= campaign_join
 		admin <= Admin_cabinet $hyoo_intern_cabinet_admin
 			yard <= yard
 			user <= user
-			campaign <= campaign
 		curator <= Curator_cabinet $hyoo_intern_cabinet_curator
 			yard <= yard
 			user <= user

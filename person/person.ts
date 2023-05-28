@@ -65,18 +65,14 @@ namespace $ {
 			return node
 		}
 
-		@ $mol_action
-		campaign_add() {
-			const obj = this.campaigns().item_make()
-			obj.owner( this )
-			return obj
-		}
-
 		@ $mol_mem
 		campaign_current(next?: $hyoo_intern_campaign) {
 			const str = this.data().sub('campaign_current', $hyoo_crowd_reg).str( next && next.id() )
 			const id = $mol_int62_string_ensure(str)
-			return id ? this.world()?.Fund($hyoo_intern_campaign).Item(id) : null
+
+			if (id) return this.world()?.Fund($hyoo_intern_campaign).Item(id)
+
+			return this.campaigns().items()[0] ?? null
 		}
 
 	}

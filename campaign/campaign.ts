@@ -1,5 +1,10 @@
 namespace $ {
 
+	export interface $hyoo_intern_campaign_staff {
+		person: $hyoo_intern_person
+		role: 'curator' | 'manager' | 'mentor'
+	}
+
 	export class $hyoo_intern_campaign extends $hyoo_crowd_struct {
 
 		id() {
@@ -36,12 +41,12 @@ namespace $ {
 		}
 
 		@ $mol_mem
-		candidates_on_review(){
-			const node = this.sub('candidates_on_review', $hyoo_intern_entity_links<typeof $hyoo_intern_person>)
+		managers() {
+			const node = this.sub('managers', $hyoo_intern_entity_links<typeof $hyoo_intern_person>)
 			node.Item = $hyoo_intern_person
 			return node
 		}
-		
+
 		@ $mol_mem
 		mentors() {
 			const node = this.sub('mentors', $hyoo_intern_entity_links<typeof $hyoo_intern_person>)
@@ -49,20 +54,28 @@ namespace $ {
 			return node
 		}
 
+		person_is_staff_member(person: $hyoo_intern_person) {
+			return this.curators().item_has(person) || this.managers().item_has(person) || this.mentors().item_has(person) || person.id() === this.owner()?.id()
+		}
+
+		person_wants_to_staff(person: $hyoo_intern_person) {
+			return person.campaigns().item_has( this ) && !this.person_is_staff_member(person)
+		}
+
+		@ $mol_mem
+		candidates_on_review(){
+			const node = this.sub('candidates_on_review', $hyoo_intern_entity_links<typeof $hyoo_intern_person>)
+			node.Item = $hyoo_intern_person
+			return node
+		}
+		
 		@ $mol_mem
 		companies() {
 			const node = this.sub('companies', $hyoo_intern_entity_links<typeof $hyoo_intern_company>)
 			node.Item = $hyoo_intern_company
 			return node
 		}
-		
-		@ $mol_mem
-		managers() {
-			const node = this.sub('managers', $hyoo_intern_entity_links<typeof $hyoo_intern_manager>)
-			node.Item = $hyoo_intern_manager
-			return node
-		}
-		
+			
 		@ $mol_action
 		curator_add( person_id: $mol_int62_string ){
 			// const person = this.world()!.Fund( $hyoo_intern_person ).Item( person_id )

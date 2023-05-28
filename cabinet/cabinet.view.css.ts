@@ -31,19 +31,6 @@ namespace $.$$ {
 				gap: $mol_gap.block,
 			},
 		},
-
-		Label: {
-			padding: $mol_gap.block,
-		},
-
-		Logo: {
-			width: '3rem',
-			height: '3rem',
-		},
-		
-		Descr: {
-			color: $mol_theme.shade,
-		},
 		
 	 } )
 

@@ -19,10 +19,12 @@ $hyoo_intern_person_form $mol_form
 		<= Name_group $mol_form_group sub /
 			<= Name_field $mol_form_field
 				name \Имя
+				bid \*
 				control <= Name_control $mol_string
 					value? <=> name?
 			<= Name_family_field $mol_form_field
 				name \Фамилия
+				bid \*
 				control <= Name_family_control $mol_string
 					value? <=> name_family?
 		<= Contact_group $mol_form_group sub /

@@ -49,6 +49,11 @@ namespace $ {
 			this.drop( obj.land.id() )
 		}
 
+		@ $mol_mem_key
+		item_has( obj: InstanceType<Item> ) {
+			return this.has(obj.id())
+		}
+
 	}
 
 }
