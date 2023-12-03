@@ -3,7 +3,7 @@ $hyoo_intern_cabinet_sign $hyoo_intern_cabinet
 		campaign_current => campaign_current
 	menu_tools /
 	spreads *
-		person <= Person_page $mol_page
+		person <= Person_page $hyoo_intern_person_page
 			title \1. Заполните профиль
 			body /
 				<= Person_form $hyoo_intern_person_form
